@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
-html{scroll-behavior:smooth}
+
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
 code,pre,.mono{font-family:'JetBrains Mono',monospace}
 a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
@@ -66,9 +66,9 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <body>
 <nav><div class="container"><div class="logo">&gt; Logic<span>Minimizer</span>.io</div><ul><li><a href="#tool">Tool</a></li><li><a href="#api">API Docs</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#cases">Use Cases</a></li><li><a href="#pricing" class="nav-cta">Get API Key</a></li></ul></div></nav>
 <section class="hero"><div class="container"><h1>Boolean Algebra Simplifier<br><span class="accent">Powered by AI</span></h1><p>Simplify any Boolean expression, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL. Free.</p><div class="hero-badges"><span class="badge">Karnaugh Maps</span><span class="badge">De Morgan's Laws</span><span class="badge">Structured Text</span><span class="badge">Ladder Logic</span><span class="badge">VHDL Export</span></div></div></section>
-<section class="tool-section" id="tool"><div class="container"><div class="tool-card"><div class="tohtml{scroll-behavior:smooth}ol-header"><h2>&gt;_ Simplify</h2><div class="mode-toggle"><button class="mode-btn active" onclick="setMode('expr')">Expression</button><button class="mode-btn" onclick="setMode('tt')">Truth Table</button></div></div>
+<section class="tool-section" id="tool"><div class="container"><div class="tool-card"><div class="tool-header"><h2>&gt;_ Simplify</h2><div class="mode-toggle"><button class="mode-btn active" onclick="setMode('expr')">Expression</button><button class="mode-btn" onclick="setMode('tt')">Truth Table</button></div></div>
 <div class="input-group expr-container" id="exprMode"><label>// enter boolean expression (max 4 variables: A, B, C, D)</label><input type="text" class="expr-input" id="exprInput" placeholder="A AND B OR (NOT A AND C)" spellcheck="false" autocomplete="off"></div>
-<div class="tt-container" id="ttMode"><div class="tt-controls"><label>Variables:</label><select id="html{scroll-behavior:smooth}ttVarCount" onchange="buildTruthTable()"><option value="2">2 (A, B)</option><option value="3" selected>3 (A, B, C)</option><option value="4">4 (A, B, C, D)</option></select></div><div class="tt-grid" id="ttGrid"></div></div>
+<div class="tt-container" id="ttMode"><div class="tt-controls"><label>Variables:</label><select id="ttVarCount" onchange="buildTruthTable()"><option value="2">2 (A, B)</option><option value="3" selected>3 (A, B, C)</option><option value="4">4 (A, B, C, D)</option></select></div><div class="tt-grid" id="ttGrid"></div></div>
 <button class="simplify-btn" id="simplifyBtn" onclick="simplify()">Simplify</button><div class="usage-info" id="usageInfo"></div>
 <div class="results" id="results"><div class="result-row"><span class="result-label">Original</span><span class="result-value mono" id="resOriginal"></span></div><div class="result-row"><span class="result-label">Simplified</span><span class="result-value accent mono" id="resSimplified"></span></div>
 <div class="stats-row"><div class="stat-box"><div class="stat-number" id="resReduction">0%</div><div class="stat-label">Reduction</div></div><div class="stat-box"><div class="stat-number" id="resGatesBefore">0</div><div class="stat-label">Gates Before</div></div><div class="stat-box"><div class="stat-number" id="resGatesAfter">0</div><div class="stat-label">Gates After</div></div></div>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LogicMinimizer.io — Boolean Algebra Simplifier</title>
-<meta name="description" content="Simplify Boolean expressions, solve Karnaugh maps, export to Structured Text, Ladder Logic & VHDL. Free online tool + API.">
+<meta name="description" content="Simplify Boolean expressions, solve Karnahugh maps, export to Structured Text, Ladder Logic & VHDL. Free online tool + API.">
 <meta name="keywords" content="boolean algebra, simplifier, karnaugh map, logic gates, PLC, ladder logic, VHDL, structured text">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -137,7 +137,7 @@ function quineMcCluskey(minterms,nv,vars){let groups={};minterms.forEach(m=>{con
 function countGates(e){return(e.match(/\b(AND|OR|NOT|XOR|NAND|NOR)\b/gi)||[]).length}
 function makeResult(o,s,v){const og=typeof o==='string'?countGates(o):0;const sg=countGates(s);const r=og>0?Math.round((1-sg/og)*100):0;return{original:o,simplified:s,reduction_percent:Math.max(0,r),gates_original:og,gates_simplified:sg,verified:true}}
 function displayResults(d){document.getElementById('results').style.display='block';document.getElementById('resOriginal').textContent=d.original;document.getElementById('resSimplified').textContent=d.simplified;document.getElementById('resReduction').textContent=d.reduction_percent+'%';document.getElementById('resGatesBefore').textContent=d.gates_original;document.getElementById('resGatesAfter').textContent=d.gates_simplified;const w=document.getElementById('resWarning');if(d.warning){w.textContent=d.warning;w.style.display='block'}else w.style.display='none';if(!d.original.startsWith('Minterms')&&d.simplified!=='0'&&d.simplified!=='1'){if(!verifySimplification(d.original,d.simplified)){w.textContent='Warning: Local verification failed.';w.style.display='block'}}document.getElementById('results').scrollIntoView({behavior:'smooth',block:'nearest'})}
-function goToCheckout(plan){const links={payg:'https://buy.stripe.com/YOUR_PAYG_LINK',starter:'https://buy.stripe.com/YOUR_STARTER_LINK',pro:'https://buy.stripe.com/YOUR_PRO_LINK'};window.open(links[plan],'_blank')}
+function goToCheckout(plan){const links={payg:'https://buy.stripe.com/https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400',starter:'https://buy.stripe.com/https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400',pro:'https://buy.stripe.com/https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400'};window.open(links[plan],'_blank')}
 updateUsageDisplay();buildTruthTable();
 </script>
 </body>

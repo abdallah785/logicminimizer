@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karnaugh Map Solver — K-Map 2/3/4 Variables | LogicMinimizer.io</title>
+<meta name="description" content="Solve Karnaugh maps online. Supports 2, 3, and 4 variables with automatic grouping, colored overlays, and simplified Boolean expression output.">
+<meta name="keywords" content="karnaugh map solver, k-map solver online, karnaugh map simplification, k-map 4 variables, boolean simplification karnaugh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)}.logo span{color:var(--text)}
+.tool-nav{display:flex;gap:4px;flex-wrap:wrap}
+.tool-nav a{color:var(--text2);font-size:12px;font-weight:500;padding:6px 10px;border-radius:6px;transition:all .2s;border:1px solid transparent}
+.tool-nav a:hover{color:var(--accent);border-color:var(--border)}
+.tool-nav a.active{color:var(--accent);background:var(--bg3);border-color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}.nav-cta:hover{background:var(--accent2)!important;opacity:1!important}
+#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
+.tool-section{padding:20px 0 60px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:800px;margin:0 auto}
+.var-select{display:flex;gap:12px;align-items:center;margin-bottom:20px;justify-content:center}
+.var-select label{font-size:13px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.var-select select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:13px}
+.kmap-container{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+.kmap{position:relative}
+.kmap table{border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:14px}
+.kmap th{padding:8px 16px;color:var(--accent);font-weight:600;font-size:12px}
+.kmap td{width:56px;height:56px;text-align:center;vertical-align:middle;border:1px solid var(--border);cursor:pointer;font-size:16px;font-weight:700;transition:all .15s;position:relative}
+.kmap td:hover{background:var(--bg3)}
+.kmap td.val-1{color:var(--accent)}
+.kmap td.val-0{color:var(--text2)}
+.kmap td.val-x{color:#f0a050}
+.kmap-label{position:absolute;font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:600}
+.kmap-label-top{top:-28px;left:50%;transform:translateX(-50%)}
+.kmap-label-left{left:-40px;top:50%;transform:translateY(-50%)}
+.solve-btn{width:100%;padding:14px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin:16px 0}.solve-btn:hover{background:var(--accent2)}
+.usage-info{text-align:center;font-size:12px;color:var(--text2);margin-bottom:16px}
+.results{display:none;margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
+.result-block{margin-bottom:16px}
+.result-block h3{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px}
+.result-block .value{font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.result-block .value.accent{color:var(--accent)}
+.groups-list{margin-top:12px}
+.group-item{display:flex;align-items:center;gap:12px;padding:8px 12px;margin-bottom:4px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:13px}
+.group-color{width:16px;height:16px;border-radius:4px;flex-shrink:0}
+.clear-btn{padding:8px 18px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;font-size:12px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;margin-right:12px}.clear-btn:hover{border-color:var(--accent);color:var(--accent)}
+.controls{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
+.upgrade-banner{background:linear-gradient(135deg,#0a1a12,#0a0f1a);border:1px solid var(--accent);border-radius:12px;padding:24px;margin:24px 0 0;text-align:center}.upgrade-banner h3{color:var(--accent);margin-bottom:8px;font-size:16px}.upgrade-banner p{color:var(--text2);font-size:13px;margin-bottom:12px}
+.upgrade-btn{display:inline-block;background:var(--accent);color:var(--bg);padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px}
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-text{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
+@media(max-width:768px){.tool-nav{display:none}footer .container{flex-direction:column;text-align:center}.kmap td{width:44px;height:44px;font-size:14px}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a>
+<div class="tool-nav">
+<a href="index.html">Simplifier</a>
+<a href="circuit.html">Circuit</a>
+<a href="karnaugh.html" class="active">Karnaugh</a>
+<a href="timing.html">Timing</a>
+<a href="states.html">States</a>
+<a href="converter.html">Converter</a>
+<a href="truthtable.html">Truth Table</a>
+<a href="binary.html">Binary Calc</a>
+<a href="index.html#pricing" class="nav-cta">Get API Key</a>
+</div>
+</div></nav>
+<div id="page-content">
+<section class="hero"><div class="container">
+<h1>Karnaugh Map <span class="accent">Solver</span></h1>
+<p>Click cells to set 0/1/X → automatic grouping → simplified Boolean expression.</p>
+</div></section>
+<section class="tool-section"><div class="container"><div class="tool-card">
+<div class="var-select">
+<label>Variables:</label>
+<select id="varCount" onchange="buildKMap()">
+<option value="2">2 (A, B)</option>
+<option value="3">3 (A, B, C)</option>
+<option value="4" selected>4 (A, B, C, D)</option>
+</select>
+</div>
+<div class="controls">
+<button class="clear-btn" onclick="clearMap()">Clear</button>
+<button class="clear-btn" onclick="fillRandom()">Random</button>
+</div>
+<div class="kmap-container">
+<div class="kmap" id="kmapGrid"></div>
+</div>
+<button class="solve-btn" onclick="solve()">Solve K-Map</button>
+<div class="usage-info" id="usageInfo"></div>
+<div class="results" id="results">
+<div class="result-block"><h3>Simplified Expression</h3><div class="value accent" id="resExpr"></div></div>
+<div class="result-block"><h3>Groups Found</h3><div class="groups-list" id="resGroups"></div></div>
+</div>
+<div class="upgrade-banner">
+<h3>Need more variables?</h3>
+<p>Pro: unlimited variables, API access, all export formats.</p>
+<a href="index.html#pricing" class="upgrade-btn">Upgrade — $4.99/mo</a>
+</div>
+</div></div></section>
+<footer><div class="container">
+<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
+<div class="footer-links"><a href="index.html#api">API Docs</a><a href="index.html#pricing">Pricing</a><a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a></div>
+</div></footer>
+</div>
+<script>
+const LIMIT=3,SKEY='lgm_km',GRAY2=[0,1],GRAY3=[0,1,3,2],GRAY4=[0,1,3,2];
+const COLORS=['#00ff88','#ff6b6b','#4ecdc4','#ffe66d','#a78bfa','#f472b6','#38bdf8','#fb923c'];
+let kmapData=[];
+function getUsage(){const d=JSON.parse(localStorage.getItem(SKEY)||'{}');const t=new Date().toISOString().split('T')[0];if(d.date!==t)return{date:t,count:0};return d}
+function incUsage(){const u=getUsage();u.count++;localStorage.setItem(SKEY,JSON.stringify(u));showUsage()}
+function showUsage(){const u=getUsage();document.getElementById('usageInfo').textContent=(LIMIT-u.count)+'/'+LIMIT+' free solves today'}
+function buildKMap(){
+  const n=parseInt(document.getElementById('varCount').value);
+  const rows=n<=2?2:n===3?2:4;const cols=n<=2?2:n===3?4:4;
+  kmapData=Array(rows).fill(null).map(()=>Array(cols).fill(0));
+  renderMap();
+}
+function renderMap(){
+  const n=parseInt(document.getElementById('varCount').value);
+  const rows=n<=2?2:n===3?2:4;const cols=n<=2?2:n===3?4:4;
+  const rGray=n<=3?GRAY2:GRAY4;const cGray=n<=2?GRAY2:GRAY4;
+  const vars=['A','B','C','D'].slice(0,n);
+  let topVars,leftVars;
+  if(n===2){topVars='B';leftVars='A';}
+  else if(n===3){topVars='BC';leftVars='A';}
+  else{topVars='CD';leftVars='AB';}
+  let h='<table>';
+  h+='<tr><th>'+leftVars+'\\'+topVars+'</th>';
+  for(let c=0;c<cols;c++){const g=cGray[c];h+='<th>'+g.toString(2).padStart(topVars.length,'0')+'</th>'}
+  h+='</tr>';
+  for(let r=0;r<rows;r++){
+    const rg=rGray[r];
+    h+='<tr><th>'+rg.toString(2).padStart(leftVars.length,'0')+'</th>';
+    for(let c=0;c<cols;c++){
+      const v=kmapData[r][c];
+      const cls=v===1?'val-1':v===2?'val-x':'val-0';
+      const txt=v===1?'1':v===2?'X':'0';
+      h+='<td class="'+cls+'" data-r="'+r+'" data-c="'+c+'" onclick="toggleKCell(this)">'+txt+'</td>';
+    }
+    h+='</tr>';
+  }
+  h+='</table>';
+  document.getElementById('kmapGrid').innerHTML=h;
+}
+function toggleKCell(td){
+  const r=parseInt(td.dataset.r),c=parseInt(td.dataset.c);
+  kmapData[r][c]=(kmapData[r][c]+1)%3;
+  const v=kmapData[r][c];
+  td.textContent=v===1?'1':v===2?'X':'0';
+  td.className=v===1?'val-1':v===2?'val-x':'val-0';
+}
+function clearMap(){const n=parseInt(document.getElementById('varCount').value);const rows=n<=2?2:n===3?2:4;const cols=n<=2?2:n===3?4:4;kmapData=Array(rows).fill(null).map(()=>Array(cols).fill(0));renderMap()}
+function fillRandom(){const n=parseInt(document.getElementById('varCount').value);const rows=n<=2?2:n===3?2:4;const cols=n<=2?2:n===3?4:4;kmapData=Array(rows).fill(null).map(()=>Array(cols).fill(null).map(()=>Math.random()>.5?1:0));renderMap()}
+function solve(){
+  const u=getUsage();if(u.count>=LIMIT){alert('Daily limit reached. Upgrade to Pro.');return}
+  const n=parseInt(document.getElementById('varCount').value);
+  const rows=n<=2?2:n===3?2:4;const cols=n<=2?2:n===3?4:4;
+  const rGray=n<=3?GRAY2:GRAY4;const cGray=n<=2?GRAY2:GRAY4;
+  const vars=['A','B','C','D'].slice(0,n);
+  // Convert kmap to minterms
+  const minterms=[],dontcares=[];
+  for(let r=0;r<rows;r++){for(let c=0;c<cols;c++){
+    let idx;
+    if(n===2)idx=(rGray[r]<<1)|cGray[c];
+    else if(n===3)idx=(rGray[r]<<2)|cGray[c];
+    else idx=(rGray[r]<<2)|cGray[c];
+    if(kmapData[r][c]===1)minterms.push(idx);
+    if(kmapData[r][c]===2)dontcares.push(idx);
+  }}
+  if(!minterms.length){document.getElementById('resExpr').textContent='0';document.getElementById('resGroups').innerHTML='<div class="group-item"><span class="dim">No groups</span></div>';document.getElementById('results').style.display='block';incUsage();return}
+  if(minterms.length+dontcares.length===rows*cols){document.getElementById('resExpr').textContent='1';document.getElementById('resGroups').innerHTML='<div class="group-item"><span class="dim">All cells = 1</span></div>';document.getElementById('results').style.display='block';incUsage();return}
+  // Quine-McCluskey on minterms + dontcares
+  const allTerms=[...minterms,...dontcares];
+  let groups={};
+  allTerms.forEach(m=>{const ones=m.toString(2).split('').filter(b=>b==='1').length;if(!groups[ones])groups[ones]=[];groups[ones].push({mint:[m],bin:m.toString(2).padStart(n,'0'),used:false})});
+  let pis=[];let cur=groups;
+  while(true){
+    const ng={};const keys=Object.keys(cur).map(Number).sort((a,b)=>a-b);const used=new Set();
+    for(let i=0;i<keys.length-1;i++){const g1=cur[keys[i]],g2=cur[keys[i+1]];if(!g1||!g2)continue;
+    for(const t1 of g1)for(const t2 of g2){const diff=[];for(let b=0;b<n;b++)if(t1.bin[b]!==t2.bin[b])diff.push(b);
+    if(diff.length===1){const nb=t1.bin.substring(0,diff[0])+'-'+t1.bin.substring(diff[0]+1);const nm=[...new Set([...t1.mint,...t2.mint])].sort((a,b)=>a-b);const ones=nb.split('').filter(b=>b==='1').length;if(!ng[ones])ng[ones]=[];if(!ng[ones].some(x=>x.bin===nb))ng[ones].push({mint:nm,bin:nb,used:false});used.add(t1.bin+':'+t1.mint.join(','));used.add(t2.bin+':'+t2.mint.join(','))}}}
+    for(const k of Object.keys(cur))for(const t of cur[k]){if(!used.has(t.bin+':'+t.mint.join(','))&&!pis.some(p=>p.bin===t.bin))pis.push(t)}
+    if(!Object.keys(ng).length)break;cur=ng;
+  }
+  // Select essential PIs (only cover actual minterms, not dontcares)
+  const covered=new Set(),selected=[];
+  for(const m of minterms){const c=pis.filter(p=>p.mint.includes(m));if(c.length===1&&!selected.includes(c[0])){selected.push(c[0]);c[0].mint.forEach(x=>covered.add(x))}}
+  for(const m of minterms){if(!covered.has(m)){const c=pis.filter(p=>p.mint.includes(m)&&!selected.includes(p));if(c.length){const best=c.sort((a,b)=>b.mint.length-a.mint.length)[0];selected.push(best);best.mint.forEach(x=>covered.add(x))}}}
+  const terms=selected.map((pi,idx)=>{const lits=[];for(let i=0;i<n;i++){if(pi.bin[i]==='1')lits.push(vars[i]);else if(pi.bin[i]==='0')lits.push('NOT '+vars[i])}return{expr:lits.length>1?'('+lits.join(' AND ')+')':lits[0]||'1',cells:pi.mint.filter(m=>minterms.includes(m)),color:COLORS[idx%COLORS.length]}});
+  const expr=terms.length>1?terms.map(t=>t.expr).join(' OR '):terms[0]?terms[0].expr:'0';
+  document.getElementById('resExpr').textContent=expr;
+  let gh='';
+  terms.forEach((t,i)=>{gh+='<div class="group-item"><span class="group-color" style="background:'+t.color+'"></span><span>'+t.expr+' → cells {'+t.cells.join(', ')+'}</span></div>'});
+  document.getElementById('resGroups').innerHTML=gh;
+  document.getElementById('results').style.display='block';
+  incUsage();
+}
+buildKMap();showUsage();
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+</script>
+</body>
+  </html>

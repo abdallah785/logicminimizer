@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resistor Color Code Calculator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Calculate resistor values from color bands or find color bands from resistance. Interactive SVG resistor visualization. 4 and 5 band support.">
+<meta name="keywords" content="resistor color code calculator, resistor value, color bands, ohm calculator, electronics">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
+.resistor-svg{text-align:center;margin:1.5rem 0}
+.band-selector{margin-bottom:1rem}
+.band-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+.band-label{min-width:80px;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.color-btn{width:30px;height:30px;border:2px solid #333;border-radius:4px;cursor:pointer;transition:transform .2s}
+.color-btn:hover{transform:scale(1.2)}
+.color-btn.selected{border-color:#00ff88;transform:scale(1.15);box-shadow:0 0 8px #00ff8855}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
+.input-group input:focus{border-color:#00ff88}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem}
+.result-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #1a1a2e}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:1.1rem}
+.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
+.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.color-btn{width:24px;height:24px}}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html" class="active">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>Resistor Color Code Calculator</h1><p>Color bands ↔ Resistance value — interactive SVG visualization</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Mode</h3>
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('c2v')">Colors → Value</button>
+<button class="mode-btn" onclick="setMode('v2c')">Value → Colors</button>
+</div>
+<div class="mode-toggle" style="margin-bottom:.5rem">
+<button class="mode-btn active" onclick="setBands(4)" id="band4btn">4 Bands</button>
+<button class="mode-btn" onclick="setBands(5)" id="band5btn">5 Bands</button>
+</div>
+<div class="resistor-svg" id="resistorSvg"></div>
+<div id="colorMode">
+<div class="band-selector" id="bandSelector"></div>
+</div>
+<div id="valueMode" style="display:none">
+<div class="input-group">
+<label>Resistance Value (Ohms)</label>
+<input type="text" id="ohmInput" placeholder="4700" oninput="value2colors()">
+<div class="error" id="ohmError"></div>
+</div>
+</div>
+<div class="result-box" id="resultBox">
+<div class="result-row"><span class="result-label">Resistance</span><span class="result-value" id="resOhm"></span></div>
+<div class="result-row"><span class="result-label">Tolerance</span><span class="result-value" id="resTol"></span></div>
+<div class="result-row"><span class="result-label">Min</span><span class="result-value" id="resMin"></span></div>
+<div class="result-row"><span class="result-label">Max</span><span class="result-value" id="resMax"></span></div>
+</div>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>How do you read resistor color codes?</h3><p>For a 4-band resistor: Band 1 and 2 are significant digits, band 3 is the multiplier (number of zeros), and band 4 is tolerance. Read from the side closest to a band.</p></div>
+<div class="faq-item"><h3>What is the difference between 4-band and 5-band resistors?</h3><p>5-band resistors have three significant digits instead of two, giving more precise values. The extra band is added before the multiplier.</p></div>
+<div class="faq-item"><h3>What does the tolerance band mean?</h3><p>Tolerance indicates the accuracy of the resistor value. Gold means ±5%, silver ±10%, and brown ±1%. A 100 Ohm ±5% resistor can actually be 95-105 Ohms.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+const COLORS=[
+{name:'Black',hex:'#000000',val:0,mult:1,tol:null},
+{name:'Brown',hex:'#8B4513',val:1,mult:10,tol:1},
+{name:'Red',hex:'#FF0000',val:2,mult:100,tol:2},
+{name:'Orange',hex:'#FF8C00',val:3,mult:1000,tol:null},
+{name:'Yellow',hex:'#FFD700',val:4,mult:10000,tol:null},
+{name:'Green',hex:'#228B22',val:5,mult:100000,tol:0.5},
+{name:'Blue',hex:'#0000FF',val:6,mult:1000000,tol:0.25},
+{name:'Violet',hex:'#8B008B',val:7,mult:10000000,tol:0.1},
+{name:'Grey',hex:'#808080',val:8,mult:100000000,tol:0.05},
+{name:'White',hex:'#FFFFFF',val:9,mult:1000000000,tol:null},
+{name:'Gold',hex:'#FFD700',val:null,mult:0.1,tol:5},
+{name:'Silver',hex:'#C0C0C0',val:null,mult:0.01,tol:10}
+];
+let mode='c2v',bands=4,selected=[1,0,2,10];
+function setMode(m){mode=m;document.querySelectorAll('.mode-toggle')[0].querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='c2v')||(i===1&&m==='v2c')));
+document.getElementById('colorMode').style.display=m==='c2v'?'block':'none';document.getElementById('valueMode').style.display=m==='v2c'?'block':'none';updateAll();}
+function setBands(n){bands=n;selected=n===4?[1,0,2,10]:[1,0,0,2,10];
+document.getElementById('band4btn').classList.toggle('active',n===4);document.getElementById('band5btn').classList.toggle('active',n===5);buildSelector();updateAll();}
+function buildSelector(){const cont=document.getElementById('bandSelector');cont.innerHTML='';
+const labels=bands===4?['Band 1 (1st digit)','Band 2 (2nd digit)','Band 3 (Multiplier)','Band 4 (Tolerance)']:['Band 1','Band 2','Band 3','Band 4 (Multiplier)','Band 5 (Tolerance)'];
+labels.forEach((lbl,bi)=>{const row=document.createElement('div');row.className='band-row';
+row.innerHTML='<span class="band-label">'+lbl+'</span>';
+const isTol=(bands===4&&bi===3)||(bands===5&&bi===4);const isMult=(bands===4&&bi===2)||(bands===5&&bi===3);
+COLORS.forEach((c,ci)=>{if(isTol&&c.tol===null)return;if(!isTol&&!isMult&&c.val===null)return;if(isMult&&c.val===null&&c.name!=='Gold'&&c.name!=='Silver')return;
+const btn=document.createElement('button');btn.className='color-btn'+(selected[bi]===ci?' selected':'');
+btn.style.background=c.hex;if(c.name==='Black')btn.style.border='2px solid #444';
+btn.onclick=()=>{selected[bi]=ci;buildSelector();updateAll();};row.appendChild(btn);});
+cont.appendChild(row);});}
+function formatOhm(v){if(v>=1e6)return(v/1e6).toFixed(v%1e6?2:0)+' M\u03A9';if(v>=1e3)return(v/1e3).toFixed(v%1e3?2:0)+' k\u03A9';return v.toFixed(v%1?2:0)+' \u03A9';}
+function updateAll(){const bandColors=selected.map(i=>COLORS[i]);
+let svg='<svg viewBox="0 0 300 100" style="max-width:400px;width:100%"><rect x="30" y="35" width="240" height="30" rx="15" fill="#D2B48C"/><line x1="0" y1="50" x2="30" y2="50" stroke="#999" stroke-width="3"/><line x1="270" y1="50" x2="300" y2="50" stroke="#999" stroke-width="3"/>';
+const positions=bands===4?[70,110,150,200]:[60,95,130,165,210];
+bandColors.forEach((c,i)=>{svg+='<rect x="'+(positions[i]-8)+'" y="32" width="16" height="36" rx="2" fill="'+c.hex+'" stroke="#555" stroke-width="0.5"/>';});
+svg+='</svg>';document.getElementById('resistorSvg').innerHTML=svg;
+if(mode==='c2v')colors2value();else value2colors();}
+function colors2value(){let digits,multIdx,tolIdx;
+if(bands===4){digits=[COLORS[selected[0]].val,COLORS[selected[1]].val];multIdx=2;tolIdx=3;}
+else{digits=[COLORS[selected[0]].val,COLORS[selected[1]].val,COLORS[selected[2]].val];multIdx=3;tolIdx=4;}
+if(digits.some(d=>d===null))return;
+const num=parseInt(digits.join(''));const mult=COLORS[selected[multIdx]].mult;const tol=COLORS[selected[tolIdx]].tol||20;
+const val=num*mult;
+document.getElementById('resOhm').textContent=formatOhm(val);document.getElementById('resTol').textContent='\u00B1'+tol+'%';
+document.getElementById('resMin').textContent=formatOhm(val*(1-tol/100));document.getElementById('resMax').textContent=formatOhm(val*(1+tol/100));}
+function value2colors(){const v=parseFloat(document.getElementById('ohmInput').value);if(isNaN(v)||v<0)return;
+let sig,exp=0,temp=v;
+if(bands===4){while(temp>=100){temp/=10;exp++;}while(temp<10&&temp>0){temp*=10;exp--;}
+const d1=Math.floor(temp/10);const d2=Math.round(temp%10);
+const multVal=Math.pow(10,exp);let multIdx=COLORS.findIndex(c=>Math.abs(c.mult-multVal)<multVal*0.01);if(multIdx<0)multIdx=0;
+selected=[d1,d2,multIdx,10];buildSelector();}
+else{while(temp>=1000){temp/=10;exp++;}while(temp<100&&temp>0){temp*=10;exp--;}
+const d1=Math.floor(temp/100);const d2=Math.floor((temp%100)/10);const d3=Math.round(temp%10);
+const multVal=Math.pow(10,exp);let multIdx=COLORS.findIndex(c=>Math.abs(c.mult-multVal)<multVal*0.01);if(multIdx<0)multIdx=0;
+selected=[d1,d2,d3,multIdx,10];buildSelector();}
+const actual=bands===4?(COLORS[selected[0]].val*10+COLORS[selected[1]].val)*COLORS[selected[2]].mult:(COLORS[selected[0]].val*100+COLORS[selected[1]].val*10+COLORS[selected[2]].val)*COLORS[selected[3]].mult;
+const tol=COLORS[selected[bands===4?3:4]].tol||20;
+document.getElementById('resOhm').textContent=formatOhm(actual);document.getElementById('resTol').textContent='\u00B1'+tol+'%';
+document.getElementById('resMin').textContent=formatOhm(actual*(1-tol/100));document.getElementById('resMax').textContent=formatOhm(actual*(1+tol/100));}
+buildSelector();updateAll();
+</script>
+</body>
+                                                                                                                                                                   </html>

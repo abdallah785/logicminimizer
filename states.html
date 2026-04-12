@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State Machine Builder — FSM Diagram &amp; Transition Table | LogicMinimizer.io</title>
+<meta name="description" content="Build finite state machines visually. Add states, define transitions, generate state diagrams and transition tables. SVG export.">
+<meta name="keywords" content="state machine builder, FSM diagram generator, finite state machine online, state transition diagram, state transition table">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)}.logo span{color:var(--text)}
+.tool-nav{display:flex;gap:4px;flex-wrap:wrap}
+.tool-nav a{color:var(--text2);font-size:12px;font-weight:500;padding:6px 10px;border-radius:6px;transition:all .2s;border:1px solid transparent}
+.tool-nav a:hover{color:var(--accent);border-color:var(--border)}
+.tool-nav a.active{color:var(--accent);background:var(--bg3);border-color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}
+#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
+.tool-section{padding:20px 0 60px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:900px;margin:0 auto}
+.canvas-wrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;position:relative;height:400px;overflow:hidden;margin-bottom:16px;cursor:crosshair}
+.canvas-wrap svg{width:100%;height:100%}
+.controls-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.ctrl-btn{padding:8px 16px;font-size:12px;cursor:pointer;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;font-family:'JetBrains Mono',monospace;transition:all .2s}
+.ctrl-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ctrl-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.ctrl-btn.danger{color:var(--red);border-color:var(--red)}
+.ctrl-btn.danger:hover{background:var(--red);color:white}
+.trans-form{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}
+.trans-form label{font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;display:block;margin-bottom:4px}
+.trans-form select,.trans-form input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:8px;width:100%}
+.trans-form .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.add-trans-btn{width:100%;padding:8px;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.table-section{margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
+.table-section h3{font-size:13px;color:var(--accent);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
+.tt-grid{overflow-x:auto}
+.tt-grid table{border-collapse:collapse;width:100%;font-family:'JetBrains Mono',monospace;font-size:13px}
+.tt-grid th,.tt-grid td{border:1px solid var(--border);padding:8px 12px;text-align:center}
+.tt-grid th{background:var(--bg3);color:var(--accent);font-weight:600}
+.dl-row{display:flex;gap:12px;margin-top:16px;justify-content:center}
+.dl-btn{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace;border:1px solid var(--border);background:var(--bg3);color:var(--text2)}.dl-btn:hover{border-color:var(--accent);color:var(--accent)}
+.usage-info{text-align:center;font-size:12px;color:var(--text2);margin:12px 0}
+.upgrade-banner{background:linear-gradient(135deg,#0a1a12,#0a0f1a);border:1px solid var(--accent);border-radius:12px;padding:24px;margin:24px 0 0;text-align:center}.upgrade-banner h3{color:var(--accent);margin-bottom:8px;font-size:16px}.upgrade-banner p{color:var(--text2);font-size:13px;margin-bottom:12px}
+.upgrade-btn{display:inline-block;background:var(--accent);color:var(--bg);padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px}
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-text{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
+@media(max-width:768px){.tool-nav{display:none}footer .container{flex-direction:column;text-align:center}.trans-form .row{grid-template-columns:1fr}.canvas-wrap{height:300px}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a>
+<div class="tool-nav">
+<a href="index.html">Simplifier</a>
+<a href="circuit.html">Circuit</a>
+<a href="karnaugh.html">Karnaugh</a>
+<a href="timing.html">Timing</a>
+<a href="states.html" class="active">States</a>
+<a href="converter.html">Converter</a>
+<a href="truthtable.html">Truth Table</a>
+<a href="binary.html">Binary Calc</a>
+<a href="index.html#pricing" class="nav-cta">Get API Key</a>
+</div>
+</div></nav>
+<div id="page-content">
+<section class="hero"><div class="container">
+<h1>State Machine <span class="accent">Builder</span></h1>
+<p>Add states, define transitions, generate FSM diagrams &amp; transition tables.</p>
+</div></section>
+<section class="tool-section"><div class="container"><div class="tool-card">
+<div class="controls-bar">
+<button class="ctrl-btn active" id="modeAdd" onclick="setMode('add')">+ Add State</button>
+<button class="ctrl-btn" id="modeMove" onclick="setMode('move')">✥ Move</button>
+<button class="ctrl-btn" id="modeTrans" onclick="setMode('trans')">→ Transition</button>
+<button class="ctrl-btn danger" onclick="clearAll()">✗ Clear</button>
+</div>
+<div class="trans-form" id="transForm">
+<div class="row">
+<div><label>From:</label><select id="transFrom"></select></div>
+<div><label>Condition:</label><input type="text" id="transCond" placeholder="A=1" spellcheck="false"></div>
+<div><label>To:</label><select id="transTo"></select></div>
+</div>
+<button class="add-trans-btn" onclick="addTransition()">Add Transition</button>
+</div>
+<div class="canvas-wrap" id="canvasWrap">
+<svg id="fsmSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<div class="usage-info" id="usageInfo"></div>
+<div class="table-section" id="tableSection" style="display:none">
+<h3>// Transition Table</h3>
+<div class="tt-grid" id="transTable"></div>
+</div>
+<div class="dl-row">
+<button class="dl-btn" onclick="downloadSVG()">Download SVG</button>
+</div>
+<div class="upgrade-banner">
+<h3>Need more states?</h3>
+<p>Pro: unlimited states &amp; inputs, API access.</p>
+<a href="index.html#pricing" class="upgrade-btn">Upgrade — $4.99/mo</a>
+</div>
+</div></div></section>
+<footer><div class="container">
+<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
+<div class="footer-links"><a href="index.html#api">API Docs</a><a href="index.html#pricing">Pricing</a><a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a></div>
+</div></footer>
+</div>
+<script>
+const LIMIT=3,SKEY='lgm_sm',MAX_STATES=4;
+let states=[],transitions=[],mode='add',nextId=0,dragState=null,dragOff={x:0,y:0};
+function getUsage(){const d=JSON.parse(localStorage.getItem(SKEY)||'{}');const t=new Date().toISOString().split('T')[0];if(d.date!==t)return{date:t,count:0};return d}
+function incUsage(){const u=getUsage();u.count++;localStorage.setItem(SKEY,JSON.stringify(u));showUsage()}
+function showUsage(){const u=getUsage();document.getElementById('usageInfo').textContent=(LIMIT-u.count)+'/'+LIMIT+' free builds today'}
+function setMode(m){mode=m;document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mode'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active');
+  document.getElementById('transForm').style.display=m==='trans'?'block':'none';
+  if(m==='trans')updateTransSelects();
+  document.getElementById('canvasWrap').style.cursor=m==='add'?'crosshair':m==='move'?'grab':'default';
+}
+function updateTransSelects(){
+  const opts=states.map(s=>'<option value="'+s.id+'">'+s.name+'</option>').join('');
+  document.getElementById('transFrom').innerHTML=opts;
+  document.getElementById('transTo').innerHTML=opts;
+}
+const wrap=document.getElementById('canvasWrap');
+wrap.addEventListener('click',function(e){
+  if(mode!=='add')return;
+  if(states.length>=MAX_STATES){alert('Max '+MAX_STATES+' states (free). Upgrade for more.');return}
+  const rect=wrap.getBoundingClientRect();
+  const x=e.clientX-rect.left,y=e.clientY-rect.top;
+  states.push({id:nextId,name:'S'+nextId,x,y});nextId++;
+  render();
+});
+wrap.addEventListener('mousedown',function(e){
+  if(mode!=='move')return;
+  const rect=wrap.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  for(const s of states){if(Math.hypot(s.x-mx,s.y-my)<30){dragState=s;dragOff={x:mx-s.x,y:my-s.y};break}}
+});
+wrap.addEventListener('mousemove',function(e){
+  if(!dragState)return;
+  const rect=wrap.getBoundingClientRect();
+  dragState.x=e.clientX-rect.left-dragOff.x;
+  dragState.y=e.clientY-rect.top-dragOff.y;
+  render();
+});
+wrap.addEventListener('mouseup',function(){dragState=null});
+function addTransition(){
+  const from=parseInt(document.getElementById('transFrom').value);
+  const to=parseInt(document.getElementById('transTo').value);
+  const cond=document.getElementById('transCond').value.trim()||'1';
+  transitions.push({from,to,cond});
+  document.getElementById('transCond').value='';
+  render();renderTable();
+}
+function clearAll(){states=[];transitions=[];nextId=0;render();document.getElementById('tableSection').style.display='none'}
+function render(){
+  const svg=document.getElementById('fsmSvg');
+  const w=wrap.clientWidth,h=wrap.clientHeight;
+  let s='<defs><marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#00ff88"/></marker></defs>';
+  transitions.forEach(t=>{
+    const fs=states.find(x=>x.id===t.from),ts=states.find(x=>x.id===t.to);
+    if(!fs||!ts)return;
+    if(fs.id===ts.id){
+      s+='<path d="M '+(fs.x)+' '+(fs.y-30)+' C '+(fs.x-50)+' '+(fs.y-80)+' '+(fs.x+50)+' '+(fs.y-80)+' '+(fs.x)+' '+(fs.y-30)+'" fill="none" stroke="#00ff88" stroke-width="1.5" marker-end="url(#arr)"/>';
+      s+='<text x="'+fs.x+'" y="'+(fs.y-75)+'" text-anchor="middle" fill="#e0e0e0" font-family="JetBrains Mono, monospace" font-size="10">'+t.cond+'</text>';
+    }else{
+      const dx=ts.x-fs.x,dy=ts.y-fs.y,dist=Math.hypot(dx,dy);
+      const ux=dx/dist,uy=dy/dist;
+      const x1=fs.x+ux*32,y1=fs.y+uy*32;
+      const x2=ts.x-ux*32,y2=ts.y-uy*32;
+      s+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#00ff88" stroke-width="1.5" marker-end="url(#arr)"/>';
+      const mx=(x1+x2)/2+(-uy)*12,my=(y1+y2)/2+(ux)*12;
+      s+='<text x="'+mx+'" y="'+my+'" text-anchor="middle" fill="#e0e0e0" font-family="JetBrains Mono, monospace" font-size="10">'+t.cond+'</text>';
+    }
+  });
+  states.forEach((st,i)=>{
+    s+='<circle cx="'+st.x+'" cy="'+st.y+'" r="28" fill="none" stroke="'+(i===0?'#00ff88':'#e0e0e0')+'" stroke-width="2"/>';
+    if(i===0)s+='<circle cx="'+st.x+'" cy="'+st.y+'" r="24" fill="none" stroke="#00ff88" stroke-width="1"/>';
+    s+='<text x="'+st.x+'" y="'+(st.y+4)+'" text-anchor="middle" fill="#e0e0e0" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700">'+st.name+'</text>';
+  });
+  svg.innerHTML=s;
+  svg.setAttribute('viewBox','0 0 '+w+' '+h);
+}
+function renderTable(){
+  if(!states.length||!transitions.length){document.getElementById('tableSection').style.display='none';return}
+  document.getElementById('tableSection').style.display='block';
+  const conds=[...new Set(transitions.map(t=>t.cond))];
+  let h='<table><thead><tr><th>State</th>';
+  conds.forEach(c=>h+='<th>'+c+'</th>');
+  h+='</tr></thead><tbody>';
+  states.forEach(s=>{
+    h+='<tr><td>'+s.name+'</td>';
+    conds.forEach(c=>{
+      const t=transitions.find(tr=>tr.from===s.id&&tr.cond===c);
+      const target=t?states.find(x=>x.id===t.to):null;
+      h+='<td>'+(target?target.name:'-')+'</td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('transTable').innerHTML=h;
+}
+function downloadSVG(){
+  const svg=document.getElementById('fsmSvg');
+  const svgData='<svg xmlns="http://www.w3.org/2000/svg" width="'+wrap.clientWidth+'" height="'+wrap.clientHeight+'" viewBox="0 0 '+wrap.clientWidth+' '+wrap.clientHeight+'"><rect width="100%" height="100%" fill="#0a0a0f"/>'+svg.innerHTML+'</svg>';
+  const blob=new Blob([svgData],{type:'image/svg+xml'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fsm.svg';a.click();
+}
+render();showUsage();
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+</script>
+</body>
+  </html>

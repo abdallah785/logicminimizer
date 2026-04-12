@@ -66,6 +66,21 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 .nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
 .nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
 .nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+
+.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}
+.nav-pro-btn:hover{opacity:.9}
+.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}
+.pro-modal-overlay.active{display:flex}
+.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}
+.pro-modal h3{color:#00ff88;margin:0 0 1rem;font-family:"JetBrains Mono",monospace}
+.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-family:"JetBrains Mono",monospace;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}
+.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem;font-size:.9rem}
+.pro-modal button:hover{opacity:.9}
+.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none;padding:0}
+.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}
+.pro-modal .status.success{color:#00ff88}
+.pro-modal .status.error{color:#ff4444}
+.pro-badge{display:inline-block;background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:4px;margin-left:.5rem;font-weight:700;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -84,6 +99,7 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 <a href="binary.html" class="active">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
 </div></div>
 <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
 </div></nav>
 <div id="page-content">
 <section class="hero"><div class="container">
@@ -215,5 +231,7 @@ function mulBin(a,b){
 updatePreview();
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
 </script>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro License</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key to unlock unlimited access.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify License</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
+<script>function openProModal(){document.getElementById("proModal").classList.add("active");document.getElementById("proKeyInput").focus();}function closeProModal(){document.getElementById("proModal").classList.remove("active");document.getElementById("proStatus").textContent="";document.getElementById("proStatus").className="status";}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return;}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,email:d.email,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated! Reloading...";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid key";s.className="status error"}}).catch(function(){s.textContent="Connection error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
   </html>

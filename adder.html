@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Adder Simulator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Interactive full adder and subtractor simulator. Click inputs to see sum and carry propagate. Chain 4-bit or 8-bit adders. Free online tool.">
+<meta name="keywords" content="full adder simulator, binary adder, ripple carry adder, subtractor, digital circuit">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.type-select{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.type-btn{padding:.5rem 1rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.type-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.adder-chain{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+.fa-unit{background:#0d0d14;border:2px solid #2a2a3e;border-radius:8px;padding:.8rem;text-align:center;min-width:80px}
+.fa-unit.active-carry{border-color:#ff8800}
+.fa-label{color:#b0b0b0;font-size:.7rem;font-family:'JetBrains Mono',monospace}
+.fa-io{display:flex;flex-direction:column;gap:.3rem;margin:.3rem 0}
+.bit-btn{padding:.3rem .5rem;font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;border-radius:4px;cursor:pointer;border:1px solid;min-width:35px}
+.bit-btn.off{background:#1a1a2e;color:#666;border-color:#2a2a3e}
+.bit-btn.on{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.bit-btn.carry{background:#ff8800;color:#fff;border-color:#ff8800}
+.sum-bit{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;color:#00ff88;margin-top:.3rem}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem}
+.result-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid #1a1a2e}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600}
+.truth-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-top:1rem}
+.truth-table th{background:#1a1a2e;color:#00ff88;padding:.4rem;border:1px solid #2a2a3e;text-align:center}
+.truth-table td{padding:.3rem;text-align:center;border:1px solid #1a1a2e}
+.upgrade-banner{background:linear-gradient(135deg,#1a1a2e,#141420);border:1px solid #00ff88;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem}
+.upgrade-banner a{color:#00ff88;font-weight:600;text-decoration:none}
+.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown"><a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown"><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html" class="active">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown"><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown"><a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a></div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>Full Adder / Subtractor Simulator</h1><p>Interactive binary adder — watch carry propagate through the chain</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Configuration</h3>
+<div class="type-select">
+<button class="type-btn active" onclick="setBits(1)">1-bit</button>
+<button class="type-btn" onclick="setBits(4)">4-bit</button>
+<button class="type-btn" onclick="setBits(8)">8-bit</button>
+</div>
+<div class="adder-chain" id="adderChain"></div>
+<div class="result-box">
+<div class="result-row"><span class="result-label">A</span><span class="result-value" id="resA">0</span></div>
+<div class="result-row"><span class="result-label">B</span><span class="result-value" id="resB">0</span></div>
+<div class="result-row"><span class="result-label">Sum</span><span class="result-value" id="resSum">0</span></div>
+<div class="result-row"><span class="result-label">Carry Out</span><span class="result-value" id="resCout">0</span></div>
+<div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec">0 + 0 = 0</span></div>
+</div>
+</div>
+<div class="card">
+<h3>// Full Adder Truth Table</h3>
+<table class="truth-table">
+<tr><th>A</th><th>B</th><th>Cin</th><th>Sum</th><th>Cout</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</div>
+<div class="upgrade-banner" id="limitBanner" style="display:none">
+<p style="margin-bottom:.5rem;color:#e0e0e0">Daily limit reached (3/3)</p>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank">Upgrade to Pro — unlimited + API — $4.99/month</a>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is a full adder?</h3><p>A full adder is a combinational circuit that adds three 1-bit inputs (A, B, Carry-in) and produces a Sum and Carry-out. Multiple full adders are chained to create multi-bit adders.</p></div>
+<div class="faq-item"><h3>What is ripple carry?</h3><p>In a ripple carry adder, the carry output of each full adder is connected to the carry input of the next. The carry "ripples" through all stages, which limits speed but simplifies design.</p></div>
+<div class="faq-item"><h3>How does binary subtraction work?</h3><p>Binary subtraction A-B can be done by adding A to the two's complement of B. Set Carry-in to 1 and invert all bits of B.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+const LK='adder_uses';const MF=3;
+function gu(){const d=JSON.parse(localStorage.getItem(LK)||'{}');const t=new Date().toISOString().slice(0,10);return d[t]||0;}
+function au(){const d=JSON.parse(localStorage.getItem(LK)||'{}');const t=new Date().toISOString().slice(0,10);d[t]=(d[t]||0)+1;localStorage.setItem(LK,JSON.stringify(d));}
+let nbits=1,A=[],B=[],Cin=0;
+function setBits(n){nbits=n;A=new Array(n).fill(0);B=new Array(n).fill(0);Cin=0;
+document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('active',b.textContent.startsWith(n)));buildChain();}
+function buildChain(){let h='';
+for(let i=nbits-1;i>=0;i--){
+h+='<div class="fa-unit" id="fa'+i+'"><div class="fa-label">FA'+i+'</div>';
+h+='<div class="fa-io"><button class="bit-btn off" id="a'+i+'" onclick="toggleA('+i+')">A=0</button>';
+h+='<button class="bit-btn off" id="b'+i+'" onclick="toggleB('+i+')">B=0</button></div>';
+h+='<div class="sum-bit" id="s'+i+'">0</div>';
+h+='<div class="fa-label" id="c'+i+'">C=0</div></div>';}
+if(nbits>1){h+='<div style="display:flex;align-items:center"><button class="bit-btn off" id="cinBtn" onclick="toggleCin()" style="font-size:.75rem">Cin=0</button></div>';}
+document.getElementById('adderChain').innerHTML=h;calculate();}
+function toggleA(i){A[i]=A[i]?0:1;const b=document.getElementById('a'+i);b.className='bit-btn '+(A[i]?'on':'off');b.textContent='A='+A[i];calculate();}
+function toggleB(i){B[i]=B[i]?0:1;const b=document.getElementById('b'+i);b.className='bit-btn '+(B[i]?'on':'off');b.textContent='B='+B[i];calculate();}
+function toggleCin(){Cin=Cin?0:1;const b=document.getElementById('cinBtn');if(b){b.className='bit-btn '+(Cin?'carry':'off');b.textContent='Cin='+Cin;}calculate();}
+function calculate(){let carry=Cin;let sum=[];
+for(let i=0;i<nbits;i++){const s=A[i]^B[i]^carry;const c=(A[i]&B[i])|(A[i]&carry)|(B[i]&carry);
+sum.push(s);document.getElementById('s'+i).textContent=s;
+document.getElementById('c'+i).textContent='C='+c;
+document.getElementById('fa'+i).className='fa-unit'+(c?' active-carry':'');carry=c;}
+const aStr=A.slice().reverse().join('');const bStr=B.slice().reverse().join('');const sStr=sum.slice().reverse().join('');
+const aVal=parseInt(aStr||'0',2);const bVal=parseInt(bStr||'0',2);const sVal=parseInt((carry?'1':'')+sStr,2);
+document.getElementById('resA').textContent=aStr+' ('+aVal+')';
+document.getElementById('resB').textContent=bStr+' ('+bVal+')';
+document.getElementById('resSum').textContent=(carry?'1':'')+sStr+' ('+sVal+')';
+document.getElementById('resCout').textContent=carry;
+document.getElementById('resDec').textContent=aVal+' + '+bVal+' = '+sVal;}
+setBits(1);
+</script>
+</body>
+  </html>

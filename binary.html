@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Calculator — Add, Subtract, Multiply Binary Numbers | LogicMinimizer.io</title>
+<meta name="description" content="Binary calculator with step-by-step solutions. Add, subtract, and multiply binary numbers. See carries, borrows, and partial products visually.">
+<meta name="keywords" content="binary calculator, binary addition, binary subtraction, binary multiplication, binary math, two's complement calculator">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)}.logo span{color:var(--text)}
+.tool-nav{display:flex;gap:4px;flex-wrap:wrap}
+.tool-nav a{color:var(--text2);font-size:12px;font-weight:500;padding:6px 10px;border-radius:6px;transition:all .2s;border:1px solid transparent}
+.tool-nav a:hover{color:var(--accent);border-color:var(--border)}
+.tool-nav a.active{color:var(--accent);background:var(--bg3);border-color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}.nav-cta:hover{background:var(--accent2)!important;opacity:1!important}
+#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
+.tool-section{padding:20px 0 60px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:800px;margin:0 auto}
+.calc-row{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.calc-input{flex:1;min-width:200px;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:18px;outline:none;transition:border-color .2s;text-align:right}
+.calc-input:focus{border-color:var(--accent)}.calc-input::placeholder{color:#555}.calc-input.error{border-color:var(--red)}
+.op-selector{display:flex;gap:4px}
+.op-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;border-radius:8px;cursor:pointer;background:var(--bg3);color:var(--text2);border:1px solid var(--border);transition:all .2s}
+.op-btn:hover{border-color:var(--accent);color:var(--accent)}
+.op-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.bit-selector{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.bit-opt{padding:6px 14px;font-size:12px;cursor:pointer;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;font-family:'JetBrains Mono',monospace;transition:all .2s}
+.bit-opt:hover{border-color:var(--accent);color:var(--accent)}
+.bit-opt.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.calc-btn{width:100%;padding:14px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin:16px 0}.calc-btn:hover{background:var(--accent2)}
+.result-section{display:none;margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:12px}
+.result-row:last-child{border-bottom:none}
+.result-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+.result-value{font-family:'JetBrains Mono',monospace;font-size:16px;text-align:right}.result-value.accent{color:var(--accent)}
+.steps-box{margin-top:20px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;overflow-x:auto}
+.steps-box h3{font-size:13px;color:var(--accent);margin-bottom:16px;font-family:'JetBrains Mono',monospace}
+.long-div{font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.8;white-space:pre}
+.long-div .carry{color:var(--accent);font-size:11px}
+.long-div .line{color:var(--border)}
+.long-div .result{color:var(--accent);font-weight:700}
+.long-div .dim{color:var(--text2)}
+.long-div .partial{color:#f0a050}
+.dec-preview{text-align:center;font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:4px}
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-text{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
+@media(max-width:768px){.calc-row{flex-direction:column}.calc-input{text-align:left}.tool-nav{display:none}footer .container{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a>
+<div class="tool-nav">
+<a href="index.html">Simplifier</a>
+<a href="circuit.html">Circuit</a>
+<a href="karnaugh.html">Karnaugh</a>
+<a href="timing.html">Timing</a>
+<a href="states.html">States</a>
+<a href="converter.html">Converter</a>
+<a href="truthtable.html">Truth Table</a>
+<a href="binary.html" class="active">Binary Calc</a>
+<a href="index.html#pricing" class="nav-cta">Get API Key</a>
+</div>
+</div></nav>
+<div id="page-content">
+<section class="hero"><div class="container">
+<h1>Binary <span class="accent">Calculator</span></h1>
+<p>+, −, × on binary numbers with step-by-step carry, borrow &amp; partial product visualization.</p>
+</div></section>
+<section class="tool-section"><div class="container"><div class="tool-card">
+<div class="bit-selector">
+<button class="bit-opt active" onclick="setBits(8)">8-bit</button>
+<button class="bit-opt" onclick="setBits(16)">16-bit</button>
+<button class="bit-opt" onclick="setBits(32)">32-bit</button>
+</div>
+<div class="calc-row">
+<input type="text" class="calc-input mono" id="inputA" placeholder="10110011" oninput="validateBin(this)" spellcheck="false" autocomplete="off">
+</div>
+<div class="calc-row" style="justify-content:center">
+<div class="op-selector">
+<button class="op-btn active" onclick="setOp('+')">+</button>
+<button class="op-btn" onclick="setOp('-')">−</button>
+<button class="op-btn" onclick="setOp('*')">×</button>
+</div>
+</div>
+<div class="calc-row">
+<input type="text" class="calc-input mono" id="inputB" placeholder="01101010" oninput="validateBin(this)" spellcheck="false" autocomplete="off">
+</div>
+<div class="dec-preview" id="decPreview"></div>
+<button class="calc-btn" onclick="calculate()">=&nbsp;&nbsp;Calculate</button>
+<div class="result-section" id="resultSection">
+<div class="result-row"><span class="result-label">Result (BIN)</span><span class="result-value accent mono" id="resBin"></span></div>
+<div class="result-row"><span class="result-label">Result (DEC)</span><span class="result-value mono" id="resDec"></span></div>
+<div class="result-row"><span class="result-label">Overflow</span><span class="result-value mono" id="resOverflow"></span></div>
+<div class="steps-box">
+<h3>// Step-by-step</h3>
+<div class="long-div" id="stepsViz"></div>
+</div>
+</div>
+</div></div></section>
+<footer><div class="container">
+<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
+<div class="footer-links">
+<a href="index.html#api">API Docs</a>
+<a href="index.html#pricing">Pricing</a>
+<a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a>
+</div>
+</div></footer>
+</div>
+<script>
+let BITS=8,OP='+';
+function setBits(n){BITS=n;document.querySelectorAll('.bit-opt').forEach(b=>b.classList.toggle('active',parseInt(b.textContent)===n));calculate()}
+function setOp(o){OP=o;const syms={'+':'+','-':'−','*':'×'};document.querySelectorAll('.op-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===syms[o]));updatePreview()}
+function validateBin(el){el.value=el.value.replace(/[^01]/g,'');el.classList.remove('error');updatePreview()}
+function updatePreview(){
+  const a=document.getElementById('inputA').value.trim();
+  const b=document.getElementById('inputB').value.trim();
+  if(!a&&!b){document.getElementById('decPreview').textContent='';return}
+  const da=a?parseInt(a,2):0;const db=b?parseInt(b,2):0;
+  let r=OP==='+'?da+db:OP==='-'?da-db:da*db;
+  document.getElementById('decPreview').textContent='( '+da+' '+OP+' '+db+' = '+r+' )';
+}
+function pad(s,n){return s.padStart(n,'0')}
+function calculate(){
+  const a=document.getElementById('inputA').value.trim();
+  const b=document.getElementById('inputB').value.trim();
+  if(!a||!b)return;
+  if(!/^[01]+$/.test(a)){document.getElementById('inputA').classList.add('error');return}
+  if(!/^[01]+$/.test(b)){document.getElementById('inputB').classList.add('error');return}
+  let result,steps,overflow=false;
+  if(OP==='+'){const r=addBin(a,b);result=r.result;steps=r.steps;overflow=r.overflow;}
+  else if(OP==='-'){const r=subBin(a,b);result=r.result;steps=r.steps;overflow=r.overflow;}
+  else{const r=mulBin(a,b);result=r.result;steps=r.steps;overflow=r.overflow;}
+  document.getElementById('resBin').textContent=result;
+  document.getElementById('resDec').textContent=parseInt(result,2).toString();
+  document.getElementById('resOverflow').textContent=overflow?'⚠ Yes':'✓ No';
+  document.getElementById('resOverflow').style.color=overflow?'var(--red)':'var(--accent)';
+  document.getElementById('stepsViz').innerHTML=steps;
+  document.getElementById('resultSection').style.display='block';
+}
+function addBin(a,b){
+  const len=Math.max(a.length,b.length,BITS);
+  const pa=pad(a,len),pb=pad(b,len);
+  let carry=0,result='';const carryArr=new Array(len+1).fill(0);
+  for(let i=len-1;i>=0;i--){const sum=parseInt(pa[i])+parseInt(pb[i])+carry;result=(sum%2)+result;carry=Math.floor(sum/2);if(carry&&i>0)carryArr[i-1]=1;}
+  const ov=carry===1;if(ov)result=carry+result;
+  let s='<span class="carry">';
+  for(let i=0;i<len;i++)s+=carryArr[i]?'1':' ';
+  s+='</span>  <span class="dim">← carries</span>\n';
+  s+='  '+pa+'  <span class="dim">← A = '+parseInt(pa,2)+'</span>\n';
+  s+='<span class="result">+</span> '+pb+'  <span class="dim">← B = '+parseInt(pb,2)+'</span>\n';
+  s+='<span class="line">'+'─'.repeat(len+2)+'</span>\n';
+  s+='<span class="result">'+(ov?'1':' ')+' '+result.slice(ov?1:0).padStart(len,'0')+'</span>  <span class="dim">= '+parseInt(result,2)+'</span>';
+  if(ov)s+='\n\n<span style="color:var(--red)">⚠ Overflow: result exceeds '+BITS+' bits</span>';
+  return{result:result.slice(-BITS),steps:s,overflow:ov};
+}
+function subBin(a,b){
+  const len=Math.max(a.length,b.length,BITS);
+  const pa=pad(a,len),pb=pad(b,len);
+  const inv=pb.split('').map(c=>c==='0'?'1':'0').join('');
+  let carry=1,tc='';
+  for(let i=len-1;i>=0;i--){const sum=parseInt(inv[i])+carry;tc=(sum%2)+tc;carry=Math.floor(sum/2);}
+  const ar=addBin(pa,tc);
+  const da=parseInt(a,2),db=parseInt(b,2);
+  let s='<span class="dim">// A - B = A + (~B + 1)</span>\n\n';
+  s+='B      = '+pb+'\n';
+  s+='~B     = '+inv+'  <span class="dim">← invert</span>\n';
+  s+='~B + 1 = '+tc+'  <span class="dim">← 2\'s complement</span>\n\n';
+  s+='<span class="dim">// Add A + 2\'s complement(B):</span>\n\n';
+  s+=ar.steps;
+  if(da<db)s+='\n\n<span style="color:var(--red)">⚠ Negative result</span>';
+  return{result:ar.result,steps:s,overflow:da<db};
+}
+function mulBin(a,b){
+  const pa=pad(a,BITS),pb=pad(b,BITS);
+  const partials=[];
+  for(let i=pb.length-1;i>=0;i--){if(pb[i]==='1')partials.push({shifted:pa+'0'.repeat(pb.length-1-i),shift:pb.length-1-i});}
+  const ml=BITS*2;
+  let s='<span class="dim">// Binary long multiplication</span>\n\n';
+  s+='  '+pa+'  <span class="dim">← A = '+parseInt(pa,2)+'</span>\n';
+  s+='<span class="result">×</span> '+pb+'  <span class="dim">← B = '+parseInt(pb,2)+'</span>\n';
+  s+='<span class="line">'+'─'.repeat(BITS+2)+'</span>\n';
+  if(!partials.length){s+='<span class="result">  '+'0'.padStart(ml,'0')+'</span>  <span class="dim">= 0</span>';return{result:'0'.padStart(BITS,'0'),steps:s,overflow:false};}
+  let run='0';
+  partials.forEach(p=>{s+='<span class="partial">  '+p.shifted.padStart(ml,' ')+'</span>  <span class="dim">← shift '+p.shift+'</span>\n';run=(parseInt(run,2)+parseInt(p.shifted,2)).toString(2);});
+  s+='<span class="line">'+'─'.repeat(ml+2)+'</span>\n';
+  const rf=run.padStart(ml,'0');const ov=parseInt(run,2)>Math.pow(2,BITS)-1;
+  s+='<span class="result">  '+rf+'</span>  <span class="dim">= '+parseInt(run,2)+'</span>';
+  if(ov)s+='\n\n<span style="color:var(--red)">⚠ Overflow: exceeds '+BITS+' bits</span>';
+  return{result:rf.slice(-BITS),steps:s,overflow:ov};
+}
+updatePreview();
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+</script>
+</body>
+  </html>

@@ -16,7 +16,7 @@ html,body{height:100%;margin:0;padding:0}body{font-family:'Inter',sans-serif;bac
 code,pre,.mono{font-family:'JetBrains Mono',monospace}
 a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
 .container{max-width:1100px;margin:0 auto;padding:0 24px}
-nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
+.tool-nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center} .tool-nav a{color:var(--text2);font-size:12px;font-weight:500;padding:6px 10px;border-radius:6px;transition:all .2s;border:1px solid transparent} .tool-nav a:hover{color:var(--accent);border-color:var(--border)} .tool-nav a.active{color:var(--accent);background:var(--bg3);border-color:var(--accent)} nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)}.logo span{color:var(--text)}
 nav ul{list-style:none;display:flex;gap:28px}nav ul li a{color:var(--text2);font-size:14px;font-weight:500;transition:color .2s}nav ul li a:hover{color:var(--accent)}
@@ -64,7 +64,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 </style>
 </head>
 <body>
-<nav><div class="container"><div class="logo">&gt; Logic<span>Minimizer</span>.io</div><ul><li><a href="#tool">Tool</a></li><li><a href="#api">API Docs</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#cases">Use Cases</a></li><li><a href="#pricing" class="nav-cta">Get API Key</a></li></ul></div></nav>
+<nav><div class="container"><a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a><div class="tool-nav"><a href="index.html" class="active">Simplifier</a><a href="circuit.html">Circuit</a><a href="karnaugh.html">Karnaugh</a><a href="timing.html">Timing</a><a href="states.html">States</a><a href="converter.html">Converter</a><a href="truthtable.html">Truth Table</a><a href="binary.html">Binary Calc</a><a href="#pricing" class="nav-cta">Get API Key</a></div></div></nav>
 <div id="page-content">
 <section class="hero"><div class="container"><h1>Boolean Algebra Simplifier<br><span class="accent">Powered by AI</span></h1><p>Simplify any Boolean expression, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL. Free.</p><div class="hero-badges"><span class="badge">Karnaugh Maps</span><span class="badge">De Morgan's Laws</span><span class="badge">Structured Text</span><span class="badge">Ladder Logic</span><span class="badge">VHDL Export</span></div></div></section>
 <section class="tool-section" id="tool"><div class="container"><div class="tool-card"><div class="tool-header"><h2>&gt;_ Simplify</h2><div class="mode-toggle"><button class="mode-btn active" onclick="setMode('expr')">Expression</button><button class="mode-btn" onclick="setMode('tt')">Truth Table</button></div></div>

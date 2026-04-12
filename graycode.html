@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gray Code Converter — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Convert binary to Gray code and back. View complete Gray code table for n bits. Step-by-step XOR conversion. Free online Gray code converter.">
+<meta name="keywords" content="gray code converter, binary to gray code, reflected binary code, gray code table">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:800px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.input-group input,.input-group select{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
+.input-group input:focus{border-color:#00ff88}
+.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px;transition:transform .2s}.convert-btn:hover{transform:scale(1.02)}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+.result-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #1a1a2e}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600}
+.steps{margin-top:1rem}
+.step{background:#0d0d14;border-left:3px solid #00ff88;padding:.6rem .8rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
+.step-num{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
+.step-text{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.85rem;margin-top:.2rem}
+.gray-table{width:100%;border-collapse:collapse;margin-top:1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.gray-table th{background:#1a1a2e;color:#00ff88;padding:.5rem;text-align:center;border:1px solid #2a2a3e}
+.gray-table td{padding:.4rem;text-align:center;border:1px solid #1a1a2e;color:#e0e0e0}
+.gray-table tr:hover{background:#1a1a2e}
+.gray-table .highlight{background:#00ff8820;color:#00ff88;font-weight:700}
+.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
+.faq{max-width:800px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.4rem}}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html" class="active">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>Gray Code Converter</h1><p>Binary ↔ Gray Code — step-by-step with complete table</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Mode</h3>
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('b2g')">Binary → Gray</button>
+<button class="mode-btn" onclick="setMode('g2b')">Gray → Binary</button>
+</div>
+<div class="input-group">
+<label id="inputLabel">Binary Input</label>
+<input type="text" id="codeInput" placeholder="1011" oninput="autoConvert()">
+<div class="error" id="codeError"></div>
+</div>
+<button class="convert-btn" onclick="doConvert()">Convert</button>
+<div class="result-box" id="resultBox">
+<div class="result-row"><span class="result-label">Binary</span><span class="result-value" id="resBin"></span></div>
+<div class="result-row"><span class="result-label">Gray Code</span><span class="result-value" id="resGray"></span></div>
+<div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec"></span></div>
+</div>
+<div class="steps" id="stepsBox"></div>
+</div>
+<div class="card">
+<h3>// Complete Gray Code Table</h3>
+<div class="input-group">
+<label>Number of Bits</label>
+<select id="tableBits" onchange="genTable()">
+<option value="2">2 bits</option><option value="3">3 bits</option><option value="4" selected>4 bits</option><option value="5">5 bits</option>
+</select>
+</div>
+<div id="tableContainer"></div>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is Gray code?</h3><p>Gray code (reflected binary code) is a binary numeral system where two successive values differ in only one bit. This property makes it useful in error correction and Karnaugh maps.</p></div>
+<div class="faq-item"><h3>How do you convert binary to Gray code?</h3><p>The MSB stays the same. Each subsequent Gray bit is the XOR of the current and previous binary bits: G[i] = B[i] XOR B[i-1].</p></div>
+<div class="faq-item"><h3>Where is Gray code used?</h3><p>Gray code is used in rotary encoders, Karnaugh maps, error correction, digital communications, and genetic algorithms to minimize bit transitions.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+let mode='b2g';
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='b2g')||(i===1&&m==='g2b')));
+document.getElementById('inputLabel').textContent=m==='b2g'?'Binary Input':'Gray Code Input';
+document.getElementById('codeInput').placeholder=m==='b2g'?'1011':'1110';
+document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
+function bin2gray(bin){let g=bin[0];for(let i=1;i<bin.length;i++)g+=(parseInt(bin[i-1])^parseInt(bin[i])).toString();return g;}
+function gray2bin(gray){let b=gray[0];for(let i=1;i<gray.length;i++)b+=(parseInt(b[i-1])^parseInt(gray[i])).toString();return b;}
+function autoConvert(){doConvert();}
+function doConvert(){const v=document.getElementById('codeInput').value.trim();const err=document.getElementById('codeError');
+if(!v)return;if(!/^[01]+$/.test(v)){err.textContent='Only 0 and 1 allowed';err.style.display='block';return;}err.style.display='none';
+let bin,gray,steps=[];
+if(mode==='b2g'){bin=v;gray=bin2gray(bin);steps.push({n:'1',t:'MSB: G[0] = B[0] = '+bin[0]});
+for(let i=1;i<bin.length;i++)steps.push({n:''+(i+1),t:'G['+i+'] = B['+(i-1)+'] XOR B['+i+'] = '+bin[i-1]+' XOR '+bin[i]+' = '+gray[i]});}
+else{gray=v;bin=gray2bin(gray);steps.push({n:'1',t:'MSB: B[0] = G[0] = '+gray[0]});
+for(let i=1;i<gray.length;i++)steps.push({n:''+(i+1),t:'B['+i+'] = B['+(i-1)+'] XOR G['+i+'] = '+bin[i-1]+' XOR '+gray[i]+' = '+bin[i]});}
+document.getElementById('resBin').textContent=bin;document.getElementById('resGray').textContent=gray;
+document.getElementById('resDec').textContent=parseInt(bin,2);document.getElementById('resultBox').style.display='block';
+let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');
+document.getElementById('stepsBox').innerHTML=sh;genTable();}
+function genTable(){const n=parseInt(document.getElementById('tableBits').value);const total=Math.pow(2,n);
+const curBin=document.getElementById('codeInput').value.trim();
+let html='<table class="gray-table"><tr><th>Decimal</th><th>Binary</th><th>Gray Code</th></tr>';
+for(let i=0;i<total;i++){const bin=i.toString(2).padStart(n,'0');const gray=bin2gray(bin);
+const hl=(bin===curBin||gray===curBin)?' class="highlight"':'';
+html+='<tr'+hl+'><td>'+i+'</td><td>'+bin+'</td><td>'+gray+'</td></tr>';}
+html+='</table>';document.getElementById('tableContainer').innerHTML=html;}
+genTable();
+</script>
+</body>
+  </html>

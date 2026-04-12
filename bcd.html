@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCD Converter — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Convert decimal to BCD (Binary Coded Decimal) and back. Visualize each 4-bit group. Step-by-step BCD conversion. Free online BCD converter.">
+<meta name="keywords" content="BCD converter, binary coded decimal, decimal to BCD, BCD to decimal, digital logic">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:800px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
+.input-group input:focus{border-color:#00ff88}
+.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+.bcd-visual{display:flex;flex-wrap:wrap;gap:.8rem;margin:1rem 0;justify-content:center}
+.bcd-group{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:.8rem;text-align:center;min-width:80px}
+.bcd-digit{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700}
+.bcd-bits{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:1rem;margin-top:.3rem;letter-spacing:2px}
+.bcd-label{color:#b0b0b0;font-size:.7rem;margin-top:.2rem}
+.result-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #1a1a2e}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600}
+.steps{margin-top:1rem}
+.step{background:#0d0d14;border-left:3px solid #00ff88;padding:.6rem .8rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
+.step-num{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
+.step-text{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.85rem;margin-top:.2rem}
+.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
+.faq{max-width:800px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.4rem}}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html" class="active">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>BCD Converter</h1><p>Decimal ↔ Binary Coded Decimal — visualize each 4-bit group</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Mode</h3>
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('d2b')">Decimal → BCD</button>
+<button class="mode-btn" onclick="setMode('b2d')">BCD → Decimal</button>
+</div>
+<div id="decMode" class="input-group">
+<label>Decimal Input</label>
+<input type="text" id="decInput" placeholder="259" oninput="autoConvert()">
+<div class="error" id="decError"></div>
+</div>
+<div id="bcdMode" class="input-group" style="display:none">
+<label>BCD Input (groups of 4 bits)</label>
+<input type="text" id="bcdInput" placeholder="0010 0101 1001" oninput="autoConvert()">
+<div class="error" id="bcdError"></div>
+</div>
+<button class="convert-btn" onclick="doConvert()">Convert</button>
+<div class="result-box" id="resultBox">
+<div class="bcd-visual" id="bcdVisual"></div>
+<div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec"></span></div>
+<div class="result-row"><span class="result-label">BCD</span><span class="result-value" id="resBcd"></span></div>
+<div class="result-row"><span class="result-label">Pure Binary</span><span class="result-value" id="resPureBin"></span></div>
+</div>
+<div class="steps" id="stepsBox"></div>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is BCD?</h3><p>BCD (Binary Coded Decimal) represents each decimal digit with a 4-bit binary code. Unlike pure binary, each group of 4 bits can only represent 0-9, making it easy to convert to and from decimal displays.</p></div>
+<div class="faq-item"><h3>How is BCD different from binary?</h3><p>In BCD, each decimal digit is encoded separately in 4 bits. For example, 259 in BCD is 0010 0101 1001 (three groups). In pure binary, 259 would be 100000011 (9 bits total).</p></div>
+<div class="faq-item"><h3>Where is BCD used?</h3><p>BCD is used in financial calculators, digital clocks, 7-segment displays, and any system where exact decimal representation is needed without rounding errors.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+let mode='d2b';
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='d2b')||(i===1&&m==='b2d')));
+document.getElementById('decMode').style.display=m==='d2b'?'block':'none';document.getElementById('bcdMode').style.display=m==='b2d'?'block':'none';
+document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
+function autoConvert(){doConvert();}
+function doConvert(){if(mode==='d2b')dec2bcd();else bcd2dec();}
+function dec2bcd(){const v=document.getElementById('decInput').value.trim();const err=document.getElementById('decError');
+if(!v)return;if(!/^\d+$/.test(v)){err.textContent='Only digits 0-9 allowed';err.style.display='block';return;}err.style.display='none';
+const digits=v.split('');let bcdStr='';let steps=[];let vis='';
+digits.forEach((d,i)=>{const bin=parseInt(d).toString(2).padStart(4,'0');bcdStr+=bin+' ';
+steps.push({n:''+(i+1),t:d+' → '+bin});
+vis+='<div class="bcd-group"><div class="bcd-digit">'+d+'</div><div class="bcd-bits">'+bin+'</div><div class="bcd-label">digit '+(i+1)+'</div></div>';});
+document.getElementById('bcdVisual').innerHTML=vis;
+document.getElementById('resDec').textContent=v;document.getElementById('resBcd').textContent=bcdStr.trim();
+document.getElementById('resPureBin').textContent=parseInt(v).toString(2);
+document.getElementById('resultBox').style.display='block';
+let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');
+document.getElementById('stepsBox').innerHTML=sh;}
+function bcd2dec(){const v=document.getElementById('bcdInput').value.trim().replace(/\s/g,'');const err=document.getElementById('bcdError');
+if(!v)return;if(!/^[01]+$/.test(v)){err.textContent='Only 0 and 1 allowed';err.style.display='block';return;}
+const padded=v.padStart(Math.ceil(v.length/4)*4,'0');const groups=[];for(let i=0;i<padded.length;i+=4)groups.push(padded.substr(i,4));
+let dec='';let steps=[];let vis='';let valid=true;
+groups.forEach((g,i)=>{const val=parseInt(g,2);if(val>9){valid=false;err.textContent='Invalid BCD: group '+g+' = '+val+' (max 9)';err.style.display='block';return;}
+dec+=val;steps.push({n:''+(i+1),t:g+' → '+val});
+vis+='<div class="bcd-group"><div class="bcd-digit">'+val+'</div><div class="bcd-bits">'+g+'</div><div class="bcd-label">group '+(i+1)+'</div></div>';});
+if(!valid)return;err.style.display='none';
+document.getElementById('bcdVisual').innerHTML=vis;
+document.getElementById('resDec').textContent=parseInt(dec);document.getElementById('resBcd').textContent=groups.join(' ');
+document.getElementById('resPureBin').textContent=parseInt(dec).toString(2);
+document.getElementById('resultBox').style.display='block';
+let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');
+document.getElementById('stepsBox').innerHTML=sh;}
+</script>
+</body>
+                                                                                                             </html>

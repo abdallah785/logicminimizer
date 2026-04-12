@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-Segment Display Simulator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Interactive 7-segment display simulator. Click digits or segments, view truth table and Boolean expressions for each segment. Free online tool.">
+<meta name="keywords" content="7 segment display simulator, seven segment, BCD to 7 segment, display decoder, digital logic">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:900px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.8rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
+.display-area{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;margin:1.5rem 0}
+.digit-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.digit-btn{padding:.6rem .8rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:1.1rem;cursor:pointer;border-radius:6px;transition:all .2s;text-align:center}
+.digit-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.segment-svg{cursor:pointer}
+.seg-on{fill:#00ff88;filter:drop-shadow(0 0 6px #00ff8888)}
+.seg-off{fill:#1a1a2e;cursor:pointer}
+.seg-off:hover{fill:#2a2a3e}
+.bcd-display{font-family:'JetBrains Mono',monospace;text-align:center;margin-top:1rem}
+.bcd-bits{font-size:1.5rem;color:#00ff88;letter-spacing:4px}
+.bcd-labels{font-size:.75rem;color:#b0b0b0;letter-spacing:4px}
+.truth-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.78rem;margin-top:1rem}
+.truth-table th{background:#1a1a2e;color:#00ff88;padding:.4rem;border:1px solid #2a2a3e;text-align:center}
+.truth-table td{padding:.3rem;text-align:center;border:1px solid #1a1a2e}.truth-table tr.active-row{background:#00ff8815}
+.truth-table .on{color:#00ff88;font-weight:700}.truth-table .off{color:#444}
+.expr-list{margin-top:1rem}
+.expr-item{display:flex;justify-content:space-between;padding:.3rem .5rem;border-bottom:1px solid #1a1a2e;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.expr-seg{color:#00ff88}.expr-val{color:#e0e0e0}
+.faq{max-width:900px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.display-area{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html" class="active">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>7-Segment Display Simulator</h1><p>Interactive display — click digits, BCD input, or individual segments</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Mode</h3>
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('digit')">Digit</button>
+<button class="mode-btn" onclick="setMode('bcd')">BCD</button>
+<button class="mode-btn" onclick="setMode('manual')">Manual</button>
+</div>
+<div class="display-area">
+<svg width="120" height="200" viewBox="0 0 120 200" class="segment-svg" id="segSvg"></svg>
+<div>
+<div id="digitPanel" class="digit-buttons"></div>
+<div id="bcdPanel" style="display:none"></div>
+<div class="bcd-display" id="bcdDisplay">
+<div class="bcd-bits" id="bcdBits">0000</div>
+<div class="bcd-labels">D C B A</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>// Truth Table (0-9)</h3>
+<div id="truthTableContainer"></div>
+</div>
+<div class="card">
+<h3>// Boolean Expressions</h3>
+<div class="expr-list" id="exprList"></div>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is a 7-segment display?</h3><p>A 7-segment display uses seven LED segments (a-g) to show decimal digits 0-9. Each segment can be independently turned on or off to form different digit shapes.</p></div>
+<div class="faq-item"><h3>How does BCD to 7-segment decoding work?</h3><p>A BCD-to-7-segment decoder takes a 4-bit BCD input (0-9) and activates the appropriate segments. Each segment has its own Boolean expression based on the 4 input bits.</p></div>
+<div class="faq-item"><h3>What are the segment labels?</h3><p>Segments are labeled a through g: a is the top horizontal, b and c are the right verticals, d is the bottom horizontal, e and f are the left verticals, and g is the middle horizontal.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+const SEGS={a:[20,10,100,10,95,15,25,15],b:[100,15,105,20,105,90,100,95,95,90,95,20],c:[100,105,105,110,105,180,100,185,95,180,95,110],d:[20,185,100,185,95,180,25,180],e:[15,105,20,110,20,180,15,185,10,180,10,110],f:[15,15,20,20,20,90,15,95,10,90,10,20],g:[20,95,100,95,95,100,25,100]};
+const DIGITS=[[1,1,1,1,1,1,0],[0,1,1,0,0,0,0],[1,1,0,1,1,0,1],[1,1,1,1,0,0,1],[0,1,1,0,0,1,1],[1,0,1,1,0,1,1],[1,0,1,1,1,1,1],[1,1,1,0,0,0,0],[1,1,1,1,1,1,1],[1,1,1,1,0,1,1]];
+const SEG_NAMES=['a','b','c','d','e','f','g'];
+let mode='digit',currentDigit=0,segments=[1,1,1,1,1,1,0];
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='digit')||(i===1&&m==='bcd')||(i===2&&m==='manual')));
+document.getElementById('digitPanel').style.display=m==='digit'?'grid':'none';
+document.getElementById('bcdPanel').style.display=m==='bcd'?'block':'none';updateDisplay();}
+function buildDigitPanel(){let h='';for(let i=0;i<=9;i++)h+='<button class="digit-btn'+(i===currentDigit?' active':'')+'" onclick="selectDigit('+i+')">'+i+'</button>';
+document.getElementById('digitPanel').innerHTML=h;}
+function buildBcdPanel(){let h='<div style="display:flex;gap:.5rem;justify-content:center">';
+const bcd=currentDigit.toString(2).padStart(4,'0');
+['D','C','B','A'].forEach((lbl,i)=>{h+='<button class="digit-btn" style="width:50px" onclick="toggleBcd('+i+')">'+lbl+'='+bcd[i]+'</button>';});
+h+='</div>';document.getElementById('bcdPanel').innerHTML=h;}
+function selectDigit(d){currentDigit=d;segments=[...DIGITS[d]];updateDisplay();}
+function toggleBcd(i){const bcd=currentDigit.toString(2).padStart(4,'0').split('');bcd[i]=bcd[i]==='0'?'1':'0';const val=parseInt(bcd.join(''),2);
+if(val<=9){currentDigit=val;segments=[...DIGITS[val]];}updateDisplay();}
+function toggleSeg(i){if(mode==='manual'){segments[i]=segments[i]?0:1;updateDisplay();}}
+function drawSvg(){const svg=document.getElementById('segSvg');let h='<rect width="120" height="200" fill="#0d0d14" rx="8"/>';
+SEG_NAMES.forEach((name,i)=>{const pts=SEGS[name];const cls=segments[i]?'seg-on':'seg-off';
+let poly='<polygon class="'+cls+'" points="';for(let j=0;j<pts.length;j+=2)poly+=pts[j]+','+pts[j+1]+' ';
+poly+='" onclick="toggleSeg('+i+')"/>';h+=poly;});
+svg.innerHTML=h;}
+function updateDisplay(){buildDigitPanel();buildBcdPanel();drawSvg();
+const bcd=currentDigit.toString(2).padStart(4,'0');document.getElementById('bcdBits').textContent=bcd.split('').join(' ');buildTruthTable();}
+function buildTruthTable(){let h='<table class="truth-table"><tr><th>Dec</th><th>D</th><th>C</th><th>B</th><th>A</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th></tr>';
+for(let i=0;i<=9;i++){const bcd=i.toString(2).padStart(4,'0');const act=i===currentDigit?' class="active-row"':'';
+h+='<tr'+act+'><td>'+i+'</td>';bcd.split('').forEach(b=>h+='<td>'+b+'</td>');
+DIGITS[i].forEach(s=>h+='<td class="'+(s?'on':'off')+'">'+s+'</td>');h+='</tr>';}
+h+='</table>';document.getElementById('truthTableContainer').innerHTML=h;buildExpressions();}
+function buildExpressions(){const exprs=['a: \u03A3(0,2,3,5,6,7,8,9)','b: \u03A3(0,1,2,3,4,7,8,9)','c: \u03A3(0,1,3,4,5,6,7,8,9)','d: \u03A3(0,2,3,5,6,8,9)','e: \u03A3(0,2,6,8)','f: \u03A3(0,4,5,6,8,9)','g: \u03A3(2,3,4,5,6,8,9)'];
+let h='';exprs.forEach(e=>{const parts=e.split(': ');h+='<div class="expr-item"><span class="expr-seg">'+parts[0]+'</span><span class="expr-val">'+parts[1]+'</span></div>';});
+document.getElementById('exprList').innerHTML=h;}
+updateDisplay();
+</script>
+</body>
+  </html>

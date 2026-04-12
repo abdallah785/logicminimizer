@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Truth Table Generator — Expression ↔ Truth Table | LogicMinimizer.io</title>
+<meta name="description" content="Generate truth tables from Boolean expressions or derive expressions from truth tables. Shows minterms, maxterms, SOP and POS canonical forms.">
+<meta name="keywords" content="truth table generator, boolean expression to truth table, truth table to expression, minterms, maxterms, sum of products, product of sums">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{position:relative;z-index:100;width:100%;background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;flex-shrink:0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)}.logo span{color:var(--text)}
+.tool-nav{display:flex;gap:4px;flex-wrap:wrap}
+.tool-nav a{color:var(--text2);font-size:12px;font-weight:500;padding:6px 10px;border-radius:6px;transition:all .2s;border:1px solid transparent}
+.tool-nav a:hover{color:var(--accent);border-color:var(--border)}
+.tool-nav a.active{color:var(--accent);background:var(--bg3);border-color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}.nav-cta:hover{background:var(--accent2)!important;opacity:1!important}
+#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
+.tool-section{padding:20px 0 60px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:900px;margin:0 auto}
+.mode-toggle{display:flex;background:var(--bg3);border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:24px}
+.mode-btn{flex:1;padding:10px 18px;font-size:13px;cursor:pointer;background:transparent;color:var(--text2);border:none;font-family:'Inter',sans-serif;transition:all .2s;text-align:center}.mode-btn.active{background:var(--accent);color:var(--bg);font-weight:600}
+.input-group{margin-bottom:20px}
+.input-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.expr-input{width:100%;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:15px;outline:none;transition:border-color .2s}.expr-input:focus{border-color:var(--accent)}.expr-input::placeholder{color:#555}
+.var-select{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.var-select label{font-size:13px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.var-select select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:13px}
+.tt-grid{overflow-x:auto;margin:16px 0}
+.tt-grid table{border-collapse:collapse;width:100%;font-family:'JetBrains Mono',monospace;font-size:13px}
+.tt-grid th,.tt-grid td{border:1px solid var(--border);padding:8px 12px;text-align:center}
+.tt-grid th{background:var(--bg3);color:var(--accent);font-weight:600}
+.tt-grid td{cursor:default;transition:all .15s}
+.tt-grid td.clickable{cursor:pointer}
+.tt-grid td.clickable:hover{background:var(--bg3)}
+.tt-grid td.val-1{background:#00ff8822;color:var(--accent);font-weight:700}
+.tt-grid td.val-0{color:var(--text2)}
+.gen-btn{width:100%;padding:14px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin:16px 0}.gen-btn:hover{background:var(--accent2)}
+.usage-info{text-align:center;font-size:12px;color:var(--text2);margin-bottom:16px}
+.results{display:none;margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
+.result-block{margin-bottom:16px}
+.result-block h3{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px}
+.result-block .value{font-family:'JetBrains Mono',monospace;font-size:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;word-break:break-all}
+.result-block .value.accent{color:var(--accent)}
+.minmax-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-text{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
+.upgrade-banner{background:linear-gradient(135deg,#0a1a12,#0a0f1a);border:1px solid var(--accent);border-radius:12px;padding:24px;margin:24px 0 0;text-align:center}.upgrade-banner h3{color:var(--accent);margin-bottom:8px;font-size:16px}.upgrade-banner p{color:var(--text2);font-size:13px;margin-bottom:12px}
+.upgrade-btn{display:inline-block;background:var(--accent);color:var(--bg);padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px}
+@media(max-width:768px){.tool-nav{display:none}.minmax-row{grid-template-columns:1fr}footer .container{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a>
+<div class="tool-nav">
+<a href="index.html">Simplifier</a>
+<a href="circuit.html">Circuit</a>
+<a href="karnaugh.html">Karnaugh</a>
+<a href="timing.html">Timing</a>
+<a href="states.html">States</a>
+<a href="converter.html">Converter</a>
+<a href="truthtable.html" class="active">Truth Table</a>
+<a href="binary.html">Binary Calc</a>
+<a href="index.html#pricing" class="nav-cta">Get API Key</a>
+</div>
+</div></nav>
+<div id="page-content">
+<section class="hero"><div class="container">
+<h1>Truth Table <span class="accent">Generator</span></h1>
+<p>Expression → Truth Table or Truth Table → Expression. Minterms, maxterms, SOP &amp; POS.</p>
+</div></section>
+<section class="tool-section"><div class="container"><div class="tool-card">
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('expr')">Expression → Table</button>
+<button class="mode-btn" onclick="setMode('table')">Table → Expression</button>
+</div>
+<div id="exprMode">
+<div class="input-group">
+<label>// enter boolean expression (max 4 variables: A, B, C, D)</label>
+<input type="text" class="expr-input" id="exprInput" placeholder="A AND B OR (NOT A AND C)" spellcheck="false" autocomplete="off">
+</div>
+</div>
+<div id="tableMode" style="display:none">
+<div class="var-select">
+<label>Variables:</label>
+<select id="varCount" onchange="buildGrid()">
+<option value="2">2 (A, B)</option>
+<option value="3" selected>3 (A, B, C)</option>
+<option value="4">4 (A, B, C, D)</option>
+</select>
+</div>
+<div class="tt-grid" id="editGrid"></div>
+</div>
+<button class="gen-btn" onclick="generate()" id="genBtn">Generate</button>
+<div class="usage-info" id="usageInfo"></div>
+<div class="results" id="results">
+<div class="tt-grid" id="resultTable"></div>
+<div class="minmax-row">
+<div class="result-block"><h3>Minterms (Σ)</h3><div class="value accent" id="resMinterms"></div></div>
+<div class="result-block"><h3>Maxterms (Π)</h3><div class="value" id="resMaxterms"></div></div>
+</div>
+<div class="result-block"><h3>Sum of Products (SOP)</h3><div class="value accent" id="resSOP"></div></div>
+<div class="result-block"><h3>Product of Sums (POS)</h3><div class="value" id="resPOS"></div></div>
+</div>
+<div class="upgrade-banner">
+<h3>Need more variables?</h3>
+<p>Pro: unlimited variables, API access, all export formats.</p>
+<a href="index.html#pricing" class="upgrade-btn">Upgrade — $4.99/mo</a>
+</div>
+</div></div></section>
+<footer><div class="container">
+<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
+<div class="footer-links"><a href="index.html#api">API Docs</a><a href="index.html#pricing">Pricing</a><a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a></div>
+</div></footer>
+</div>
+<script>
+let MODE='expr';const LIMIT=3,SKEY='lgm_tt';
+function setMode(m){MODE=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',i===(m==='expr'?0:1)));document.getElementById('exprMode').style.display=m==='expr'?'block':'none';document.getElementById('tableMode').style.display=m==='table'?'block':'none';if(m==='table')buildGrid()}
+function getUsage(){const d=JSON.parse(localStorage.getItem(SKEY)||'{}');const t=new Date().toISOString().split('T')[0];if(d.date!==t)return{date:t,count:0};return d}
+function incUsage(){const u=getUsage();u.count++;localStorage.setItem(SKEY,JSON.stringify(u));showUsage()}
+function showUsage(){const u=getUsage();document.getElementById('usageInfo').textContent=(LIMIT-u.count)+'/'+LIMIT+' free generations remaining today'}
+function buildGrid(){
+  const n=parseInt(document.getElementById('varCount').value);
+  const vars=['A','B','C','D'].slice(0,n);const rows=Math.pow(2,n);
+  let h='<table><thead><tr>';vars.forEach(v=>h+='<th>'+v+'</th>');
+  h+='<th>F</th></tr></thead><tbody>';
+  for(let i=0;i<rows;i++){h+='<tr>';for(let j=0;j<n;j++)h+='<td>'+((i>>(n-1-j))&1)+'</td>';h+='<td class="clickable val-0" data-row="'+i+'" onclick="toggleCell(this)">0</td></tr>'}
+  h+='</tbody></table>';document.getElementById('editGrid').innerHTML=h;
+}
+function toggleCell(c){const v=c.textContent==='1'?0:1;c.textContent=v;c.className='clickable '+(v?'val-1':'val-0')}
+function evalBool(expr,vals){
+  let e=expr.toUpperCase();
+  Object.keys(vals).sort((a,b)=>b.length-a.length).forEach(v=>{e=e.replace(new RegExp('\\b'+v+'\\b','g'),vals[v]?'true':'false')});
+  e=e.replace(/\bNOT\b/g,'!').replace(/\bAND\b/g,'&&').replace(/\bOR\b/g,'||').replace(/\bXOR\b/g,'!==').replace(/\bNAND\b/g,'&&!').replace(/\bNOR\b/g,'||!');
+  try{return Function('"use strict";return('+e+')?1:0')()}catch{return 0}
+}
+function generate(){
+  const u=getUsage();if(u.count>=LIMIT){alert('Daily limit reached. Upgrade to Pro for unlimited.');return}
+  let vars,outputs;
+  if(MODE==='expr'){
+    const expr=document.getElementById('exprInput').value.trim();
+    if(!expr)return;
+    vars=[...new Set((expr.match(/\b[A-D]\b/gi)||[]).map(v=>v.toUpperCase()))].sort();
+    if(!vars.length||vars.length>4)return;
+    const n=vars.length;outputs=[];
+    for(let i=0;i<Math.pow(2,n);i++){const val={};for(let j=0;j<n;j++)val[vars[j]]=(i>>(n-1-j))&1;outputs.push(evalBool(expr,val))}
+  }else{
+    const n=parseInt(document.getElementById('varCount').value);
+    vars=['A','B','C','D'].slice(0,n);
+    outputs=Array.from(document.querySelectorAll('#editGrid .clickable')).map(c=>parseInt(c.textContent));
+  }
+  const n=vars.length;const rows=Math.pow(2,n);
+  let th='<table><thead><tr>';vars.forEach(v=>th+='<th>'+v+'</th>');th+='<th>F</th></tr></thead><tbody>';
+  for(let i=0;i<rows;i++){th+='<tr>';for(let j=0;j<n;j++)th+='<td>'+((i>>(n-1-j))&1)+'</td>';th+='<td class="'+(outputs[i]?'val-1':'val-0')+'">'+outputs[i]+'</td></tr>'}
+  th+='</tbody></table>';document.getElementById('resultTable').innerHTML=th;
+  const minterms=[],maxterms=[];
+  outputs.forEach((o,i)=>{if(o===1)minterms.push(i);else maxterms.push(i)});
+  document.getElementById('resMinterms').textContent=minterms.length?'Σm('+minterms.join(', ')+')':'(none)';
+  document.getElementById('resMaxterms').textContent=maxterms.length?'ΠM('+maxterms.join(', ')+')':'(none)';
+  const sop=minterms.map(m=>{let t='';for(let j=0;j<n;j++){const bit=(m>>(n-1-j))&1;t+=(t?' AND ':'')+(!bit?'NOT ':'')+vars[j]}return minterms.length>1?'('+t+')':t}).join(' OR ')||'0';
+  const pos=maxterms.map(m=>{let t='';for(let j=0;j<n;j++){const bit=(m>>(n-1-j))&1;t+=(t?' OR ':'')+(bit?'NOT ':'')+vars[j]}return maxterms.length>1?'('+t+')':t}).join(' AND ')||'1';
+  document.getElementById('resSOP').textContent=sop;
+  document.getElementById('resPOS').textContent=pos;
+  document.getElementById('results').style.display='block';
+  incUsage();
+}
+showUsage();buildGrid();
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+</script>
+</body>
+  </html>

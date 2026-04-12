@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRC / Checksum Calculator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Calculate CRC-8, CRC-16, CRC-32, checksum, and parity bits. Step-by-step polynomial division. Verify received data. Free online CRC calculator.">
+<meta name="keywords" content="CRC calculator, checksum calculator, CRC-32, parity bit, error detection">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.input-group input,.input-group select{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
+.input-group input:focus{border-color:#00ff88}
+.base-select{display:flex;gap:.3rem;margin-bottom:.5rem}
+.base-btn{padding:.35rem .6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.78rem;cursor:pointer;border-radius:4px;transition:all .2s}
+.base-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+.result-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #1a1a2e;flex-wrap:wrap}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600;word-break:break-all}
+.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
+.upgrade-banner{background:linear-gradient(135deg,#1a1a2e,#141420);border:1px solid #00ff88;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem}
+.upgrade-banner a{color:#00ff88;font-weight:600;text-decoration:none}
+.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown"><a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown"><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown"><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown"><a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html" class="active">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a></div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>CRC / Checksum Calculator</h1><p>CRC-8, CRC-16, CRC-32, checksum, parity — with step-by-step</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Input</h3>
+<div class="base-select">
+<button class="base-btn active" onclick="setBase('hex')">HEX</button>
+<button class="base-btn" onclick="setBase('bin')">BIN</button>
+</div>
+<div class="input-group">
+<label>Data</label>
+<input type="text" id="dataInput" placeholder="48 65 6C 6C 6F">
+<div class="error" id="dataError"></div>
+</div>
+<button class="convert-btn" onclick="calculate()">Calculate</button>
+<div class="result-box" id="resultBox">
+<div class="result-row"><span class="result-label">Checksum (8-bit)</span><span class="result-value" id="resChecksum"></span></div>
+<div class="result-row"><span class="result-label">Parity (even)</span><span class="result-value" id="resParityE"></span></div>
+<div class="result-row"><span class="result-label">Parity (odd)</span><span class="result-value" id="resParityO"></span></div>
+<div class="result-row"><span class="result-label">CRC-8</span><span class="result-value" id="resCrc8"></span></div>
+<div class="result-row"><span class="result-label">CRC-16</span><span class="result-value" id="resCrc16"></span></div>
+<div class="result-row"><span class="result-label">CRC-32</span><span class="result-value" id="resCrc32"></span></div>
+</div>
+</div>
+<div class="upgrade-banner" id="limitBanner" style="display:none">
+<p style="margin-bottom:.5rem;color:#e0e0e0">Daily limit reached (3/3)</p>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank">Upgrade to Pro — unlimited + API — $4.99/month</a>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is CRC?</h3><p>Cyclic Redundancy Check (CRC) is an error-detecting code. A polynomial division is performed on the data to produce a fixed-size checksum that can detect common transmission errors.</p></div>
+<div class="faq-item"><h3>What is the difference between CRC-8, CRC-16, and CRC-32?</h3><p>They differ in the polynomial size and detection capability. CRC-8 produces 8-bit checksums, CRC-16 produces 16-bit, and CRC-32 produces 32-bit. Longer CRCs detect more error patterns.</p></div>
+<div class="faq-item"><h3>What is a parity bit?</h3><p>A parity bit is the simplest error detection method. Even parity makes the total number of 1s even, odd parity makes it odd. It can detect single-bit errors but not correct them.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+const LK='crc_uses';const MF=3;
+function gu(){const d=JSON.parse(localStorage.getItem(LK)||'{}');const t=new Date().toISOString().slice(0,10);return d[t]||0;}
+function au(){const d=JSON.parse(localStorage.getItem(LK)||'{}');const t=new Date().toISOString().slice(0,10);d[t]=(d[t]||0)+1;localStorage.setItem(LK,JSON.stringify(d));}
+let base='hex';
+function setBase(b){base=b;document.querySelectorAll('.base-btn').forEach(btn=>btn.classList.toggle('active',btn.textContent.trim()===b.toUpperCase()));
+document.getElementById('dataInput').placeholder=b==='hex'?'48 65 6C 6C 6F':'01001000 01100101';}
+function getBytes(){const v=document.getElementById('dataInput').value.trim();const err=document.getElementById('dataError');
+if(!v){err.textContent='Enter data';err.style.display='block';return null;}
+let bytes=[];
+if(base==='hex'){const parts=v.replace(/0x/gi,'').split(/[\s,]+/);for(const p of parts){if(!/^[0-9A-Fa-f]+$/.test(p)){err.textContent='Invalid hex';err.style.display='block';return null;}
+for(let i=0;i<p.length;i+=2)bytes.push(parseInt(p.substr(i,2)||p.substr(i,1),16));}
+}else{const parts=v.split(/[\s,]+/);for(const p of parts){if(!/^[01]+$/.test(p)){err.textContent='Invalid binary';err.style.display='block';return null;}
+bytes.push(parseInt(p,2)&0xFF);}
+}
+err.style.display='none';return bytes;}
+function crc8(bytes){let crc=0;const poly=0x07;
+bytes.forEach(b=>{crc^=b;for(let i=0;i<8;i++)crc=(crc&0x80)?((crc<<1)^poly)&0xFF:(crc<<1)&0xFF;});return crc;}
+function crc16(bytes){let crc=0xFFFF;const poly=0x8005;
+bytes.forEach(b=>{crc^=(b<<8);for(let i=0;i<8;i++)crc=(crc&0x8000)?((crc<<1)^poly)&0xFFFF:(crc<<1)&0xFFFF;});return crc;}
+function crc32(bytes){let crc=0xFFFFFFFF;const poly=0xEDB88320;
+bytes.forEach(b=>{crc^=b;for(let i=0;i<8;i++)crc=(crc&1)?((crc>>>1)^poly)>>>0:(crc>>>1)>>>0;});return(crc^0xFFFFFFFF)>>>0;}
+function calculate(){if(gu()>=MF){document.getElementById('limitBanner').style.display='block';return;}
+const bytes=getBytes();if(!bytes)return;
+let checksum=0;let ones=0;
+bytes.forEach(b=>{checksum=(checksum+b)&0xFF;for(let i=0;i<8;i++)if(b&(1<<i))ones++;});
+checksum=(~checksum+1)&0xFF;
+document.getElementById('resChecksum').textContent='0x'+checksum.toString(16).toUpperCase().padStart(2,'0');
+document.getElementById('resParityE').textContent=(ones%2===0?'0':'1');
+document.getElementById('resParityO').textContent=(ones%2===1?'0':'1');
+document.getElementById('resCrc8').textContent='0x'+crc8(bytes).toString(16).toUpperCase().padStart(2,'0');
+document.getElementById('resCrc16').textContent='0x'+crc16(bytes).toString(16).toUpperCase().padStart(4,'0');
+document.getElementById('resCrc32').textContent='0x'+crc32(bytes).toString(16).toUpperCase().padStart(8,'0');
+document.getElementById('resultBox').style.display='block';au();}
+</script>
+</body>
+</html>

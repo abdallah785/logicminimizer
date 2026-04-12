@@ -1,0 +1,167 @@
+{
+  "name": "LogicMinimizer - SEO Article Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "sched1",
+      "name": "Daily 8AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n'How to convert 255 to binary step by step',\n'How to simplify A AND B OR NOT A using Karnaugh map',\n'Twos complement of -42 in 8 bits',\n'IEEE 754 representation of 0.1',\n'Gray code vs binary code difference',\n'How to calculate CRC-32 step by step',\n'Full adder truth table explained',\n'JK flip flop excitation table',\n'4 to 1 multiplexer Boolean expression',\n'BCD to 7 segment decoder logic',\n'Hamming code error detection example',\n'How PWM duty cycle affects LED brightness',\n'Resistor color code 4 band calculator',\n'NAND gate as universal gate examples',\n'Binary addition with carry explained',\n'Bitwise XOR applications in programming',\n'De Morgan theorem proof and examples',\n'How to minimize Boolean expressions',\n'Ripple carry adder vs carry lookahead',\n'SR latch vs D flip flop differences',\n'How to convert BCD to decimal',\n'IEEE 754 special values infinity NaN',\n'Two complement overflow detection',\n'Gray code applications in rotary encoders',\n'Hamming distance and error correction capability',\n'Synchronous vs asynchronous counter design',\n'Multiplexer as universal logic element',\n'7 segment display common anode vs cathode',\n'CRC polynomial division step by step',\n'Boolean matrix multiplication example',\n'How to read 5 band resistor color code',\n'PWM frequency calculation for Arduino',\n'NAND only implementation of XOR gate',\n'4 variable Karnaugh map grouping rules',\n'Binary subtraction using twos complement',\n'Bitwise shift operators in C programming',\n'Truth table to Boolean expression conversion',\n'Master slave JK flip flop timing diagram',\n'Demultiplexer as decoder application',\n'Full subtractor circuit design',\n'How to detect double bit errors with Hamming',\n'IEEE 754 denormalized numbers explained',\n'Excess 3 code vs BCD comparison',\n'Gray code counter advantages',\n'Checksum vs CRC error detection comparison',\n'4 bit binary counter state diagram',\n'8 to 1 MUX implementing 3 variable function',\n'Common cathode 7 segment display truth table',\n'PWM motor speed control theory',\n'Boolean algebra laws and theorems list',\n'How to convert -128 to twos complement 8 bit',\n'IEEE 754 single vs double precision comparison',\n'Bitwise AND for masking bits tutorial',\n'Gray code to binary conversion algorithm',\n'Hamming 7 4 code encoding example',\n'BCD adder circuit with correction',\n'T flip flop frequency divider',\n'4 to 16 decoder using demultiplexer',\n'Carry lookahead adder speed advantage',\n'Boolean matrix transitive closure',\n'Resistor tolerance and precision explained',\n'PWM DAC digital to analog conversion',\n'NAND gate transistor level implementation',\n'Sum of products vs product of sums',\n'Mod 10 counter using JK flip flops',\n'2 to 4 decoder truth table and circuit',\n'7 segment display multiplexing technique',\n'CRC 16 CCITT polynomial calculation',\n'Binary matrix adjacency graph representation',\n'5 band resistor vs 4 band accuracy',\n'50 percent duty cycle square wave generator',\n'Universal gate proof for NOR gate',\n'Karnaugh map dont care conditions',\n'Twos complement multiplication algorithm',\n'IEEE 754 rounding modes explained',\n'Bitwise operations for power of 2 check',\n'Gray code in Karnaugh map ordering',\n'SEC DED Hamming code implementation',\n'Packed vs unpacked BCD formats',\n'Edge triggered vs level triggered flip flops',\n'Priority encoder vs multiplexer difference',\n'Parallel adder carry propagation delay',\n'Boolean algebra simplification examples',\n'Ring counter vs Johnson counter comparison',\n'3 to 8 decoder circuit design',\n'7 segment display driver IC 7447',\n'CRC generator and checker circuit',\n'Weighted vs unweighted binary codes',\n'Resistor series E12 E24 E96 values',\n'Variable frequency PWM generation',\n'NAND flash memory basic operation',\n'Quine McCluskey method step by step',\n'Asynchronous counter glitch problem',\n'Dual slope ADC conversion principle',\n'7 segment display hexadecimal A to F',\n'Longitudinal redundancy check calculation',\n'Warshall algorithm Boolean matrix',\n'Resistor power rating derating curve',\n'PWM sine wave generation technique',\n'CMOS NAND gate power consumption'\n];\n\nconst dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);\nconst index = dayOfYear % topics.length;\nconst topic = topics[index];\nconst slug = topic.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');\nconst date = new Date().toISOString().slice(0,10);\n\nreturn [{json: {topic, slug, date, filename: 'blog/' + date + '-' + slug + '.html'}}];"
+      },
+      "id": "code1",
+      "name": "Pick Daily Topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{$env.ANTHROPIC_API_KEY}}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"model\":\"claude-sonnet-4-20250514\",\"max_tokens\":1500,\"messages\":[{\"role\":\"user\",\"content\":\"You are an expert in digital logic and computer architecture. Write a short article (300-500 words) in English for a technical blog. Topic: {{$json.topic}}. The article must: explain the concept clearly, give a concrete example with numbers, mention 'You can try this instantly at logic1min.me' ONCE at the end, use SEO keywords naturally, Format: title H1 + 3-4 paragraphs + 1 example. Return ONLY the HTML (h1, p, code, pre). No markdown.\"}]}"
+      },
+      "id": "http1",
+      "name": "Generate Article (Claude API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const article = $input.first().json.content?.[0]?.text || '';\nconst topic = $('Pick Daily Topic').first().json;\nconst template = `<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"><title>${topic.topic} | LogicMinimizer Blog</title><meta name=\"description\" content=\"${topic.topic} - step by step guide with examples. Free digital logic tools at logic1min.me.\"><link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap\" rel=\"stylesheet\"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;line-height:1.7;padding:2rem 1rem}article{max-width:700px;margin:0 auto}h1{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.8rem;margin-bottom:1.5rem}p{margin-bottom:1rem;font-size:1rem}code{background:#141420;padding:.2rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;color:#00ff88}pre{background:#141420;padding:1rem;border-radius:8px;overflow-x:auto;margin:1rem 0;font-family:'JetBrains Mono',monospace;color:#e0e0e0}a{color:#00ff88}.back{display:inline-block;margin-bottom:1rem;color:#00ff88;text-decoration:none;font-family:'JetBrains Mono',monospace}</style></head><body><article><a href=\"../index.html\" class=\"back\">← LogicMinimizer</a>${article}</article></body></html>`;\n\nreturn [{json: {content: template, path: topic.filename, message: 'Add blog: ' + topic.topic}}];"
+      },
+      "id": "code2",
+      "name": "Wrap in HTML Template",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.github.com/repos/abdallah785/logicminimizer/contents/{{$json.path}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.GITHUB_TOKEN}}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"message\":\"{{$json.message}}\",\"content\":\"{{Buffer.from($json.content).toString('base64')}}\"}"
+      },
+      "id": "http2",
+      "name": "Push to GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Daily 8AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Pick Daily Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Daily Topic": {
+      "main": [
+        [
+          {
+            "node": "Generate Article (Claude API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Article (Claude API)": {
+      "main": [
+        [
+          {
+            "node": "Wrap in HTML Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wrap in HTML Template": {
+      "main": [
+        [
+          {
+            "node": "Push to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1
+}

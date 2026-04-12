@@ -61,10 +61,29 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 .footer-text{font-size:13px;color:var(--text2)}.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
 .spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:768px){nav ul{display:none}.tool-header{flex-direction:column;align-items:flex-start}.result-row{flex-direction:column}.result-value{text-align:left}footer .container{flex-direction:column;text-align:center}.pricing-grid{grid-template-columns:1fr}}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
 </style>
 </head>
 <body>
-<nav><div class="container"><a href="index.html" class="logo">&gt; Logic<span>Minimizer</span>.io</a><div class="tool-nav"><a href="index.html" class="active">Simplifier</a><a href="circuit.html">Circuit</a><a href="karnaugh.html">Karnaugh</a><a href="timing.html">Timing</a><a href="states.html">States</a><a href="converter.html">Converter</a><a href="truthtable.html">Truth Table</a><a href="binary.html">Binary Calc</a><a href="#pricing" class="nav-cta">Get API Key</a></div></div></nav>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html" class="active">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+</div></nav>
 <div id="page-content">
 <section class="hero"><div class="container"><h1>Boolean Algebra Simplifier<br><span class="accent">Powered by AI</span></h1><p>Simplify any Boolean expression, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL. Free.</p><div class="hero-badges"><span class="badge">Karnaugh Maps</span><span class="badge">De Morgan's Laws</span><span class="badge">Structured Text</span><span class="badge">Ladder Logic</span><span class="badge">VHDL Export</span></div></div></section>
 <section class="tool-section" id="tool"><div class="container"><div class="tool-card"><div class="tool-header"><h2>&gt;_ Simplify</h2><div class="mode-toggle"><button class="mode-btn active" onclick="setMode('expr')">Expression</button><button class="mode-btn" onclick="setMode('tt')">Truth Table</button></div></div>

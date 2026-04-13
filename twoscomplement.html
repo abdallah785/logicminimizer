@@ -164,6 +164,175 @@ document.getElementById('resultBox').style.display='block';
 let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');document.getElementById('stepsBox').innerHTML=sh;}
 </script>
 <div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
+<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
+</body>
+                                                                                                                     </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two's Complement Calculator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Convert decimal to two's complement binary and back. Step-by-step conversion for 8, 16, 32 bits. Free online two's complement calculator.">
+<meta name="keywords" content="two's complement calculator, binary converter, signed binary, complement converter, digital logic">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
+.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}
+.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}
+.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}
+.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}
+.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}
+.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:800px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
+.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.input-group input,.input-group select{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
+.input-group input:focus{border-color:#00ff88}
+.bit-select{display:flex;gap:.5rem;margin-bottom:1rem}
+.bit-btn{padding:.5rem 1rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;cursor:pointer;border-radius:6px;transition:all .2s}
+.bit-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px;transition:transform .2s}
+.convert-btn:hover{transform:scale(1.02)}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #1a1a2e}
+.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}
+.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;word-break:break-all}
+.steps{margin-top:1rem}
+.step{background:#0d0d14;border-left:3px solid #00ff88;padding:.6rem .8rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
+.step-num{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
+.step-text{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.85rem;margin-top:.2rem}
+.range-info{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:.8rem;margin-top:.5rem;text-align:center}
+.range-info span{color:#00ff88;font-family:'JetBrains Mono',monospace}
+.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
+.faq{max-width:800px;margin:2rem auto;padding:0 1rem 3rem}
+.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}
+.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}
+.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}
+footer a{color:#00ff88;text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.4rem}.tool-nav-inner{padding:0 .5rem}.card{padding:1rem}}
+
+.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html" class="active">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
+</div></nav>
+<div id="page-content">
+<section class="hero">
+<h1>Two's Complement Calculator</h1>
+<p>Convert decimal to two's complement binary and back — step by step</p>
+</section>
+<section class="tool-section">
+<div class="card">
+<h3>// Mode</h3>
+<div class="mode-toggle">
+<button class="mode-btn active" onclick="setMode('dec2bin')">Decimal → Binary</button>
+<button class="mode-btn" onclick="setMode('bin2dec')">Binary → Decimal</button>
+</div>
+<h3>// Bits</h3>
+<div class="bit-select">
+<button class="bit-btn active" onclick="setBits(8)">8-bit</button>
+<button class="bit-btn" onclick="setBits(16)">16-bit</button>
+<button class="bit-btn" onclick="setBits(32)">32-bit</button>
+</div>
+<div class="range-info">Range: <span id="rangeDisplay">-128 → +127</span></div>
+<div id="dec2binInput" class="input-group" style="margin-top:1rem">
+<label>Decimal Input</label>
+<input type="text" id="decInput" placeholder="-42" oninput="validateDec()">
+<div class="error" id="decError"></div>
+</div>
+<div id="bin2decInput" class="input-group" style="margin-top:1rem;display:none">
+<label>Binary Input (two's complement)</label>
+<input type="text" id="binInput" placeholder="11010110" oninput="validateBin()">
+<div class="error" id="binError"></div>
+</div>
+<button class="convert-btn" onclick="convert()">Convert</button>
+<div class="result-box" id="resultBox">
+<div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec"></span></div>
+<div class="result-row"><span class="result-label">Binary (Two's Complement)</span><span class="result-value" id="resBin"></span></div>
+<div class="result-row"><span class="result-label">Hexadecimal</span><span class="result-value" id="resHex"></span></div>
+</div>
+<div class="steps" id="stepsBox"></div>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is two's complement?</h3><p>Two's complement is the standard method for representing signed integers in binary. The most significant bit indicates the sign: 0 for positive, 1 for negative.</p></div>
+<div class="faq-item"><h3>How do you convert a negative number to two's complement?</h3><p>First write the absolute value in binary, then invert all bits (one's complement), and finally add 1. For example, -42 in 8-bit: 42 = 00101010, invert = 11010101, add 1 = 11010110.</p></div>
+<div class="faq-item"><h3>What is the range of an 8-bit two's complement number?</h3><p>An 8-bit two's complement can represent values from -128 to +127. For n bits, the range is -(2^(n-1)) to +(2^(n-1) - 1).</p></div>
+<div class="faq-item"><h3>Why is two's complement used instead of sign-magnitude?</h3><p>Two's complement allows addition and subtraction to use the same circuit, has only one representation of zero, and simplifies hardware design in CPUs and ALUs.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+let mode='dec2bin',bits=8;
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='dec2bin')||(i===1&&m==='bin2dec')));document.getElementById('dec2binInput').style.display=m==='dec2bin'?'block':'none';document.getElementById('bin2decInput').style.display=m==='bin2dec'?'block':'none';document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
+function setBits(b){bits=b;document.querySelectorAll('.bit-btn').forEach(btn=>btn.classList.toggle('active',parseInt(btn.textContent)===b));const mn=-(Math.pow(2,b-1)),mx=Math.pow(2,b-1)-1;document.getElementById('rangeDisplay').textContent=mn+' → +'+mx;document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
+function validateDec(){const v=document.getElementById('decInput').value.trim(),e=document.getElementById('decError');if(v===''||/^-?\d+$/.test(v)){e.style.display='none';return true;}e.textContent='Only integers allowed (e.g. -42, 127)';e.style.display='block';return false;}
+function validateBin(){const v=document.getElementById('binInput').value.trim(),e=document.getElementById('binError');if(v===''||/^[01]+$/.test(v)){e.style.display='none';return true;}e.textContent='Only 0 and 1 allowed';e.style.display='block';return false;}
+function convert(){if(mode==='dec2bin')dec2bin();else bin2dec();}
+function dec2bin(){if(!validateDec())return;const v=parseInt(document.getElementById('decInput').value.trim());const mn=-(Math.pow(2,bits-1)),mx=Math.pow(2,bits-1)-1;if(isNaN(v)){return;}if(v<mn||v>mx){document.getElementById('decError').textContent='Out of range: '+mn+' to +'+mx;document.getElementById('decError').style.display='block';return;}
+let steps=[];let bin;
+if(v>=0){bin=v.toString(2).padStart(bits,'0');steps.push({n:'1',t:'Positive → direct binary: '+v+' = '+bin});}
+else{const abs=Math.abs(v);const absBin=abs.toString(2).padStart(bits,'0');steps.push({n:'1',t:'Absolute value: |'+v+'| = '+abs+' = '+absBin});
+const inv=absBin.split('').map(c=>c==='0'?'1':'0').join('');steps.push({n:'2',t:'Invert bits: '+inv});
+let carry=1;let res='';for(let i=inv.length-1;i>=0;i--){const s=parseInt(inv[i])+carry;res=(s%2)+res;carry=Math.floor(s/2);}
+bin=res;steps.push({n:'3',t:'Add 1: '+inv+' + 1 = '+bin});}
+const hex=BigInt('0b'+bin).toString(16).toUpperCase().padStart(bits/4,'0');
+document.getElementById('resDec').textContent=v;document.getElementById('resBin').textContent=bin.match(/.{1,4}/g).join(' ');document.getElementById('resHex').textContent='0x'+hex;
+document.getElementById('resultBox').style.display='block';
+let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');document.getElementById('stepsBox').innerHTML=sh;}
+function bin2dec(){if(!validateBin())return;let v=document.getElementById('binInput').value.trim();if(v.length>bits)v=v.slice(-bits);v=v.padStart(bits,'0');
+let steps=[];const msb=v[0];steps.push({n:'1',t:'MSB (sign bit) = '+msb+(msb==='1'?' → Negative':' → Positive')});
+let dec;
+if(msb==='0'){dec=parseInt(v,2);steps.push({n:'2',t:'Positive: '+v+' = '+dec});}
+else{const inv=v.split('').map(c=>c==='0'?'1':'0').join('');steps.push({n:'2',t:'Invert bits: '+inv});
+let carry=1;let res='';for(let i=inv.length-1;i>=0;i--){const s=parseInt(inv[i])+carry;res=(s%2)+res;carry=Math.floor(s/2);}
+steps.push({n:'3',t:'Add 1: '+res+' = '+parseInt(res,2)});dec=-parseInt(res,2);steps.push({n:'4',t:'Apply negative sign: '+dec});}
+const hex=BigInt('0b'+v).toString(16).toUpperCase().padStart(bits/4,'0');
+document.getElementById('resDec').textContent=dec;document.getElementById('resBin').textContent=v.match(/.{1,4}/g).join(' ');document.getElementById('resHex').textContent='0x'+hex;
+document.getElementById('resultBox').style.display='block';
+let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');document.getElementById('stepsBox').innerHTML=sh;}
+</script>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
 <script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
                                                                                                                      </html>

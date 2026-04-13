@@ -121,6 +121,132 @@ document.getElementById('resSel').textContent='Y'+selVal;document.getElementById
 buildSim();
 </script>
 <div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
+<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplexer Simulator — Free Online Tool | LogicMinimizer</title>
+<meta name="description" content="Interactive MUX/DEMUX simulator. 2:1, 4:1, 8:1 multiplexer and demultiplexer. Toggle inputs in real-time. Free online multiplexer simulator.">
+<meta name="keywords" content="multiplexer simulator, MUX DEMUX, data selector, combinational logic, digital circuit">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
+.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+#page-content{flex:1;overflow-y:auto}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
+.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
+.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
+.config-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.config-group{flex:1;min-width:150px}
+.config-group label{display:block;color:#b0b0b0;font-size:.8rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
+.config-group select{width:100%;padding:.5rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;border-radius:6px}
+.sim-area{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;margin:1.5rem 0}
+.io-col{display:flex;flex-direction:column;gap:.4rem}
+.io-btn{padding:.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;border-radius:6px;cursor:pointer;border:2px solid;transition:all .15s;min-width:70px;text-align:center}
+.io-btn.off{background:#1a1a2e;color:#666;border-color:#2a2a3e}
+.io-btn.on{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
+.io-btn.sel{background:#4488ff;color:#fff;border-color:#4488ff}
+.mux-box{background:#0d0d14;border:2px solid #00ff88;border-radius:8px;padding:1.5rem 1rem;text-align:center;min-width:100px}
+.mux-label{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.1rem}
+.output-display{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;padding:.5rem 1.5rem;border-radius:8px}
+.out-0{background:#1a1a2e;color:#666;border:2px solid #2a2a3e}
+.out-1{background:#00ff88;color:#0a0a0f;border:2px solid #00ff88}
+.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem}
+.result-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid #1a1a2e}.result-row:last-child{border:none}
+.result-label{color:#b0b0b0;font-size:.85rem}.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:600}
+.upgrade-banner{background:linear-gradient(135deg,#1a1a2e,#141420);border:1px solid #00ff88;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem}
+.upgrade-banner a{color:#00ff88;font-weight:600;text-decoration:none}
+.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
+.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
+footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
+
+.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">LogicMinimizer</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown"><a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown"><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html" class="active">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown"><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a></div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown"><a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a></div></div>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
+</div></nav>
+<div id="page-content">
+<section class="hero"><h1>Multiplexer / Demux Simulator</h1><p>Interactive MUX and DEMUX — toggle inputs in real-time</p></section>
+<section class="tool-section">
+<div class="card">
+<h3>// Configuration</h3>
+<div class="config-row">
+<div class="config-group"><label>Type</label><select id="muxType" onchange="buildSim()"><option value="mux">MUX</option><option value="demux">DEMUX</option></select></div>
+<div class="config-group"><label>Size</label><select id="muxSize" onchange="buildSim()"><option value="2">2:1</option><option value="4" selected>4:1</option><option value="8">8:1</option></select></div>
+</div>
+<div class="sim-area" id="simArea"></div>
+<div class="result-box" id="resultBox">
+<div class="result-row"><span class="result-label">Selected Input</span><span class="result-value" id="resSel"></span></div>
+<div class="result-row"><span class="result-label">Output</span><span class="result-value" id="resOut"></span></div>
+<div class="result-row"><span class="result-label">Expression</span><span class="result-value" id="resExpr"></span></div>
+</div>
+</div>
+<div class="upgrade-banner" id="limitBanner" style="display:none">
+<p style="margin-bottom:.5rem;color:#e0e0e0">Daily limit reached (3/3)</p>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank">Upgrade to Pro — unlimited + API — $4.99/month</a>
+</div>
+</section>
+<section class="faq">
+<h2>FAQ</h2>
+<div class="faq-item"><h3>What is a multiplexer?</h3><p>A multiplexer (MUX) selects one of several input signals and forwards it to a single output line. The selection is controlled by select lines. A 4:1 MUX has 4 inputs, 2 select lines, and 1 output.</p></div>
+<div class="faq-item"><h3>What is a demultiplexer?</h3><p>A demultiplexer (DEMUX) does the opposite — it takes one input and routes it to one of several outputs based on select lines. A 1:4 DEMUX has 1 input, 2 select lines, and 4 outputs.</p></div>
+<div class="faq-item"><h3>How are MUX/DEMUX used in practice?</h3><p>Multiplexers are used in data routing, communication systems, memory addressing, and implementing Boolean functions. They are fundamental building blocks in digital systems.</p></div>
+</section>
+<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+</div>
+<script>
+const LK='mux_uses';const MF=3;
+function gu(){const d=JSON.parse(localStorage.getItem(LK)||'{}');const t=new Date().toISOString().slice(0,10);return d[t]||0;}
+let inputs=[],selects=[],demuxInput=0;
+function buildSim(){const type=document.getElementById('muxType').value;const size=parseInt(document.getElementById('muxSize').value);
+const selCount=Math.log2(size);inputs=new Array(size).fill(0);selects=new Array(selCount).fill(0);demuxInput=0;
+const area=document.getElementById('simArea');let h='';
+if(type==='mux'){
+h+='<div class="io-col">';for(let i=0;i<size;i++)h+='<button class="io-btn off" onclick="toggleIn('+i+')" id="in'+i+'">I'+i+' = 0</button>';h+='</div>';
+h+='<div class="mux-box"><div class="mux-label">MUX '+size+':1</div></div>';
+h+='<div><div class="output-display out-0" id="outDisplay">0</div></div>';
+h+='<div class="io-col" style="margin-left:1rem">';for(let i=0;i<selCount;i++)h+='<button class="io-btn off" onclick="toggleSel('+i+')" id="sel'+i+'">S'+i+' = 0</button>';h+='</div>';
+}else{
+h+='<div><button class="io-btn off" onclick="toggleDemuxIn()" id="demuxIn">IN = 0</button></div>';
+h+='<div class="mux-box"><div class="mux-label">DEMUX 1:'+size+'</div></div>';
+h+='<div class="io-col">';for(let i=0;i<size;i++)h+='<div class="output-display out-0" id="dout'+i+'" style="font-size:1rem;padding:.3rem .8rem;margin:.2rem 0">Y'+i+' = 0</div>';h+='</div>';
+h+='<div class="io-col" style="margin-left:1rem">';for(let i=0;i<selCount;i++)h+='<button class="io-btn off" onclick="toggleSel('+i+')" id="sel'+i+'">S'+i+' = 0</button>';h+='</div>';
+}
+area.innerHTML=h;update();}
+function toggleIn(i){inputs[i]=inputs[i]?0:1;const b=document.getElementById('in'+i);b.className='io-btn '+(inputs[i]?'on':'off');b.textContent='I'+i+' = '+inputs[i];update();}
+function toggleSel(i){selects[i]=selects[i]?0:1;const b=document.getElementById('sel'+i);b.className='io-btn '+(selects[i]?'sel':'off');b.textContent='S'+i+' = '+selects[i];update();}
+function toggleDemuxIn(){demuxInput=demuxInput?0:1;const b=document.getElementById('demuxIn');b.className='io-btn '+(demuxInput?'on':'off');b.textContent='IN = '+demuxInput;update();}
+function update(){const type=document.getElementById('muxType').value;const size=parseInt(document.getElementById('muxSize').value);
+let selVal=0;selects.forEach((s,i)=>selVal+=s*Math.pow(2,i));
+if(type==='mux'){const out=inputs[selVal]||0;const od=document.getElementById('outDisplay');od.textContent=out;od.className='output-display out-'+out;
+document.getElementById('resSel').textContent='I'+selVal;document.getElementById('resOut').textContent=out;
+let expr='Y = ';const terms=[];for(let i=0;i<size;i++){let t='I'+i;selects.forEach((s,si)=>{t+=(i>>si&1)?'·S'+si:'·S'+si+"'";});terms.push(t);}
+document.getElementById('resExpr').textContent=terms.join(' + ');
+}else{for(let i=0;i<size;i++){const val=i===selVal?demuxInput:0;const d=document.getElementById('dout'+i);if(d){d.textContent='Y'+i+' = '+val;d.className='output-display out-'+val;}}
+document.getElementById('resSel').textContent='Y'+selVal;document.getElementById('resOut').textContent=demuxInput;document.getElementById('resExpr').textContent='Y'+selVal+' = IN (selected)';}}
+buildSim();
+</script>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
 <script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
 </html>

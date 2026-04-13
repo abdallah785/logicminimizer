@@ -222,6 +222,233 @@ buildSignals();showUsage();
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
 </script>
 <div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
+<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
+</body>
+  </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timing Diagram Generator — Digital Signal Waveforms | LogicMinimizer.io</title>
+<meta name="description" content="Generate timing diagrams for digital logic. Define input signals, set Boolean expression, see output waveform. Download SVG.">
+<meta name="keywords" content="timing diagram generator, digital timing diagram, waveform generator, logic signal timing, digital waveform online">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}.logo span{color:var(--text)}
+.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
+
+
+
+.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}
+#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
+.tool-section{padding:20px 0 60px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:900px;margin:0 auto}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.expr-input{width:100%;padding:12px 18px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;transition:border-color .2s}.expr-input:focus{border-color:var(--accent)}.expr-input::placeholder{color:#555}
+.signal-grid{margin:20px 0}
+.signal-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.signal-label{width:40px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text2);text-align:right}
+.signal-cells{display:flex;gap:2px}
+.sig-cell{width:48px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;border-radius:4px;cursor:pointer;transition:all .15s;border:1px solid var(--border)}
+.sig-cell.v0{background:var(--bg);color:var(--text2)}
+.sig-cell.v1{background:var(--accent);color:var(--bg)}
+.sig-cell.out0{background:var(--bg3);color:var(--text2);cursor:default}
+.sig-cell.out1{background:#00ff8844;color:var(--accent);cursor:default;border-color:var(--accent)}
+.time-header{display:flex;gap:2px;margin-left:48px;margin-bottom:4px}
+.time-header span{width:48px;text-align:center;font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.gen-btn{width:100%;padding:14px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin:16px 0}.gen-btn:hover{background:var(--accent2)}
+.usage-info{text-align:center;font-size:12px;color:var(--text2);margin-bottom:16px}
+.svg-container{display:none;margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
+.svg-wrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;overflow:visible}
+.dl-row{display:flex;gap:12px;margin-top:16px;justify-content:center}
+.dl-btn{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;border:1px solid var(--border);background:var(--bg3);color:var(--text2)}.dl-btn:hover{border-color:var(--accent);color:var(--accent)}
+.dl-btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.var-controls{display:flex;gap:12px;align-items:center;margin-bottom:16px;justify-content:center;flex-wrap:wrap}
+.var-controls label{font-size:13px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.var-controls select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.upgrade-banner{background:linear-gradient(135deg,#0a1a12,#0a0f1a);border:1px solid var(--accent);border-radius:12px;padding:24px;margin:24px 0 0;text-align:center}.upgrade-banner h3{color:var(--accent);margin-bottom:8px;font-size:16px}.upgrade-banner p{color:var(--text2);font-size:13px;margin-bottom:12px}
+.upgrade-btn{display:inline-block;background:var(--accent);color:var(--bg);padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px}
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-text{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
+@media(max-width:768px){.tool-nav{display:none}footer .container{flex-direction:column;text-align:center}.sig-cell{width:36px;height:28px;font-size:11px}.time-header span{width:36px}}
+
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
+.tool-nav-inner::-webkit-scrollbar{height:0}
+.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
+.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
+
+.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner"><a href="index.html" class="nav-brand">LogicMinimizer</a><div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown"><a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div></div><div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown"><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a></div></div><div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown"><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a></div></div><div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown"><a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a></div></div><a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a></div></nav>
+<div id="page-content">
+<section class="hero"><div class="container">
+<h1>Timing Diagram <span class="accent">Generator</span></h1>
+<p>Define input signals, set a Boolean expression, visualize the output waveform in real time.</p>
+</div></section>
+<section class="tool-section"><div class="container"><div class="tool-card">
+<div class="var-controls">
+<label>Inputs:</label>
+<select id="numInputs" onchange="buildSignals()">
+<option value="2">2 (A, B)</option>
+<option value="3" selected>3 (A, B, C)</option>
+<option value="4">4 (A, B, C, D)</option>
+</select>
+<label>Steps:</label>
+<select id="numSteps" onchange="buildSignals()">
+<option value="8" selected>8</option>
+</select>
+</div>
+<div class="input-group">
+<label>// output expression</label>
+<input type="text" class="expr-input" id="exprInput" placeholder="A AND B OR NOT C" oninput="updateOutput()" spellcheck="false" autocomplete="off">
+</div>
+<div class="signal-grid" id="signalGrid"></div>
+<button class="gen-btn" onclick="generateSVG()">Generate Timing Diagram</button>
+<div class="usage-info" id="usageInfo"></div>
+<div class="svg-container" id="svgContainer">
+<div class="svg-wrap" id="svgWrap"></div>
+<div class="dl-row">
+<button class="dl-btn primary" onclick="downloadSVG()">Download SVG</button>
+</div>
+</div>
+<div class="upgrade-banner">
+<h3>Need more?</h3>
+<p>Pro: unlimited inputs, more time steps, API access.</p>
+<a href="index.html#pricing" class="upgrade-btn">Upgrade — $4.99/mo</a>
+</div>
+</div></div></section>
+<footer><div class="container">
+<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
+<div class="footer-links"><a href="index.html#api">API Docs</a><a href="index.html#pricing">Pricing</a><a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a></div>
+</div></footer>
+</div>
+<script>
+const LIMIT=3,SKEY='lgm_td';
+let signals={};
+function getUsage(){const d=JSON.parse(localStorage.getItem(SKEY)||'{}');const t=new Date().toISOString().split('T')[0];if(d.date!==t)return{date:t,count:0};return d}
+function incUsage(){const u=getUsage();u.count++;localStorage.setItem(SKEY,JSON.stringify(u));showUsage()}
+function showUsage(){const u=getUsage();document.getElementById('usageInfo').textContent=(LIMIT-u.count)+'/'+LIMIT+' free diagrams today'}
+function buildSignals(){
+  const ni=parseInt(document.getElementById('numInputs').value);
+  const ns=parseInt(document.getElementById('numSteps').value);
+  const vars=['A','B','C','D'].slice(0,ni);
+  signals={};vars.forEach(v=>{signals[v]=new Array(ns).fill(0)});
+  renderGrid();
+}
+function renderGrid(){
+  const ni=parseInt(document.getElementById('numInputs').value);
+  const ns=parseInt(document.getElementById('numSteps').value);
+  const vars=['A','B','C','D'].slice(0,ni);
+  let h='<div class="time-header">';
+  for(let t=0;t<ns;t++)h+='<span>t'+t+'</span>';
+  h+='</div>';
+  vars.forEach(v=>{
+    h+='<div class="signal-row"><span class="signal-label">'+v+'</span><div class="signal-cells">';
+    for(let t=0;t<ns;t++){
+      const val=signals[v][t];
+      h+='<div class="sig-cell '+(val?'v1':'v0')+'" data-var="'+v+'" data-t="'+t+'" onclick="toggleSig(this)">'+val+'</div>';
+    }
+    h+='</div></div>';
+  });
+  h+='<div class="signal-row"><span class="signal-label" style="color:var(--accent)">F</span><div class="signal-cells" id="outputCells">';
+  for(let t=0;t<ns;t++)h+='<div class="sig-cell out0" id="out_'+t+'">0</div>';
+  h+='</div></div>';
+  document.getElementById('signalGrid').innerHTML=h;
+  updateOutput();
+}
+function toggleSig(el){
+  const v=el.dataset.var,t=parseInt(el.dataset.t);
+  signals[v][t]=signals[v][t]?0:1;
+  el.textContent=signals[v][t];
+  el.className='sig-cell '+(signals[v][t]?'v1':'v0');
+  updateOutput();
+}
+function evalBool(expr,vals){
+  let e=expr.toUpperCase();
+  Object.keys(vals).sort((a,b)=>b.length-a.length).forEach(v=>{e=e.replace(new RegExp('\\b'+v+'\\b','g'),vals[v]?'true':'false')});
+  e=e.replace(/\bNOT\b/g,'!').replace(/\bAND\b/g,'&&').replace(/\bOR\b/g,'||').replace(/\bXOR\b/g,'!==');
+  try{return Function('"use strict";return('+e+')?1:0')()}catch{return 0}
+}
+function updateOutput(){
+  const expr=document.getElementById('exprInput').value.trim();
+  if(!expr)return;
+  const ns=parseInt(document.getElementById('numSteps').value);
+  for(let t=0;t<ns;t++){
+    const vals={};Object.keys(signals).forEach(v=>{vals[v]=signals[v][t]});
+    const out=evalBool(expr,vals);
+    const el=document.getElementById('out_'+t);
+    if(el){el.textContent=out;el.className='sig-cell '+(out?'out1':'out0')}
+  }
+}
+function generateSVG(){
+  const u=getUsage();if(u.count>=LIMIT){alert('Daily limit reached. Upgrade to Pro.');return}
+  const expr=document.getElementById('exprInput').value.trim();
+  if(!expr)return;
+  const ns=parseInt(document.getElementById('numSteps').value);
+  const vars=Object.keys(signals);
+  const allSigs=[...vars,'F'];
+  const sw=60,sh=40,lw=50,pad=20;
+  const w=lw+ns*sw+pad*2;const h=allSigs.length*(sh+10)+pad*2;
+  let svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'">';
+  svg+='<rect width="'+w+'" height="'+h+'" fill="#0a0a0f"/>';
+  // Time grid
+  for(let t=0;t<=ns;t++){
+    const x=lw+pad+t*sw;
+    svg+='<line x1="'+x+'" y1="'+pad/2+'" x2="'+x+'" y2="'+(h-pad/2)+'" stroke="#2a2a3a" stroke-width="0.5"/>';
+    if(t<ns)svg+='<text x="'+(x+sw/2)+'" y="'+(pad-4)+'" text-anchor="middle" fill="#888" font-family="JetBrains Mono, monospace" font-size="9">t'+t+'</text>';
+  }
+  allSigs.forEach((sig,si)=>{
+    const y=pad+si*(sh+10);
+    const isOutput=sig==='F';
+    const color=isOutput?'#00ff88':'#e0e0e0';
+    svg+='<text x="'+(pad)+'" y="'+(y+sh/2+4)+'" fill="'+color+'" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700">'+sig+'</text>';
+    const data=isOutput?[]:signals[sig];
+    const vals=[];
+    for(let t=0;t<ns;t++){
+      if(isOutput){const v={};vars.forEach(vr=>{v[vr]=signals[vr][t]});vals.push(evalBool(expr,v))}
+      else vals.push(data[t]);
+    }
+    let path='M';
+    for(let t=0;t<ns;t++){
+      const x1=lw+pad+t*sw,x2=x1+sw;
+      const yh=vals[t]?y:y+sh;
+      if(t===0)path+=x1+' '+yh+' ';
+      else{const prevY=vals[t-1]?y:y+sh;if(prevY!==yh)path+='L '+x1+' '+yh+' ';else path+='L '+x1+' '+yh+' '}
+      path+='L '+x2+' '+yh+' ';
+    }
+    svg+='<path d="'+path+'" fill="none" stroke="'+color+'" stroke-width="2"/>';
+  });
+  svg+='</svg>';
+  document.getElementById('svgWrap').innerHTML=svg;
+  document.getElementById('svgContainer').style.display='block';
+  incUsage();
+}
+function downloadSVG(){
+  const svg=document.getElementById('svgWrap').innerHTML;
+  const blob=new Blob([svg],{type:'image/svg+xml'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='timing.svg';a.click();
+}
+buildSignals();showUsage();
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+</script>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
 <script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
   </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LogicMinimizer.io â Boolean Algebra Simplifier</title>
+<title>LogicMinimizer.io &mdash; Boolean Algebra Simplifier</title>
 <meta name="description" content="Simplify Boolean expressions, solve Karnahugh maps, export to Structured Text, Ladder Logic & VHDL. Free online tool + API.">
 <meta name="keywords" content="boolean algebra, simplifier, karnaugh map, logic gates, PLC, ladder logic, VHDL, structured text">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,16 +88,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <body>
 <nav class="tool-nav"><div class="tool-nav-inner">
 <a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic â¾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Logic &#9662;</button><div class="nav-dropdown">
 <a href="index.html" class="active">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits â¾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Circuits &#9662;</button><div class="nav-dropdown">
 <a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters â¾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Converters &#9662;</button><div class="nav-dropdown">
 <a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators â¾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Calculators &#9662;</button><div class="nav-dropdown">
 <a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
 </div></div>
 <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
@@ -112,16 +112,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <div class="results" id="results"><div class="result-row"><span class="result-label">Original</span><span class="result-value mono" id="resOriginal"></span></div><div class="result-row"><span class="result-label">Simplified</span><span class="result-value accent mono" id="resSimplified"></span></div>
 <div class="stats-row"><div class="stat-box"><div class="stat-number" id="resReduction">0%</div><div class="stat-label">Reduction</div></div><div class="stat-box"><div class="stat-number" id="resGatesBefore">0</div><div class="stat-label">Gates Before</div></div><div class="stat-box"><div class="stat-number" id="resGatesAfter">0</div><div class="stat-label">Gates After</div></div></div>
 <div class="warning-box" id="resWarning" style="display:none"></div></div></div>
-<div class="upgrade-banner"><h3>Need more power?</h3><p>Go Pro: unlimited variables, export to Structured Text, Ladder Logic, VHDL, full API access.</p><a href="#pricing" class="upgrade-btn">Upgrade â $4.99/month</a></div></div></section>
+<div class="upgrade-banner"><h3>Need more power?</h3><p>Go Pro: unlimited variables, export to Structured Text, Ladder Logic, VHDL, full API access.</p><a href="#pricing" class="upgrade-btn">Upgrade &mdash; $4.99/month</a></div></div></section>
 <section class="api-section" id="api"><div class="container"><h2 class="section-title">API Documentation</h2><p class="section-subtitle">Integrate Boolean simplification into your pipeline. REST API, JSON in/out.</p>
 <div class="code-label">Endpoint</div><div class="code-block"><pre><span class="keyword">POST</span> https://n8n.iaspacdz.live/webhook/api/optimize
 <span class="keyword">Authorization:</span> Bearer YOUR_API_KEY
 <span class="keyword">Content-Type:</span> application/json</pre></div>
-<div class="code-label">Request â Expression mode</div><div class="code-block"><pre>{
+<div class="code-label">Request &mdash; Expression mode</div><div class="code-block"><pre>{
   <span class="string">"expression"</span>: <span class="string">"A AND B OR A AND C OR NOT A AND B"</span>,
   <span class="string">"output_format"</span>: <span class="string">"boolean"</span>
 }</pre></div>
-<div class="code-label">Request â Truth table mode</div><div class="code-block"><pre>{
+<div class="code-label">Request &mdash; Truth table mode</div><div class="code-block"><pre>{
   <span class="string">"truth_table"</span>: {
     <span class="string">"variables"</span>: [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>],
     <span class="string">"outputs"</span>: [0, 0, 1, 1, 0, 1, 1, 1]

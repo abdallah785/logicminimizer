@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LogicMinimizer.io — Boolean Algebra Simplifier</title>
+<title>LogicMinimizer.io â Boolean Algebra Simplifier</title>
 <meta name="description" content="Simplify Boolean expressions, solve Karnahugh maps, export to Structured Text, Ladder Logic & VHDL. Free online tool + API.">
 <meta name="keywords" content="boolean algebra, simplifier, karnaugh map, logic gates, PLC, ladder logic, VHDL, structured text">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 .nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
 .nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
 .nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow-x:auto}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
 .tool-nav-inner::-webkit-scrollbar{height:0}
 .nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
 
@@ -88,16 +88,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <body>
 <nav class="tool-nav"><div class="tool-nav-inner">
 <a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Logic â¾</button><div class="nav-dropdown">
 <a href="index.html" class="active">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Circuits â¾</button><div class="nav-dropdown">
 <a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Converters â¾</button><div class="nav-dropdown">
 <a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Calculators â¾</button><div class="nav-dropdown">
 <a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
 </div></div>
 <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
@@ -112,16 +112,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <div class="results" id="results"><div class="result-row"><span class="result-label">Original</span><span class="result-value mono" id="resOriginal"></span></div><div class="result-row"><span class="result-label">Simplified</span><span class="result-value accent mono" id="resSimplified"></span></div>
 <div class="stats-row"><div class="stat-box"><div class="stat-number" id="resReduction">0%</div><div class="stat-label">Reduction</div></div><div class="stat-box"><div class="stat-number" id="resGatesBefore">0</div><div class="stat-label">Gates Before</div></div><div class="stat-box"><div class="stat-number" id="resGatesAfter">0</div><div class="stat-label">Gates After</div></div></div>
 <div class="warning-box" id="resWarning" style="display:none"></div></div></div>
-<div class="upgrade-banner"><h3>Need more power?</h3><p>Go Pro: unlimited variables, export to Structured Text, Ladder Logic, VHDL, full API access.</p><a href="#pricing" class="upgrade-btn">Upgrade — $4.99/month</a></div></div></section>
+<div class="upgrade-banner"><h3>Need more power?</h3><p>Go Pro: unlimited variables, export to Structured Text, Ladder Logic, VHDL, full API access.</p><a href="#pricing" class="upgrade-btn">Upgrade â $4.99/month</a></div></div></section>
 <section class="api-section" id="api"><div class="container"><h2 class="section-title">API Documentation</h2><p class="section-subtitle">Integrate Boolean simplification into your pipeline. REST API, JSON in/out.</p>
 <div class="code-label">Endpoint</div><div class="code-block"><pre><span class="keyword">POST</span> https://n8n.iaspacdz.live/webhook/api/optimize
 <span class="keyword">Authorization:</span> Bearer YOUR_API_KEY
 <span class="keyword">Content-Type:</span> application/json</pre></div>
-<div class="code-label">Request — Expression mode</div><div class="code-block"><pre>{
+<div class="code-label">Request â Expression mode</div><div class="code-block"><pre>{
   <span class="string">"expression"</span>: <span class="string">"A AND B OR A AND C OR NOT A AND B"</span>,
   <span class="string">"output_format"</span>: <span class="string">"boolean"</span>
 }</pre></div>
-<div class="code-label">Request — Truth table mode</div><div class="code-block"><pre>{
+<div class="code-label">Request â Truth table mode</div><div class="code-block"><pre>{
   <span class="string">"truth_table"</span>: {
     <span class="string">"variables"</span>: [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>],
     <span class="string">"outputs"</span>: [0, 0, 1, 1, 0, 1, 1, 1]
@@ -158,7 +158,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}footer 
 <div class="case-card"><div class="case-icon">&#128268;</div><h3>No-Code Developers</h3><p>Simplify complex IF/ELSE workflows. Turn messy conditional logic into clean, minimal expressions for Zapier, Make, n8n.</p></div>
 <div class="case-card"><div class="case-icon">&#9889;</div><h3>FPGA Designers</h3><p>Optimize gate count for synthesis. Export to VHDL. Reduce LUT usage and improve timing closure on Xilinx, Intel, Lattice FPGAs.</p></div>
 </div></div></section>
-<footer><div class="container"><div class="footer-text">Made with AI. 100% neutral. Pure mathematics. &copy; 2026 LogicMinimizer.io</div><div class="footer-links"><a href="#api">API Docs</a><a href="#pricing">Pricing</a><a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a></div></div></footer>
+<footer><div class="container"><div class="footer-text">Made with AI. 100% neutral. Pure mathematics. &copy; 2026 LogicMinimizer.io</div><div class="footer-links"><a href="#api">API Docs</a><a href="#pricing">Pricing</a></div></div></footer>
 </div>
 <script>
 // Smooth scroll for anchor links inside #page-content

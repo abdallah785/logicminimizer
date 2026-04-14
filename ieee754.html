@@ -2,132 +2,137 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IEEE 754 Floating Point Converter — Free Online Tool | LogicMinimizer</title>
-<meta name="description" content="Convert decimal to IEEE 754 binary representation. Visualize sign, exponent, mantissa bits. Supports 32-bit and 64-bit. Free IEEE 754 converter.">
-<meta name="keywords" content="IEEE 754 converter, floating point converter, binary float, single precision, double precision">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IEEE 754 Float Converter | Logic1Min</title>
+<meta name="description" content="Free online IEEE 754 floating point converter. Convert decimal to IEEE 754 binary with visual bit breakdown for single and double precision.">
+<meta name="keywords" content="IEEE 754, floating point, float converter, binary representation, single precision, double precision, logic1min">
+<link rel="canonical" href="https://logic1min.me/ieee754.html">
+<meta property="og:title" content="IEEE 754 Float Converter - Logic1Min">
+<meta property="og:description" content="Convert decimal to IEEE 754 binary with visual sign, exponent, and mantissa breakdown.">
+<meta property="og:url" content="https://logic1min.me/ieee754.html">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"IEEE 754 Float Converter","url":"https://logic1min.me/ieee754.html","applicationCategory":"EducationalApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online IEEE 754 floating point converter. Convert decimal to IEEE 754 binary with visual bit breakdown for single and double precision."}</script>
 <style>
+:root{--bg-primary:#0a0a0f;--bg-secondary:#0d1117;--bg-card:#131a24;--accent:#00e5cc;--accent2:#00b4d8;--accent3:#48cae4;--gradient:linear-gradient(135deg,#00e5cc,#00b4d8);--text-primary:#e0e8f0;--text-secondary:#6b7f99;--border:#1e2d3d;--error:#ff4466;--hover:rgba(0,229,204,.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
-.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
-.tool-nav-inner::-webkit-scrollbar{height:0}
-.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
-.nav-cat{position:relative}
-.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}
-.nav-cat-btn:hover{color:#00ff88}
-.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.nav-cat:hover .nav-dropdown{display:block}
-.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}
-.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}
-.nav-dropdown a.active{color:#00ff88;font-weight:600}
-.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-#page-content{flex:1;overflow-y:auto}
-.hero{text-align:center;padding:2.5rem 1rem 1.5rem}
-.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}
-.hero p{color:#b0b0b0;font-size:1rem}
-.tool-section{max-width:900px;margin:0 auto;padding:0 1rem 2rem}
-.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
-.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
-.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
-.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
-.input-group{margin-bottom:1rem}
-.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
-.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
-.input-group input:focus{border-color:#00ff88}
-.prec-select{display:flex;gap:.5rem;margin-bottom:1rem}
-.prec-btn{flex:1;padding:.5rem 1rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;cursor:pointer;border-radius:6px;transition:all .2s;text-align:center}
-.prec-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
-.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px;transition:transform .2s}
-.convert-btn:hover{transform:scale(1.02)}
-.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
-.bits-visual{display:flex;flex-wrap:wrap;margin:1rem 0;gap:1px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
-.bit{padding:.3rem .25rem;text-align:center;min-width:1.4rem;border-radius:3px;font-weight:600}
+body{background:var(--bg-primary);color:var(--text-primary);font-family:"Inter",sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+.main-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:"Space Grotesk",sans-serif;font-size:1.4rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-dropdown{position:relative}
+.nav-dropdown-btn{background:none;border:none;color:var(--text-secondary);font-family:"Inter",sans-serif;font-size:.92rem;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:8px;transition:all .2s}
+.nav-dropdown-btn:hover,.nav-dropdown.active .nav-dropdown-btn{color:var(--text-primary);background:var(--hover)}
+.nav-dropdown-content{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:8px;min-width:200px;box-shadow:0 12px 32px rgba(0,0,0,.4);z-index:1001}
+.nav-dropdown:hover .nav-dropdown-content{display:block}
+.nav-dropdown-content a{display:block;padding:9px 14px;color:var(--text-secondary);border-radius:8px;font-size:.9rem;transition:all .15s;white-space:nowrap}
+.nav-dropdown-content a:hover,.nav-dropdown-content a.active-page{background:var(--hover);color:var(--accent)}
+.nav-pro-btn{padding:8px 20px;background:var(--gradient);color:var(--bg-primary);border:none;border-radius:8px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:"Inter",sans-serif;transition:transform .15s,box-shadow .15s}
+.nav-pro-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,229,204,.3)}
+.hamburger{display:none;background:none;border:none;color:var(--text-primary);cursor:pointer;padding:8px}
+.hero-section{padding:100px 24px 40px;text-align:center;max-width:800px;margin:0 auto}
+.hero-section h1{font-family:"Space Grotesk",sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:16px}
+.hero-section h1 .accent{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-section p{color:var(--text-secondary);font-size:1.15rem;max-width:600px;margin:0 auto}
+.tool-section{max-width:900px;margin:0 auto;padding:0 24px 60px}
+.tool-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:32px}
+.tool-card h3{font-family:"Space Grotesk",sans-serif;font-size:1.3rem;margin-bottom:20px;color:var(--text-primary)}
+.try-example-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(0,229,204,.1);color:var(--accent);border:1px solid rgba(0,229,204,.25);border-radius:8px;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:"Inter",sans-serif;margin-bottom:18px}
+.try-example-btn:hover{background:rgba(0,229,204,.18);transform:translateY(-1px)}
+.related-section{max-width:900px;margin:0 auto;padding:0 24px 60px}
+.related-section h2{font-family:"Space Grotesk",sans-serif;font-size:1.6rem;margin-bottom:24px;color:var(--text-primary);text-align:center}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.related-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .2s;display:block;color:var(--text-primary)}
+.related-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,229,204,.1)}
+.related-card .rc-icon{font-size:1.8rem;margin-bottom:8px}
+.related-card h4{font-size:1rem;margin-bottom:4px}
+.related-card p{font-size:.82rem;color:var(--text-secondary)}
+.site-footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:48px 24px 24px;margin-top:40px}
+.footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+.footer-col h4{font-family:"Space Grotesk",sans-serif;font-size:1rem;color:var(--text-primary);margin-bottom:12px}
+.footer-col a{display:block;color:var(--text-secondary);font-size:.88rem;padding:4px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.82rem}
+.animate-on-scroll{opacity:0;transform:translateY(25px);transition:opacity .6s ease,transform .6s ease;will-change:opacity,transform}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+.pro-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center}
+.pro-modal-overlay.show{display:flex}
+.pro-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px;max-width:440px;width:90%;text-align:center}
+.pro-modal h2{font-family:"Space Grotesk",sans-serif;margin-bottom:8px}
+.pro-modal p{color:var(--text-secondary);margin-bottom:20px;font-size:.95rem}
+.pro-modal .pricing-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.pro-modal .pricing-options a{display:block;padding:12px;border-radius:10px;font-weight:600;font-size:.95rem;transition:transform .15s}
+.pro-modal .pricing-options a.primary{background:var(--gradient);color:var(--bg-primary)}
+.pro-modal .pricing-options a.secondary{background:var(--hover);color:var(--accent);border:1px solid rgba(0,229,204,.25)}
+.pro-modal .pricing-options a:hover{transform:translateY(-2px)}
+.key-input-group{display:flex;gap:8px;margin-top:16px}
+.key-input-group input{flex:1;padding:10px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-family:"JetBrains Mono",monospace;font-size:.85rem;outline:none}
+.key-input-group input:focus{border-color:var(--accent)}
+.key-input-group button{padding:10px 18px;background:var(--gradient);color:var(--bg-primary);border:none;border-radius:8px;font-weight:600;cursor:pointer}
+.pro-modal .close-modal{margin-top:16px;background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:.9rem}
+.pro-modal .close-modal:hover{color:var(--text-primary)}
+@media(max-width:768px){.hamburger{display:block}.nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);flex-direction:column;padding:16px}.nav-links.open{display:flex}.nav-dropdown-content{position:static;box-shadow:none;border:none;background:transparent;display:none;padding-left:16px}.nav-dropdown.open .nav-dropdown-content{display:block}.hero-section h1{font-size:2rem}.tool-card{padding:20px}.related-grid{grid-template-columns:repeat(2,1fr)}}
+.input-group{margin-bottom:18px}.input-group label{display:block;font-size:.97rem;color:#6b7f99;margin-bottom:7px;font-family:'Inter',sans-serif}.expr-input{width:100%;padding:13px 16px;background:#0d1117;border:1.5px solid #1e2d3d;border-radius:10px;color:#e0e8f0;font-size:1.05rem;font-family:'JetBrains Mono',monospace;outline:none;transition:border .2s}.expr-input:focus{border-color:#00e5cc}.gen-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:linear-gradient(135deg,#00e5cc,#00b4d8);color:#0a0a0f;border:none;border-radius:10px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform .18s,box-shadow .18s;font-family:'Space Grotesk',sans-serif}.gen-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,229,204,.25)}.usage-info{margin-top:10px;font-size:.85rem;color:#6b7f99}.result-section{margin-top:28px}.result-block{background:#0d1117;border:1px solid #1e2d3d;border-radius:10px;padding:18px;margin-bottom:14px}.result-block h4{color:#00e5cc;margin:0 0 8px;font-size:1rem}.result-block pre,.result-block code{color:#e0e8f0;font-family:'JetBrains Mono',monospace;font-size:.95rem;white-space:pre-wrap;word-break:break-all}.upgrade-banner{margin-top:24px;padding:18px;background:linear-gradient(135deg,rgba(0,229,204,.1),rgba(0,180,216,.1));border:1px solid rgba(0,229,204,.25);border-radius:12px;text-align:center}.upgrade-banner p{color:#e0e8f0;margin:0 0 10px;font-size:1rem}.upgrade-banner a{color:#00e5cc;font-weight:600;text-decoration:none}select{padding:10px 14px;background:#0d1117;border:1.5px solid #1e2d3d;border-radius:8px;color:#e0e8f0;font-size:.95rem;font-family:'Inter',sans-serif;outline:none;cursor:pointer}select:focus{border-color:#00e5cc}table{width:100%;border-collapse:collapse;margin-top:12px}th{background:#0d1117;color:#00e5cc;padding:10px 12px;text-align:left;font-size:.9rem;border-bottom:2px solid #1e2d3d}td{padding:9px 12px;color:#e0e8f0;font-family:'JetBrains Mono',monospace;font-size:.9rem;border-bottom:1px solid #1e2d3d}tr:hover td{background:rgba(0,229,204,.04)}
+.mode-toggle{display:flex;gap:8px;margin-bottom:20px}
+.mode-btn{padding:10px 20px;background:var(--bg-secondary);border:1.5px solid var(--border);border-radius:10px;color:var(--text-secondary);cursor:pointer;font-family:"Inter",sans-serif;font-size:.9rem;transition:all .2s}
+.mode-btn:hover{border-color:var(--accent);color:var(--text-primary)}
+.mode-btn.active{background:var(--accent);color:var(--bg-primary);border-color:var(--accent);font-weight:600}
+.prec-select{display:flex;gap:8px;margin-bottom:20px}
+.prec-btn{flex:1;padding:10px;background:var(--bg-secondary);border:1.5px solid var(--border);border-radius:10px;color:var(--text-secondary);cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:.85rem;text-align:center;transition:all .2s}
+.prec-btn.active{background:var(--accent);color:var(--bg-primary);border-color:var(--accent);font-weight:600}
+.error-msg{color:var(--error);font-size:.85rem;margin-top:4px;min-height:20px}
+.result-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:20px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(30,45,61,.5)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:var(--text-secondary);font-size:.9rem}
+.result-value{color:var(--accent);font-family:"JetBrains Mono",monospace;font-weight:600;word-break:break-all}
+.bits-visual{display:flex;flex-wrap:wrap;gap:1px;margin-bottom:12px;font-family:"JetBrains Mono",monospace;font-size:.85rem}
+.bit{padding:4px 3px;text-align:center;min-width:18px;border-radius:3px;font-weight:600}
 .bit-sign{background:#ff4444;color:#fff}
 .bit-exp{background:#4488ff;color:#fff}
-.bit-mant{background:#00cc6a;color:#fff}
-.bit-labels{display:flex;gap:1rem;margin-bottom:.5rem;font-size:.78rem;font-family:'JetBrains Mono',monospace}
-.bit-labels span{padding:.2rem .5rem;border-radius:3px}
-.result-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #1a1a2e;flex-wrap:wrap}
-.result-row:last-child{border:none}
-.result-label{color:#b0b0b0;font-size:.85rem}
-.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;word-break:break-all}
-.steps{margin-top:1rem}
-.step{background:#0d0d14;border-left:3px solid #00ff88;padding:.6rem .8rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
-.step-num{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
-.step-text{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-top:.2rem;word-break:break-all}
-.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
-.faq{max-width:900px;margin:2rem auto;padding:0 1rem 3rem}
-.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
-.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}
-.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}
-.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
-footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}
-footer a{color:#00ff88;text-decoration:none}
-@media(max-width:600px){.hero h1{font-size:1.3rem}.bit{min-width:1.1rem;font-size:.7rem;padding:.2rem .15rem}}
+.bit-mant{background:#44cc88;color:#fff}
+.steps{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:16px;font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--text-primary);line-height:1.8}
 
-.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
 </style>
 </head>
 <body>
-<nav class="tool-nav"><div class="tool-nav-inner">
-<a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
-<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
-<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
-<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html" class="active">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
-<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
-</div></div>
-<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
-<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
-</div></nav>
-<div id="page-content">
-<section class="hero">
-<h1>IEEE 754 Floating Point Converter</h1>
-<p>Convert decimal to IEEE 754 binary — visualize sign, exponent, mantissa</p>
-</section>
-<section class="tool-section">
-<div class="card">
-<h3>// Mode</h3>
+<nav class="main-nav"><a href="index.html" class="nav-logo">Logic1Min</a>
+<button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+<div class="nav-links">
+<div class="nav-dropdown"><button class="nav-dropdown-btn">Logic Tools <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="converter.html">Base Converter</a><a href="binary.html">Binary Calculator</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a><a href="nandonly.html">NAND/NOR Logic</a></div></div><div class="nav-dropdown"><button class="nav-dropdown-btn">Circuit Tools <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="circuit.html">Circuit Visualizer</a><a href="timing.html">Timing Diagram</a><a href="states.html">State Machine</a><a href="flipflop.html">Flip-Flop Simulator</a><a href="mux.html">MUX/Demux</a></div></div><div class="nav-dropdown active"><button class="nav-dropdown-btn">Converters <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html" class="active-page">IEEE 754 Float</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD Converter</a><a href="bitwise.html">Bitwise Calc</a></div></div><div class="nav-dropdown"><button class="nav-dropdown-btn">Calculators <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="adder.html">Binary Adder</a><a href="counter.html">Counter Design</a><a href="sevensegment.html">7-Segment Display</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">Checksum Calc</a><a href="pwm.html">PWM Calculator</a><a href="resistor.html">Resistor Calc</a></div></div>
+<button class="nav-pro-btn" onclick="openProModal()">\u26A1 Pro</button>
+</div>
+</nav>
+<section class="hero-section"><h1>IEEE 754 <span class="accent">Float</span></h1><p>Convert between decimal and IEEE 754 floating point representation. Visualize sign, exponent, and mantissa bits.</p></section>
+<section class="tool-section"><div class="tool-card animate-on-scroll">
+<button class="try-example-btn" onclick="tryExample()">\u25B6 Try Example</button>
+<h3>IEEE 754 Float Converter</h3>
 <div class="mode-toggle">
-<button class="mode-btn active" onclick="setMode('dec')">Decimal → IEEE 754</button>
-<button class="mode-btn" onclick="setMode('bin')">IEEE 754 → Decimal</button>
+<button class="mode-btn active" onclick="setMode('dec')" id="decMode">Decimal to IEEE 754</button>
+<button class="mode-btn" onclick="setMode('bin')" id="binMode">IEEE 754 to Decimal</button>
 </div>
-<h3>// Precision</h3>
 <div class="prec-select">
-<button class="prec-btn active" onclick="setPrec(32)">32-bit (Single)</button>
-<button class="prec-btn" onclick="setPrec(64)">64-bit (Double)</button>
+<button class="prec-btn active" onclick="setPrec(32)">Single (32-bit)</button>
+<button class="prec-btn" onclick="setPrec(64)">Double (64-bit)</button>
 </div>
-<div id="decMode" class="input-group">
-<label>Decimal Input</label>
-<input type="text" id="decInput" placeholder="-12.375">
-<div class="error" id="decError"></div>
+<div id="decInput_wrap" class="input-group">
+<label>Decimal Value</label>
+<input type="text" class="expr-input" id="decInput" placeholder="3.14" oninput="convert()">
+<div class="error-msg" id="decError"></div>
 </div>
-<div id="binMode" class="input-group" style="display:none">
-<label>IEEE 754 Binary (sign|exponent|mantissa)</label>
-<input type="text" id="binInput" placeholder="11000001010001100000000000000000">
-<div class="error" id="binError"></div>
+<div id="binInput_wrap" class="input-group" style="display:none">
+<label>IEEE 754 Binary</label>
+<input type="text" class="expr-input" id="binInput" placeholder="01000000010010001111010111000011" oninput="convert()">
+<div class="error-msg" id="binError"></div>
 </div>
-<button class="convert-btn" onclick="convert()">Convert</button>
+<button class="gen-btn" onclick="convert()">Convert</button>
 <div class="result-box" id="resultBox">
-<div class="bit-labels">
-<span style="background:#ff4444;color:#fff">Sign</span>
-<span style="background:#4488ff;color:#fff">Exponent</span>
-<span style="background:#00cc6a;color:#fff">Mantissa</span>
-</div>
 <div class="bits-visual" id="bitsVisual"></div>
 <div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec"></span></div>
-<div class="result-row"><span class="result-label">Binary (Full)</span><span class="result-value" id="resFull"></span></div>
+<div class="result-row"><span class="result-label">Full Binary</span><span class="result-value" id="resFull"></span></div>
 <div class="result-row"><span class="result-label">Hexadecimal</span><span class="result-value" id="resHex"></span></div>
 <div class="result-row"><span class="result-label">Sign</span><span class="result-value" id="resSign"></span></div>
 <div class="result-row"><span class="result-label">Exponent (biased)</span><span class="result-value" id="resExp"></span></div>
@@ -135,17 +140,34 @@ footer a{color:#00ff88;text-decoration:none}
 <div class="result-row"><span class="result-label">Mantissa</span><span class="result-value" id="resMant"></span></div>
 </div>
 <div class="steps" id="stepsBox"></div>
+<div class="upgrade-banner" id="limitBanner" style="display:none">
+<p>You have reached the free daily limit</p>
+<a href="#" onclick="openProModal();return false">Upgrade to Pro for unlimited access</a>
+</div>
 </div>
 </section>
-<section class="faq">
-<h2>FAQ</h2>
-<div class="faq-item"><h3>What is IEEE 754?</h3><p>IEEE 754 is the standard for floating-point arithmetic used by virtually all modern CPUs. It defines how decimal numbers are stored in binary using sign, exponent, and mantissa fields.</p></div>
-<div class="faq-item"><h3>What is the difference between single and double precision?</h3><p>Single precision uses 32 bits (1 sign + 8 exponent + 23 mantissa) with ~7 decimal digits of precision. Double precision uses 64 bits (1 sign + 11 exponent + 52 mantissa) with ~15 decimal digits.</p></div>
-<div class="faq-item"><h3>Why does 0.1 have no exact IEEE 754 representation?</h3><p>0.1 in decimal is a repeating fraction in binary (0.0001100110011...), similar to how 1/3 repeats in decimal. This causes floating-point rounding errors in computations.</p></div>
-<div class="faq-item"><h3>What are special IEEE 754 values?</h3><p>IEEE 754 defines special values: +0 and -0, positive and negative infinity (exponent all 1s, mantissa all 0s), and NaN (exponent all 1s, mantissa non-zero).</p></div>
-</section>
-<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+<section class="related-section animate-on-scroll"><h2>Related Tools</h2><div class="related-grid">
+<a href="converter.html" class="related-card"><div class="rc-icon">\u{1F504}</div><h4>Base Converter</h4><p>Convert between number bases</p></a>
+<a href="twoscomplement.html" class="related-card"><div class="rc-icon">\u{2796}</div><h4>Two's Complement</h4><p>Signed binary converter</p></a>
+<a href="binary.html" class="related-card"><div class="rc-icon">\u{1F522}</div><h4>Binary Calculator</h4><p>Binary arithmetic operations</p></a>
+<a href="bitwise.html" class="related-card"><div class="rc-icon">\u{1F527}</div><h4>Bitwise Calculator</h4><p>AND, OR, XOR, NOT operations</p></a>
+
+</div></section>
+<footer class="site-footer"><div class="footer-grid">
+<div class="footer-col"><h4>Logic Tools</h4><a href="converter.html">Base Converter</a><a href="binary.html">Binary Calculator</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a><a href="nandonly.html">NAND/NOR Logic</a></div>
+<div class="footer-col"><h4>Circuit Tools</h4><a href="circuit.html">Circuit Visualizer</a><a href="timing.html">Timing Diagram</a><a href="states.html">State Machine</a><a href="flipflop.html">Flip-Flop Simulator</a><a href="mux.html">MUX/Demux</a></div>
+<div class="footer-col"><h4>Converters</h4><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754 Float</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD Converter</a><a href="bitwise.html">Bitwise Calc</a></div>
+<div class="footer-col"><h4>Calculators</h4><a href="adder.html">Binary Adder</a><a href="counter.html">Counter Design</a><a href="sevensegment.html">7-Segment Display</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">Checksum Calc</a><a href="pwm.html">PWM Calculator</a><a href="resistor.html">Resistor Calc</a></div>
+</div><div class="footer-bottom">&copy; 2025 Logic1Min. All rights reserved.</div></footer>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal"><h2>\u26A1 Upgrade to Pro</h2><p>Unlock unlimited access to all 24 tools</p>
+<div class="pricing-options">
+<a href="https://buy.stripe.com/aFacN4emgfTC2oTepy14401" class="secondary">Pay As You Go &mdash; &euro;5 / 10 credits</a>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="primary">Monthly &mdash; &euro;4.99/mo</a>
+<a href="https://buy.stripe.com/28EfZg5PK4aUe7Ba9i14402" class="secondary">Yearly &mdash; &euro;49.99/yr</a>
 </div>
+<p style="font-size:.85rem;color:var(--text-secondary)">Already have a key?</p>
+<div class="key-input-group"><input type="text" id="proKeyInput" placeholder="Enter license key..."><button onclick="verifyProKey()">Verify</button></div>
+<button class="close-modal" onclick="closeProModal()">Close</button></div></div>
 <script>
 let mode='dec',prec=32;
 function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='dec')||(i===1&&m==='bin')));document.getElementById('decMode').style.display=m==='dec'?'block':'none';document.getElementById('binMode').style.display=m==='bin'?'block':'none';document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
@@ -162,7 +184,7 @@ steps.push({n:'1',t:'Sign bit: '+sign+(sign==='0'?' (+)':' (-)')});
 steps.push({n:'2',t:'Exponent bits: '+exp+' = '+expVal+' (biased)'});
 steps.push({n:'3',t:'Exponent unbiased: '+expVal+' - '+bias+' = '+(expVal-bias)});
 steps.push({n:'4',t:'Mantissa bits: '+mant});
-if(val!==0&&expVal!==0&&expVal!==(prec===32?255:2047)){steps.push({n:'5',t:'Value = (-1)^'+sign+' × 1.'+mant+' × 2^'+(expVal-bias)});}
+if(val!==0&&expVal!==0&&expVal!==(prec===32?255:2047)){steps.push({n:'5',t:'Value = (-1)^'+sign+' \u00d7 1.'+mant+' \u00d7 2^'+(expVal-bias)});}
 showResult(val,bits,sign,exp,mant,expVal,bias,steps);}
 function ieee2dec(){const input=document.getElementById('binInput').value.trim().replace(/\s/g,'');const err=document.getElementById('binError');const totalBits=prec===32?32:64;if(!/^[01]+$/.test(input)){err.textContent='Only 0 and 1 allowed';err.style.display='block';return;}if(input.length!==totalBits){err.textContent='Expected '+totalBits+' bits, got '+input.length;err.style.display='block';return;}err.style.display='none';
 const bits=input;const expBits=prec===32?8:11;const mantBits=prec===32?23:52;const bias=prec===32?127:1023;
@@ -176,7 +198,7 @@ if(expVal===0&&/^0+$/.test(mant)){val=sign==='0'?0:-0;steps.push({n:'4',t:'Speci
 else if(expVal===(prec===32?255:2047)&&/^0+$/.test(mant)){val=sign==='0'?Infinity:-Infinity;steps.push({n:'4',t:'Special: Infinity'});}
 else if(expVal===(prec===32?255:2047)){val=NaN;steps.push({n:'4',t:'Special: NaN'});}
 else{let mantVal=1;for(let i=0;i<mant.length;i++){if(mant[i]==='1')mantVal+=Math.pow(2,-(i+1));}
-val=Math.pow(-1,parseInt(sign))*mantVal*Math.pow(2,expVal-bias);steps.push({n:'4',t:'1.'+mant+' × 2^'+(expVal-bias)+' = '+val});}
+val=Math.pow(-1,parseInt(sign))*mantVal*Math.pow(2,expVal-bias);steps.push({n:'4',t:'1.'+mant+' \u00d7 2^'+(expVal-bias)+' = '+val});}
 showResult(val,bits,sign,exp,mant,expVal,bias,steps);}
 function showResult(val,bits,sign,exp,mant,expVal,bias,steps){
 let bv='';bv+='<span class="bit bit-sign">'+sign+'</span>';
@@ -194,209 +216,16 @@ document.getElementById('resMant').textContent=mant;
 document.getElementById('resultBox').style.display='block';
 let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');
 document.getElementById('stepsBox').innerHTML=sh;}
-</script>
-<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
-<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
-</body>
-                                                                                                                        </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IEEE 754 Floating Point Converter — Free Online Tool | LogicMinimizer</title>
-<meta name="description" content="Convert decimal to IEEE 754 binary representation. Visualize sign, exponent, mantissa bits. Supports 32-bit and 64-bit. Free IEEE 754 converter.">
-<meta name="keywords" content="IEEE 754 converter, floating point converter, binary float, single precision, double precision">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
-.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
-.tool-nav-inner::-webkit-scrollbar{height:0}
-.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
-.nav-cat{position:relative}
-.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}
-.nav-cat-btn:hover{color:#00ff88}
-.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.nav-cat:hover .nav-dropdown{display:block}
-.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}
-.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}
-.nav-dropdown a.active{color:#00ff88;font-weight:600}
-.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-#page-content{flex:1;overflow-y:auto}
-.hero{text-align:center;padding:2.5rem 1rem 1.5rem}
-.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}
-.hero p{color:#b0b0b0;font-size:1rem}
-.tool-section{max-width:900px;margin:0 auto;padding:0 1rem 2rem}
-.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
-.mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
-.mode-btn{flex:1;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;font-size:.85rem;cursor:pointer;border-radius:6px;transition:all .2s}
-.mode-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88;font-weight:600}
-.input-group{margin-bottom:1rem}
-.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
-.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
-.input-group input:focus{border-color:#00ff88}
-.prec-select{display:flex;gap:.5rem;margin-bottom:1rem}
-.prec-btn{flex:1;padding:.5rem 1rem;background:#0d0d14;border:1px solid #2a2a3e;color:#b0b0b0;font-family:'JetBrains Mono',monospace;cursor:pointer;border-radius:6px;transition:all .2s;text-align:center}
-.prec-btn.active{background:#00ff88;color:#0a0a0f;border-color:#00ff88}
-.convert-btn{width:100%;padding:.7rem;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;cursor:pointer;border-radius:8px;transition:transform .2s}
-.convert-btn:hover{transform:scale(1.02)}
-.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
-.bits-visual{display:flex;flex-wrap:wrap;margin:1rem 0;gap:1px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
-.bit{padding:.3rem .25rem;text-align:center;min-width:1.4rem;border-radius:3px;font-weight:600}
-.bit-sign{background:#ff4444;color:#fff}
-.bit-exp{background:#4488ff;color:#fff}
-.bit-mant{background:#00cc6a;color:#fff}
-.bit-labels{display:flex;gap:1rem;margin-bottom:.5rem;font-size:.78rem;font-family:'JetBrains Mono',monospace}
-.bit-labels span{padding:.2rem .5rem;border-radius:3px}
-.result-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid #1a1a2e;flex-wrap:wrap}
-.result-row:last-child{border:none}
-.result-label{color:#b0b0b0;font-size:.85rem}
-.result-value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;word-break:break-all}
-.steps{margin-top:1rem}
-.step{background:#0d0d14;border-left:3px solid #00ff88;padding:.6rem .8rem;margin-bottom:.5rem;border-radius:0 6px 6px 0}
-.step-num{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
-.step-text{color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-top:.2rem;word-break:break-all}
-.error{color:#ff4444;font-size:.85rem;margin-top:.3rem;display:none}
-.faq{max-width:900px;margin:2rem auto;padding:0 1rem 3rem}
-.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
-.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}
-.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}
-.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
-footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}
-footer a{color:#00ff88;text-decoration:none}
-@media(max-width:600px){.hero h1{font-size:1.3rem}.bit{min-width:1.1rem;font-size:.7rem;padding:.2rem .15rem}}
 
-.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
-</style>
-</head>
-<body>
-<nav class="tool-nav"><div class="tool-nav-inner">
-<a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
-<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
-<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
-<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html" class="active">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
-<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
-</div></div>
-<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
-<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
-</div></nav>
-<div id="page-content">
-<section class="hero">
-<h1>IEEE 754 Floating Point Converter</h1>
-<p>Convert decimal to IEEE 754 binary — visualize sign, exponent, mantissa</p>
-</section>
-<section class="tool-section">
-<div class="card">
-<h3>// Mode</h3>
-<div class="mode-toggle">
-<button class="mode-btn active" onclick="setMode('dec')">Decimal → IEEE 754</button>
-<button class="mode-btn" onclick="setMode('bin')">IEEE 754 → Decimal</button>
-</div>
-<h3>// Precision</h3>
-<div class="prec-select">
-<button class="prec-btn active" onclick="setPrec(32)">32-bit (Single)</button>
-<button class="prec-btn" onclick="setPrec(64)">64-bit (Double)</button>
-</div>
-<div id="decMode" class="input-group">
-<label>Decimal Input</label>
-<input type="text" id="decInput" placeholder="-12.375">
-<div class="error" id="decError"></div>
-</div>
-<div id="binMode" class="input-group" style="display:none">
-<label>IEEE 754 Binary (sign|exponent|mantissa)</label>
-<input type="text" id="binInput" placeholder="11000001010001100000000000000000">
-<div class="error" id="binError"></div>
-</div>
-<button class="convert-btn" onclick="convert()">Convert</button>
-<div class="result-box" id="resultBox">
-<div class="bit-labels">
-<span style="background:#ff4444;color:#fff">Sign</span>
-<span style="background:#4488ff;color:#fff">Exponent</span>
-<span style="background:#00cc6a;color:#fff">Mantissa</span>
-</div>
-<div class="bits-visual" id="bitsVisual"></div>
-<div class="result-row"><span class="result-label">Decimal</span><span class="result-value" id="resDec"></span></div>
-<div class="result-row"><span class="result-label">Binary (Full)</span><span class="result-value" id="resFull"></span></div>
-<div class="result-row"><span class="result-label">Hexadecimal</span><span class="result-value" id="resHex"></span></div>
-<div class="result-row"><span class="result-label">Sign</span><span class="result-value" id="resSign"></span></div>
-<div class="result-row"><span class="result-label">Exponent (biased)</span><span class="result-value" id="resExp"></span></div>
-<div class="result-row"><span class="result-label">Exponent (unbiased)</span><span class="result-value" id="resExpU"></span></div>
-<div class="result-row"><span class="result-label">Mantissa</span><span class="result-value" id="resMant"></span></div>
-</div>
-<div class="steps" id="stepsBox"></div>
-</div>
-</section>
-<section class="faq">
-<h2>FAQ</h2>
-<div class="faq-item"><h3>What is IEEE 754?</h3><p>IEEE 754 is the standard for floating-point arithmetic used by virtually all modern CPUs. It defines how decimal numbers are stored in binary using sign, exponent, and mantissa fields.</p></div>
-<div class="faq-item"><h3>What is the difference between single and double precision?</h3><p>Single precision uses 32 bits (1 sign + 8 exponent + 23 mantissa) with ~7 decimal digits of precision. Double precision uses 64 bits (1 sign + 11 exponent + 52 mantissa) with ~15 decimal digits.</p></div>
-<div class="faq-item"><h3>Why does 0.1 have no exact IEEE 754 representation?</h3><p>0.1 in decimal is a repeating fraction in binary (0.0001100110011...), similar to how 1/3 repeats in decimal. This causes floating-point rounding errors in computations.</p></div>
-<div class="faq-item"><h3>What are special IEEE 754 values?</h3><p>IEEE 754 defines special values: +0 and -0, positive and negative infinity (exponent all 1s, mantissa all 0s), and NaN (exponent all 1s, mantissa non-zero).</p></div>
-</section>
-<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
-</div>
-<script>
-let mode='dec',prec=32;
-function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='dec')||(i===1&&m==='bin')));document.getElementById('decMode').style.display=m==='dec'?'block':'none';document.getElementById('binMode').style.display=m==='bin'?'block':'none';document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
-function setPrec(p){prec=p;document.querySelectorAll('.prec-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&p===32)||(i===1&&p===64)));document.getElementById('resultBox').style.display='none';document.getElementById('stepsBox').innerHTML='';}
-function convert(){if(mode==='dec')dec2ieee();else ieee2dec();}
-function dec2ieee(){const input=document.getElementById('decInput').value.trim();const err=document.getElementById('decError');if(!/^-?\d*\.?\d+(e[+-]?\d+)?$/i.test(input)){err.textContent='Enter a valid number (e.g. -12.375)';err.style.display='block';return;}err.style.display='none';
-const val=parseFloat(input);const steps=[];
-let buf;if(prec===32){buf=new ArrayBuffer(4);new Float32Array(buf)[0]=val;}else{buf=new ArrayBuffer(8);new Float64Array(buf)[0]=val;}
-const bytes=new Uint8Array(buf);let bits='';for(let i=bytes.length-1;i>=0;i--)bits+=bytes[i].toString(2).padStart(8,'0');
-const expBits=prec===32?8:11;const mantBits=prec===32?23:52;const bias=prec===32?127:1023;
-const sign=bits[0];const exp=bits.substring(1,1+expBits);const mant=bits.substring(1+expBits);
-const expVal=parseInt(exp,2);
-steps.push({n:'1',t:'Sign bit: '+sign+(sign==='0'?' (+)':' (-)')});
-steps.push({n:'2',t:'Exponent bits: '+exp+' = '+expVal+' (biased)'});
-steps.push({n:'3',t:'Exponent unbiased: '+expVal+' - '+bias+' = '+(expVal-bias)});
-steps.push({n:'4',t:'Mantissa bits: '+mant});
-if(val!==0&&expVal!==0&&expVal!==(prec===32?255:2047)){steps.push({n:'5',t:'Value = (-1)^'+sign+' × 1.'+mant+' × 2^'+(expVal-bias)});}
-showResult(val,bits,sign,exp,mant,expVal,bias,steps);}
-function ieee2dec(){const input=document.getElementById('binInput').value.trim().replace(/\s/g,'');const err=document.getElementById('binError');const totalBits=prec===32?32:64;if(!/^[01]+$/.test(input)){err.textContent='Only 0 and 1 allowed';err.style.display='block';return;}if(input.length!==totalBits){err.textContent='Expected '+totalBits+' bits, got '+input.length;err.style.display='block';return;}err.style.display='none';
-const bits=input;const expBits=prec===32?8:11;const mantBits=prec===32?23:52;const bias=prec===32?127:1023;
-const sign=bits[0];const exp=bits.substring(1,1+expBits);const mant=bits.substring(1+expBits);
-const expVal=parseInt(exp,2);const steps=[];
-steps.push({n:'1',t:'Sign bit: '+sign+(sign==='0'?' (+)':' (-)')});
-steps.push({n:'2',t:'Exponent: '+exp+' = '+expVal});
-steps.push({n:'3',t:'Unbiased: '+expVal+' - '+bias+' = '+(expVal-bias)});
-let val;
-if(expVal===0&&/^0+$/.test(mant)){val=sign==='0'?0:-0;steps.push({n:'4',t:'Special: Zero'});}
-else if(expVal===(prec===32?255:2047)&&/^0+$/.test(mant)){val=sign==='0'?Infinity:-Infinity;steps.push({n:'4',t:'Special: Infinity'});}
-else if(expVal===(prec===32?255:2047)){val=NaN;steps.push({n:'4',t:'Special: NaN'});}
-else{let mantVal=1;for(let i=0;i<mant.length;i++){if(mant[i]==='1')mantVal+=Math.pow(2,-(i+1));}
-val=Math.pow(-1,parseInt(sign))*mantVal*Math.pow(2,expVal-bias);steps.push({n:'4',t:'1.'+mant+' × 2^'+(expVal-bias)+' = '+val});}
-showResult(val,bits,sign,exp,mant,expVal,bias,steps);}
-function showResult(val,bits,sign,exp,mant,expVal,bias,steps){
-let bv='';bv+='<span class="bit bit-sign">'+sign+'</span>';
-for(let i=0;i<exp.length;i++)bv+='<span class="bit bit-exp">'+exp[i]+'</span>';
-for(let i=0;i<mant.length;i++)bv+='<span class="bit bit-mant">'+mant[i]+'</span>';
-document.getElementById('bitsVisual').innerHTML=bv;
-document.getElementById('resDec').textContent=val;
-document.getElementById('resFull').textContent=bits.match(/.{1,4}/g).join(' ');
-let hex='';for(let i=0;i<bits.length;i+=4)hex+=parseInt(bits.substr(i,4),2).toString(16).toUpperCase();
-document.getElementById('resHex').textContent='0x'+hex;
-document.getElementById('resSign').textContent=sign+(sign==='0'?' (+)':' (-)');
-document.getElementById('resExp').textContent=exp+' = '+expVal;
-document.getElementById('resExpU').textContent=expVal+' - '+bias+' = '+(expVal-bias);
-document.getElementById('resMant').textContent=mant;
-document.getElementById('resultBox').style.display='block';
-let sh='';steps.forEach(s=>sh+='<div class="step"><div class="step-num">Step '+s.n+'</div><div class="step-text">'+s.t+'</div></div>');
-document.getElementById('stepsBox').innerHTML=sh;}
+function tryExample(){setMode("dec");setPrec(32);document.getElementById("decInput").value="3.14";convert();}
+
+(function(){var els=document.querySelectorAll(".animate-on-scroll");if("IntersectionObserver" in window){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target)}})},{threshold:0,rootMargin:"0px 0px 200px 0px"});els.forEach(function(el){obs.observe(el)})}else{els.forEach(function(el){el.classList.add("visible")})}setTimeout(function(){els.forEach(function(el){el.classList.add("visible")})},1500)})();
+
+function openProModal(){document.getElementById("proModal").classList.add("show")}
+function closeProModal(){document.getElementById("proModal").classList.remove("show")}
+function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim();if(!k){alert("Please enter a license key.");return}fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("proKey",k);localStorage.setItem("proValid","true");alert("Pro activated! Refreshing...");location.reload()}else{alert(d.message||"Invalid key.")}}).catch(function(){alert("Verification failed.")})}
+function checkPro(){return localStorage.getItem("proValid")==="true"}
+document.querySelectorAll(".nav-links .nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){if(window.innerWidth<=768){e.preventDefault();this.parentElement.classList.toggle("open")}})});
 </script>
-<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
-<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
-                                                                                                                        </html>
+  </html>

@@ -3,110 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Binary Calculator — Add, Subtract, Multiply Binary Numbers | LogicMinimizer.io</title>
-<meta name="description" content="Binary calculator with step-by-step solutions. Add, subtract, and multiply binary numbers. See carries, borrows, and partial products visually.">
-<meta name="keywords" content="binary calculator, binary addition, binary subtraction, binary multiplication, binary math, two's complement calculator">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Binary Calculator &mdash; Add, Subtract, Multiply Binary Numbers | Logic1Min</title>
+<meta name="description" content="Perform binary arithmetic operations: addition, subtraction, multiplication. Step-by-step visualization with overflow detection.">
+<meta name="keywords" content="binary calculator, binary addition, binary subtraction, binary multiplication, binary arithmetic">
+<link rel="canonical" href="https://logic1min.me/binary.html">
+<meta property="og:title" content="Binary Calculator &mdash; Free Online Tool | Logic1Min">
+<meta property="og:description" content="Binary arithmetic with step-by-step visualization and overflow detection.">
+<meta property="og:url" content="https://logic1min.me/binary.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Logic1Min Binary Calculator","url":"https://logic1min.me/binary.html","applicationCategory":"EducationalApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--text:#e0e0e0;--text2:#888;--accent:#00ff88;--accent2:#00cc6a;--red:#ff4444;--border:#2a2a3a}
-html,body{height:100%;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
-code,pre,.mono{font-family:'JetBrains Mono',monospace}
-a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.8}
-.container{max-width:1100px;margin:0 auto;padding:0 24px}.logo span{color:var(--text)}
-.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
-
-
-
-.nav-cta{background:var(--accent);color:var(--bg)!important;padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;border:none!important}.nav-cta:hover{background:var(--accent2)!important;opacity:1!important}
-#page-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.hero{padding:48px 0 40px;text-align:center}
-.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;margin-bottom:12px;line-height:1.2}.hero h1 .accent{color:var(--accent)}
-.hero p{font-size:clamp(14px,2vw,16px);color:var(--text2);max-width:600px;margin:0 auto}
-.tool-section{padding:20px 0 60px}
-.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:800px;margin:0 auto}
-.calc-row{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-.calc-input{flex:1;min-width:200px;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:18px;outline:none;transition:border-color .2s;text-align:right}
-.calc-input:focus{border-color:var(--accent)}.calc-input::placeholder{color:#555}.calc-input.error{border-color:var(--red)}
-.op-selector{display:flex;gap:4px}
-.op-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;border-radius:8px;cursor:pointer;background:var(--bg3);color:var(--text2);border:1px solid var(--border);transition:all .2s}
-.op-btn:hover{border-color:var(--accent);color:var(--accent)}
-.op-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.bit-selector{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
-.bit-opt{padding:6px 14px;font-size:12px;cursor:pointer;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;font-family:'JetBrains Mono',monospace;transition:all .2s}
-.bit-opt:hover{border-color:var(--accent);color:var(--accent)}
-.bit-opt.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.calc-btn{width:100%;padding:14px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin:16px 0}.calc-btn:hover{background:var(--accent2)}
-.result-section{display:none;margin-top:24px;border-top:1px solid var(--border);padding-top:24px}
-.result-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:12px}
-.result-row:last-child{border-bottom:none}
-.result-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
-.result-value{font-family:'JetBrains Mono',monospace;font-size:16px;text-align:right}.result-value.accent{color:var(--accent)}
-.steps-box{margin-top:20px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;overflow:visible}
-.steps-box h3{font-size:13px;color:var(--accent);margin-bottom:16px;font-family:'JetBrains Mono',monospace}
-.long-div{font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.8;white-space:pre}
-.long-div .carry{color:var(--accent);font-size:11px}
-.long-div .line{color:var(--border)}
-.long-div .result{color:var(--accent);font-weight:700}
-.long-div .dim{color:var(--text2)}
-.long-div .partial{color:#f0a050}
-.dec-preview{text-align:center;font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:4px}
-footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
-footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-.footer-text{font-size:13px;color:var(--text2)}
-.footer-links{display:flex;gap:24px}.footer-links a{font-size:13px;color:var(--text2)}.footer-links a:hover{color:var(--accent)}
-@media(max-width:768px){.calc-row{flex-direction:column}.calc-input{text-align:left}.tool-nav{display:none}footer .container{flex-direction:column;text-align:center}}
-
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}
-.tool-nav-inner::-webkit-scrollbar{height:0}
-.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
-.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
-.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
-.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
-
-.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}
-.nav-pro-btn:hover{opacity:.9}
-.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}
-.pro-modal-overlay.active{display:flex}
-.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}
-.pro-modal h3{color:#00ff88;margin:0 0 1rem;font-family:"JetBrains Mono",monospace}
-.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-family:"JetBrains Mono",monospace;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}
-.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem;font-size:.9rem}
-.pro-modal button:hover{opacity:.9}
-.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none;padding:0}
-.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}
-.pro-modal .status.success{color:#00ff88}
-.pro-modal .status.error{color:#ff4444}
-.pro-badge{display:inline-block;background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:4px;margin-left:.5rem;font-weight:700;vertical-align:middle}
+:root{--bg1:#0a0a0f;--bg2:#0d1117;--bg3:#131a24;--accent:#00e5cc;--accent2:#00b4d8;--accent3:#48cae4;--text1:#e0e8f0;--text2:#6b7f99;--border:#1e2d3d;--error:#ff4466;--hover:rgba(0,229,204,.12);--gradient:linear-gradient(135deg,#00e5cc,#00b4d8);--font-title:"Space Grotesk",sans-serif;--font-body:"Inter",sans-serif;--font-mono:"JetBrains Mono",monospace}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg1);color:var(--text1);line-height:1.6;overflow-x:hidden}.container{max-width:900px;margin:0 auto;padding:0 24px}a{color:var(--accent);text-decoration:none;transition:color .2s}a:hover{color:var(--accent3)}.nav{position:sticky;top:0;z-index:1000;background:rgba(10,10,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;height:56px;gap:8px}.nav-brand{font-family:var(--font-title);font-size:1.4rem;font-weight:700;color:var(--accent);margin-right:32px}.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:var(--text2);font-family:var(--font-body);font-size:.875rem;padding:8px 12px;cursor:pointer;border-radius:6px;transition:all .2s}.nav-cat-btn:hover{color:var(--text1);background:var(--hover)}.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:8px;min-width:200px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:100}.nav-cat:hover .nav-dropdown{display:block}.nav-dropdown a{display:block;padding:8px 12px;border-radius:6px;color:var(--text2);font-size:.85rem;transition:all .2s}.nav-dropdown a:hover,.nav-dropdown a.active{background:var(--hover);color:var(--accent)}.nav-right{margin-left:auto;display:flex;gap:10px;align-items:center}.btn-api{padding:6px 16px;border-radius:8px;font-size:.8rem;font-weight:600;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;transition:all .2s;text-decoration:none}.btn-api:hover{background:var(--hover)}.btn-pro{padding:6px 16px;border-radius:8px;font-size:.8rem;font-weight:600;border:none;background:linear-gradient(135deg,#ff6b35,#ff4466);color:#fff;cursor:pointer;transition:all .2s;text-decoration:none}.btn-pro:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(255,68,102,.3)}.hero{padding:60px 0 40px;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,204,.06),transparent 70%)}.hero h1{font-family:var(--font-title);font-size:2.5rem;font-weight:700;margin-bottom:12px}.hero h1 .accent{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hero p{color:var(--text2);font-size:1rem;max-width:600px;margin:0 auto}.tool-section{padding:0 0 60px}.tool-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:32px;margin-top:-10px}.bit-selector{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.bit-opt{padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:var(--font-mono);font-size:.85rem;cursor:pointer;transition:all .2s}.bit-opt:hover{border-color:var(--accent);color:var(--accent)}.bit-opt.active{background:var(--accent);color:var(--bg1);border-color:var(--accent);font-weight:600}.calc-row{display:flex;gap:12px;margin-bottom:12px;align-items:center}.calc-input{flex:1;padding:14px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text1);font-family:var(--font-mono);font-size:1.1rem;text-align:center;transition:border-color .2s,box-shadow .2s}.calc-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,204,.1)}.calc-input.error{border-color:var(--error)}.op-selector{display:flex;gap:6px}.op-btn{width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:1.2rem;cursor:pointer;transition:all .2s;font-family:var(--font-mono)}.op-btn:hover{border-color:var(--accent);color:var(--accent)}.op-btn.active{background:var(--accent);color:var(--bg1);border-color:var(--accent)}.calc-btn{width:100%;padding:14px;border-radius:10px;border:none;background:var(--gradient);color:var(--bg1);font-family:var(--font-title);font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px}.calc-btn:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,229,204,.3)}.dec-preview{font-family:var(--font-mono);font-size:.8rem;color:var(--text2);text-align:center;margin-bottom:12px}.result-section{display:none;margin-top:24px;padding:20px;background:var(--bg2);border-radius:12px;border:1px solid var(--border)}.result-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(30,45,61,.5)}.result-row:last-child{border:none}.result-label{font-size:.85rem;color:var(--text2)}.result-value{font-family:var(--font-mono);font-size:1rem}.result-value.accent{color:var(--accent)}.steps-box{margin-top:20px;padding:20px;background:var(--bg2);border-radius:12px;border:1px solid var(--border)}.steps-box h3{font-family:var(--font-title);font-size:.9rem;color:var(--text2);margin-bottom:12px}.long-div{font-family:var(--font-mono);font-size:.9rem;line-height:1.8;white-space:pre;overflow-x:auto;color:var(--text1)}.long-div .carry{color:var(--accent);font-size:.75rem}.long-div .separator{border-top:1px solid var(--accent);display:block}.long-div .highlight{color:var(--accent);font-weight:600}.try-example-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:10px 20px;border-radius:10px;border:1px dashed var(--accent);background:rgba(0,229,204,.05);color:var(--accent);font-family:var(--font-body);font-size:.85rem;cursor:pointer;transition:all .2s}.try-example-btn:hover{background:rgba(0,229,204,.12);transform:translateY(-2px)}.related-section{padding:40px 0}.section-title{font-family:var(--font-title);font-size:1.3rem;color:var(--text1);margin-bottom:20px}.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}.related-card{display:block;padding:20px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;transition:all .2s}.related-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,229,204,.08)}.related-card h4{font-family:var(--font-title);font-size:.95rem;color:var(--text1);margin-bottom:6px}.related-card p{font-size:.8rem;color:var(--text2)}footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1200px;margin:0 auto;padding:0 24px}.footer-col h4{font-family:var(--font-title);font-size:.85rem;color:var(--text1);margin-bottom:12px}.footer-col a{display:block;font-size:.8rem;color:var(--text2);padding:3px 0;transition:color .2s}.footer-col a:hover{color:var(--accent)}.footer-bottom{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);font-size:.75rem;color:var(--text2)}.animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;will-change:opacity,transform}.animate-on-scroll.visible{opacity:1;transform:translateY(0)}.pro-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:400px;width:90%;position:relative}.pro-modal h3{font-family:var(--font-title);margin-bottom:12px}.pro-modal input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text1);font-family:var(--font-mono);margin:10px 0}.pro-modal button{padding:10px 24px;border-radius:8px;border:none;background:var(--gradient);color:var(--bg1);font-weight:600;cursor:pointer}.close-btn{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer}.status{margin-top:8px;font-size:.85rem}@media(max-width:768px){.hero h1{font-size:1.8rem}.footer-grid{grid-template-columns:1fr 1fr}.related-grid{grid-template-columns:1fr}.nav-cat{display:none}.calc-input{font-size:.9rem}}
 </style>
 </head>
 <body>
-<nav class="tool-nav"><div class="tool-nav-inner">
-<a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
+<nav class="nav"><div class="nav-inner">
+<a href="index.html" class="nav-brand">Logic1Min</a>
+<div class="nav-cat"><button class="nav-cat-btn">Logic &#9662;</button><div class="nav-dropdown">
 <a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Circuits &#9662;</button><div class="nav-dropdown">
 <a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
+<div class="nav-cat"><button class="nav-cat-btn">Converters &#9662;</button><div class="nav-dropdown">
 <a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
 </div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
-<a href="binary.html" class="active">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators &#9662;</button><div class="nav-dropdown">
+<a href="binary.html" class="active">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Bool Matrix</a><a href="hamming.html">Hamming</a><a href="checksum.html">Checksum</a><a href="timing.html">Timing</a><a href="states.html">State Machine</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
 </div></div>
-<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
-<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
+<div class="nav-right">
+<a href="index.html#pricing" class="btn-api">Get API Key</a>
+<a href="#" class="btn-pro" onclick="openProModal();return false">Activate Pro</a>
+</div>
 </div></nav>
-<div id="page-content">
 <section class="hero"><div class="container">
 <h1>Binary <span class="accent">Calculator</span></h1>
-<p>+, −, × on binary numbers with step-by-step carry, borrow &amp; partial product visualization.</p>
+<p>Add, subtract, and multiply binary numbers with step-by-step visualization.</p>
 </div></section>
-<section class="tool-section"><div class="container"><div class="tool-card">
+
+<section class="tool-section animate-on-scroll"><div class="container"><div class="tool-card">
 <div class="bit-selector">
 <button class="bit-opt active" onclick="setBits(8)">8-bit</button>
 <button class="bit-opt" onclick="setBits(16)">16-bit</button>
@@ -118,38 +56,64 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 <div class="calc-row" style="justify-content:center">
 <div class="op-selector">
 <button class="op-btn active" onclick="setOp('+')">+</button>
-<button class="op-btn" onclick="setOp('-')">−</button>
-<button class="op-btn" onclick="setOp('*')">×</button>
+<button class="op-btn" onclick="setOp('-')">&minus;</button>
+<button class="op-btn" onclick="setOp('*')">&times;</button>
 </div>
 </div>
 <div class="calc-row">
 <input type="text" class="calc-input mono" id="inputB" placeholder="01101010" oninput="validateBin(this)" spellcheck="false" autocomplete="off">
 </div>
 <div class="dec-preview" id="decPreview"></div>
-<button class="calc-btn" onclick="calculate()">=&nbsp;&nbsp;Calculate</button>
+<button class="calc-btn" onclick="calculate()">Calculate</button>
+<button class="try-example-btn" onclick="tryExample()">&#9889; Try Example</button>
 <div class="result-section" id="resultSection">
-<div class="result-row"><span class="result-label">Result (BIN)</span><span class="result-value accent mono" id="resBin"></span></div>
-<div class="result-row"><span class="result-label">Result (DEC)</span><span class="result-value mono" id="resDec"></span></div>
+<div class="result-row"><span class="result-label">Binary Result</span><span class="result-value accent mono" id="resBin"></span></div>
+<div class="result-row"><span class="result-label">Decimal</span><span class="result-value mono" id="resDec"></span></div>
 <div class="result-row"><span class="result-label">Overflow</span><span class="result-value mono" id="resOverflow"></span></div>
-<div class="steps-box">
-<h3>// Step-by-step</h3>
-<div class="long-div" id="stepsViz"></div>
 </div>
-</div>
+<div class="steps-box"><h3>// Step-by-step</h3><div class="long-div" id="stepsViz"></div></div>
 </div></div></section>
-<footer><div class="container">
-<div class="footer-text">Made with AI. 100% neutral. Pure mathematics. © 2026 LogicMinimizer.io</div>
-<div class="footer-links">
-<a href="index.html#api">API Docs</a>
-<a href="index.html#pricing">Pricing</a>
-<a href="https://github.com/abdallah785/logicminimizer" target="_blank">GitHub</a>
+<section class="related-section animate-on-scroll"><div class="container">
+<h3 class="section-title">Related Tools</h3>
+<div class="related-grid">
+<a href="converter.html" class="related-card"><h4>Base Converter</h4><p>Convert between binary, decimal, hex, and octal</p></a>
+<a href="bitwise.html" class="related-card"><h4>Bitwise Operations</h4><p>AND, OR, XOR, NOT, shift operations on binary numbers</p></a>
+<a href="twoscomplement.html" class="related-card"><h4>Two's Complement</h4><p>Convert signed integers between decimal and binary</p></a>
+<a href="adder.html" class="related-card"><h4>Adder Circuit</h4><p>Visualize half and full adder circuits</p></a>
 </div>
-</div></footer>
+</div></section>
+<footer><div class="footer-grid">
+<div class="footer-col"><h4>Logic</h4>
+<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div>
+<div class="footer-col"><h4>Circuits</h4>
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div>
+<div class="footer-col"><h4>Converters</h4>
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div>
+<div class="footer-col"><h4>Calculators</h4>
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Bool Matrix</a><a href="hamming.html">Hamming</a><a href="checksum.html">Checksum</a><a href="timing.html">Timing</a><a href="states.html">State Machine</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div>
+</div>
+<div class="footer-bottom">&copy; 2026 Logic1Min &mdash; 24 free digital logic tools. Pure mathematics, 100% client-side.</div>
+</footer>
+<div class="pro-modal-overlay" id="proModal">
+<div class="pro-modal" style="position:relative">
+<button class="close-btn" onclick="closeProModal()">&times;</button>
+<h3>Activate Pro License</h3>
+<p style="color:var(--text2);font-size:.85rem">Enter your PRO license key to unlock unlimited access.</p>
+<input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX">
+<button onclick="verifyProKey()">Verify License</button>
+<div class="status" id="proStatus"></div>
+<p style="color:var(--text2);font-size:.75rem;margin-top:1rem">Don't have a key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400">Get Monthly Pro</a></p>
+</div>
 </div>
 <script>
+
 let BITS=8,OP='+';
 function setBits(n){BITS=n;document.querySelectorAll('.bit-opt').forEach(b=>b.classList.toggle('active',parseInt(b.textContent)===n));calculate()}
-function setOp(o){OP=o;const syms={'+':'+','-':'−','*':'×'};document.querySelectorAll('.op-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===syms[o]));updatePreview()}
+function setOp(o){OP=o;const syms={'+':'+','-':'\u2212','*':'\u00d7'};document.querySelectorAll('.op-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===syms[o]));updatePreview()}
 function validateBin(el){el.value=el.value.replace(/[^01]/g,'');el.classList.remove('error');updatePreview()}
 function updatePreview(){
   const a=document.getElementById('inputA').value.trim();
@@ -172,7 +136,7 @@ function calculate(){
   else{const r=mulBin(a,b);result=r.result;steps=r.steps;overflow=r.overflow;}
   document.getElementById('resBin').textContent=result;
   document.getElementById('resDec').textContent=parseInt(result,2).toString();
-  document.getElementById('resOverflow').textContent=overflow?'⚠ Yes':'✓ No';
+  document.getElementById('resOverflow').textContent=overflow?'\u26a0 Yes':'\u2713 No';
   document.getElementById('resOverflow').style.color=overflow?'var(--red)':'var(--accent)';
   document.getElementById('stepsViz').innerHTML=steps;
   document.getElementById('resultSection').style.display='block';
@@ -185,12 +149,12 @@ function addBin(a,b){
   const ov=carry===1;if(ov)result=carry+result;
   let s='<span class="carry">';
   for(let i=0;i<len;i++)s+=carryArr[i]?'1':' ';
-  s+='</span>  <span class="dim">← carries</span>\n';
-  s+='  '+pa+'  <span class="dim">← A = '+parseInt(pa,2)+'</span>\n';
-  s+='<span class="result">+</span> '+pb+'  <span class="dim">← B = '+parseInt(pb,2)+'</span>\n';
-  s+='<span class="line">'+'─'.repeat(len+2)+'</span>\n';
+  s+='</span>  <span class="dim">\u2190 carries</span>\n';
+  s+='  '+pa+'  <span class="dim">\u2190 A = '+parseInt(pa,2)+'</span>\n';
+  s+='<span class="result">+</span> '+pb+'  <span class="dim">\u2190 B = '+parseInt(pb,2)+'</span>\n';
+  s+='<span class="line">'+'\u2500'.repeat(len+2)+'</span>\n';
   s+='<span class="result">'+(ov?'1':' ')+' '+result.slice(ov?1:0).padStart(len,'0')+'</span>  <span class="dim">= '+parseInt(result,2)+'</span>';
-  if(ov)s+='\n\n<span style="color:var(--red)">⚠ Overflow: result exceeds '+BITS+' bits</span>';
+  if(ov)s+='\n\n<span style="color:var(--red)">\u26a0 Overflow: result exceeds '+BITS+' bits</span>';
   return{result:result.slice(-BITS),steps:s,overflow:ov};
 }
 function subBin(a,b){
@@ -203,11 +167,11 @@ function subBin(a,b){
   const da=parseInt(a,2),db=parseInt(b,2);
   let s='<span class="dim">// A - B = A + (~B + 1)</span>\n\n';
   s+='B      = '+pb+'\n';
-  s+='~B     = '+inv+'  <span class="dim">← invert</span>\n';
-  s+='~B + 1 = '+tc+'  <span class="dim">← 2\'s complement</span>\n\n';
+  s+='~B     = '+inv+'  <span class="dim">\u2190 invert</span>\n';
+  s+='~B + 1 = '+tc+'  <span class="dim">\u2190 2\'s complement</span>\n\n';
   s+='<span class="dim">// Add A + 2\'s complement(B):</span>\n\n';
   s+=ar.steps;
-  if(da<db)s+='\n\n<span style="color:var(--red)">⚠ Negative result</span>';
+  if(da<db)s+='\n\n<span style="color:var(--red)">\u26a0 Negative result</span>';
   return{result:ar.result,steps:s,overflow:da<db};
 }
 function mulBin(a,b){
@@ -216,22 +180,27 @@ function mulBin(a,b){
   for(let i=pb.length-1;i>=0;i--){if(pb[i]==='1')partials.push({shifted:pa+'0'.repeat(pb.length-1-i),shift:pb.length-1-i});}
   const ml=BITS*2;
   let s='<span class="dim">// Binary long multiplication</span>\n\n';
-  s+='  '+pa+'  <span class="dim">← A = '+parseInt(pa,2)+'</span>\n';
-  s+='<span class="result">×</span> '+pb+'  <span class="dim">← B = '+parseInt(pb,2)+'</span>\n';
-  s+='<span class="line">'+'─'.repeat(BITS+2)+'</span>\n';
+  s+='  '+pa+'  <span class="dim">\u2190 A = '+parseInt(pa,2)+'</span>\n';
+  s+='<span class="result">\u00d7</span> '+pb+'  <span class="dim">\u2190 B = '+parseInt(pb,2)+'</span>\n';
+  s+='<span class="line">'+'\u2500'.repeat(BITS+2)+'</span>\n';
   if(!partials.length){s+='<span class="result">  '+'0'.padStart(ml,'0')+'</span>  <span class="dim">= 0</span>';return{result:'0'.padStart(BITS,'0'),steps:s,overflow:false};}
   let run='0';
-  partials.forEach(p=>{s+='<span class="partial">  '+p.shifted.padStart(ml,' ')+'</span>  <span class="dim">← shift '+p.shift+'</span>\n';run=(parseInt(run,2)+parseInt(p.shifted,2)).toString(2);});
-  s+='<span class="line">'+'─'.repeat(ml+2)+'</span>\n';
+  partials.forEach(p=>{s+='<span class="partial">  '+p.shifted.padStart(ml,' ')+'</span>  <span class="dim">\u2190 shift '+p.shift+'</span>\n';run=(parseInt(run,2)+parseInt(p.shifted,2)).toString(2);});
+  s+='<span class="line">'+'\u2500'.repeat(ml+2)+'</span>\n';
   const rf=run.padStart(ml,'0');const ov=parseInt(run,2)>Math.pow(2,BITS)-1;
   s+='<span class="result">  '+rf+'</span>  <span class="dim">= '+parseInt(run,2)+'</span>';
-  if(ov)s+='\n\n<span style="color:var(--red)">⚠ Overflow: exceeds '+BITS+' bits</span>';
+  if(ov)s+='\n\n<span style="color:var(--red)">\u26a0 Overflow: exceeds '+BITS+' bits</span>';
   return{result:rf.slice(-BITS),steps:s,overflow:ov};
 }
 updatePreview();
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const id=this.getAttribute('href').substring(1);const el=document.getElementById(id);if(el){document.getElementById('page-content').scrollTo({top:el.offsetTop,behavior:'smooth'})}})});
+
+function tryExample(){document.getElementById("inputA").value="1011";document.getElementById("inputB").value="1101";calculate()}
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target)}})},{threshold:0,rootMargin:"0px 0px 200px 0px"});document.querySelectorAll(".animate-on-scroll").forEach(function(el){observer.observe(el)});setTimeout(function(){document.querySelectorAll(".animate-on-scroll").forEach(function(el){el.classList.add("visible")})},1500);
+function openProModal(){document.getElementById("proModal").classList.add("active");document.getElementById("proKeyInput").focus()}
+function closeProModal(){document.getElementById("proModal").classList.remove("active");document.getElementById("proKeyInput").value="";document.getElementById("proStatus").textContent=""}
+function verifyProKey(){var key=document.getElementById("proKeyInput").value.trim();var st=document.getElementById("proStatus");if(!key){st.textContent="Please enter a key";st.style.color="var(--error)";return}st.textContent="Verifying...";st.style.color="var(--text2)";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(key)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:key,expires:d.expires||""}));st.textContent="Pro activated!";st.style.color="var(--accent)";setTimeout(closeProModal,1500)}else{st.textContent=d.message||"Invalid key";st.style.color="var(--error)"}}).catch(function(){st.textContent="Network error";st.style.color="var(--error)"})}
+function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires&&new Date(p.expires)<new Date()){localStorage.removeItem("logic1min_pro")}}catch(e){}}checkPro();
 </script>
-<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro License</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key to unlock unlimited access.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify License</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
-<script>function openProModal(){document.getElementById("proModal").classList.add("active");document.getElementById("proKeyInput").focus();}function closeProModal(){document.getElementById("proModal").classList.remove("active");document.getElementById("proStatus").textContent="";document.getElementById("proStatus").className="status";}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return;}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,email:d.email,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated! Reloading...";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid key";s.className="status error"}}).catch(function(){s.textContent="Connection error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
-  </html>
+                                                                         </html>

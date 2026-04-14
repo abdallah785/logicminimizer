@@ -2,102 +2,153 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PWM Calculator — Free Online Tool | LogicMinimizer</title>
-<meta name="description" content="Calculate PWM frequency, duty cycle, period, ON/OFF time. Visualize PWM waveform. Average voltage calculator. Free online PWM calculator.">
-<meta name="keywords" content="PWM calculator, duty cycle calculator, pulse width modulation, PWM frequency, Arduino PWM">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PWM Calculator | Logic1Min</title>
+<meta name="description" content="Free online PWM calculator. Compute frequency, duty cycle, period, T-on, T-off, and average voltage with waveform visualization.">
+<meta name="keywords" content="PWM calculator, pulse width modulation, duty cycle, frequency, timer, logic1min">
+<link rel="canonical" href="https://logic1min.me/pwm.html">
+<meta property="og:title" content="PWM Calculator - Logic1Min">
+<meta property="og:description" content="Calculate PWM parameters with interactive waveform display.">
+<meta property="og:url" content="https://logic1min.me/pwm.html">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PWM Calculator","url":"https://logic1min.me/pwm.html","applicationCategory":"EducationalApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online PWM calculator."}</script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
-.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}.tool-nav-inner::-webkit-scrollbar{height:0}
-.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
-.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
-.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
-.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
-.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-#page-content{flex:1;overflow-y:auto}
-.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
-.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
-.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
-.input-row{display:flex;gap:1rem;flex-wrap:wrap}
-.input-group{flex:1;min-width:180px;margin-bottom:1rem}
-.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
-.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
-.input-group input:focus{border-color:#00ff88}
-.waveform{margin:1.5rem 0;text-align:center}
-.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem}
-.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
-.result-item{text-align:center;padding:.8rem;background:#141420;border:1px solid #2a2a3e;border-radius:8px}
-.result-item .label{color:#b0b0b0;font-size:.78rem;font-family:'JetBrains Mono',monospace}
-.result-item .value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;margin-top:.3rem}
-.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
-.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
-footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
-@media(max-width:600px){.hero h1{font-size:1.4rem}}
-
-.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
+:root{--bg-primary:#0a0a0f;--bg-secondary:#0d1117;--bg-card:#131a24;--accent:#00e5cc;--accent2:#00b4d8;--accent3:#48cae4;--gradient:linear-gradient(135deg,#00e5cc,#00b4d8);--text-primary:#e0e8f0;--text-secondary:#6b7f99;--border:#1e2d3d;--error:#ff4466;--hover:rgba(0,229,204,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-primary);color:var(--text-primary);font-family:"Inter",sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+.main-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:"Space Grotesk",sans-serif;font-size:1.4rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-dropdown{position:relative}
+.nav-dropdown-btn{background:none;border:none;color:var(--text-secondary);font-family:"Inter",sans-serif;font-size:.92rem;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:8px;transition:all .2s}
+.nav-dropdown-btn:hover,.nav-dropdown.active .nav-dropdown-btn{color:var(--text-primary);background:var(--hover)}
+.nav-dropdown-content{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:8px;min-width:200px;box-shadow:0 12px 32px rgba(0,0,0,.4);z-index:1001}
+.nav-dropdown:hover .nav-dropdown-content{display:block}
+.nav-dropdown-content a{display:block;padding:9px 14px;color:var(--text-secondary);border-radius:8px;font-size:.9rem;transition:all .15s;white-space:nowrap}
+.nav-dropdown-content a:hover,.nav-dropdown-content a.active-page{background:var(--hover);color:var(--accent)}
+.nav-pro-btn{padding:8px 20px;background:var(--gradient);color:var(--bg-primary);border:none;border-radius:8px;font-weight:600;font-size:.9rem;cursor:pointer;font-family:"Inter",sans-serif;transition:transform .15s,box-shadow .15s}
+.nav-pro-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,229,204,.3)}
+.hamburger{display:none;background:none;border:none;color:var(--text-primary);cursor:pointer;padding:8px}
+.hero-section{padding:100px 24px 40px;text-align:center;max-width:800px;margin:0 auto}
+.hero-section h1{font-family:"Space Grotesk",sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:16px}
+.hero-section h1 .accent{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-section p{color:var(--text-secondary);font-size:1.15rem;max-width:600px;margin:0 auto}
+.tool-section{max-width:900px;margin:0 auto;padding:0 24px 60px}
+.tool-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:32px}
+.tool-card h3{font-family:"Space Grotesk",sans-serif;font-size:1.3rem;margin-bottom:20px;color:var(--text-primary)}
+.try-example-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(0,229,204,.1);color:var(--accent);border:1px solid rgba(0,229,204,.25);border-radius:8px;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:"Inter",sans-serif;margin-bottom:18px}
+.try-example-btn:hover{background:rgba(0,229,204,.18);transform:translateY(-1px)}
+.related-section{max-width:900px;margin:0 auto;padding:0 24px 60px}
+.related-section h2{font-family:"Space Grotesk",sans-serif;font-size:1.6rem;margin-bottom:24px;color:var(--text-primary);text-align:center}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.related-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .2s;display:block;color:var(--text-primary)}
+.related-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,229,204,.1)}
+.related-card .rc-icon{font-size:1.8rem;margin-bottom:8px}
+.related-card h4{font-size:1rem;margin-bottom:4px}
+.related-card p{font-size:.82rem;color:var(--text-secondary)}
+.site-footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:48px 24px 24px;margin-top:40px}
+.footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+.footer-col h4{font-family:"Space Grotesk",sans-serif;font-size:1rem;color:var(--text-primary);margin-bottom:12px}
+.footer-col a{display:block;color:var(--text-secondary);font-size:.88rem;padding:4px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.82rem}
+.animate-on-scroll{opacity:0;transform:translateY(25px);transition:opacity .6s ease,transform .6s ease;will-change:opacity,transform}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+.pro-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center}
+.pro-modal-overlay.show{display:flex}
+.pro-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px;max-width:440px;width:90%;text-align:center}
+.pro-modal h2{font-family:"Space Grotesk",sans-serif;margin-bottom:8px}
+.pro-modal p{color:var(--text-secondary);margin-bottom:20px;font-size:.95rem}
+.pro-modal .pricing-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.pro-modal .pricing-options a{display:block;padding:12px;border-radius:10px;font-weight:600;font-size:.95rem;transition:transform .15s}
+.pro-modal .pricing-options a.primary{background:var(--gradient);color:var(--bg-primary)}
+.pro-modal .pricing-options a.secondary{background:var(--hover);color:var(--accent);border:1px solid rgba(0,229,204,.25)}
+.pro-modal .pricing-options a:hover{transform:translateY(-2px)}
+.key-input-group{display:flex;gap:8px;margin-top:16px}
+.key-input-group input{flex:1;padding:10px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-family:"JetBrains Mono",monospace;font-size:.85rem;outline:none}
+.key-input-group input:focus{border-color:var(--accent)}
+.key-input-group button{padding:10px 18px;background:var(--gradient);color:var(--bg-primary);border:none;border-radius:8px;font-weight:600;cursor:pointer}
+.pro-modal .close-modal{margin-top:16px;background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:.9rem}
+.pro-modal .close-modal:hover{color:var(--text-primary)}
+@media(max-width:768px){.hamburger{display:block}.nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);flex-direction:column;padding:16px}.nav-links.open{display:flex}.nav-dropdown-content{position:static;box-shadow:none;border:none;background:transparent;display:none;padding-left:16px}.nav-dropdown.open .nav-dropdown-content{display:block}.hero-section h1{font-size:2rem}.tool-card{padding:20px}.related-grid{grid-template-columns:repeat(2,1fr)}}
+.config-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}
+.input-group{margin-bottom:0}
+.input-group label{display:block;font-size:.9rem;color:#6b7f99;margin-bottom:6px;font-family:"Inter",sans-serif}
+.expr-input{width:100%;padding:12px 14px;background:#0d1117;border:1.5px solid #1e2d3d;border-radius:10px;color:#e0e8f0;font-size:1rem;font-family:"JetBrains Mono",monospace;outline:none;transition:border .2s}
+.expr-input:focus{border-color:#00e5cc}
+.waveform-area{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;min-height:120px;overflow-x:auto}
+.waveform-area svg{width:100%}
+.result-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:18px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(30,45,61,.5)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:var(--text-secondary);font-size:.9rem}
+.result-value{color:var(--accent);font-family:"JetBrains Mono",monospace;font-weight:600}
+.upgrade-banner{margin-top:24px;padding:18px;background:linear-gradient(135deg,rgba(0,229,204,.1),rgba(0,180,216,.1));border:1px solid rgba(0,229,204,.25);border-radius:12px;text-align:center}
+.upgrade-banner p{color:#e0e8f0;margin:0 0 10px;font-size:1rem}
+.upgrade-banner a{color:#00e5cc;font-weight:600;text-decoration:none}
 </style>
 </head>
 <body>
-<nav class="tool-nav"><div class="tool-nav-inner">
-<a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
-<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
-<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
-<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
-<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html" class="active">PWM</a><a href="resistor.html">Resistor</a>
-</div></div>
-<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
-<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
-</div></nav>
-<div id="page-content">
-<section class="hero"><h1>PWM Calculator</h1><p>Frequency, duty cycle, period, ON/OFF time — with waveform visualization</p></section>
-<section class="tool-section">
-<div class="card">
-<h3>// Parameters</h3>
-<div class="input-row">
-<div class="input-group"><label>Frequency (Hz)</label><input type="text" id="freq" placeholder="1000" oninput="calcFromFreqDuty()"></div>
-<div class="input-group"><label>Duty Cycle (%)</label><input type="text" id="duty" placeholder="50" oninput="calcFromFreqDuty()"></div>
+<nav class="main-nav"><a href="index.html" class="nav-logo">Logic1Min</a>
+<button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+<div class="nav-links">
+<div class="nav-dropdown"><button class="nav-dropdown-btn">Logic Tools <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="converter.html">Base Converter</a><a href="binary.html">Binary Calculator</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a><a href="nandonly.html">NAND/NOR Logic</a></div></div><div class="nav-dropdown"><button class="nav-dropdown-btn">Circuit Tools <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="circuit.html">Circuit Visualizer</a><a href="timing.html">Timing Diagram</a><a href="states.html">State Machine</a><a href="flipflop.html">Flip-Flop Simulator</a><a href="mux.html">MUX/Demux</a></div></div><div class="nav-dropdown"><button class="nav-dropdown-btn">Converters <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754 Float</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD Converter</a><a href="bitwise.html">Bitwise Calc</a></div></div><div class="nav-dropdown active"><button class="nav-dropdown-btn">Calculators <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="nav-dropdown-content"><a href="adder.html">Binary Adder</a><a href="counter.html">Counter Design</a><a href="sevensegment.html">7-Segment Display</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">Checksum Calc</a><a href="pwm.html" class="active-page">PWM Calculator</a><a href="resistor.html">Resistor Calc</a></div></div>
+<button class="nav-pro-btn" onclick="openProModal()">\u26A1 Pro</button>
 </div>
-<div class="input-row">
-<div class="input-group"><label>Period (ms)</label><input type="text" id="period" placeholder="1" oninput="calcFromPeriod()"></div>
-<div class="input-group"><label>Vcc (V)</label><input type="text" id="vcc" placeholder="5" oninput="calcFromFreqDuty()"></div>
+</nav>
+<section class="hero-section"><h1>PWM <span class="accent">Calculator</span></h1><p>Calculate frequency, duty cycle, period, and average voltage for PWM signals with real-time waveform visualization.</p></section>
+<section class="tool-section"><div class="tool-card animate-on-scroll">
+<button class="try-example-btn" onclick="tryExample()">\u25B6 Try Example</button>
+<h3>PWM Calculator</h3>
+<div class="config-grid">
+<div class="input-group"><label>Frequency (Hz)</label><input type="number" class="expr-input" id="freq" value="1000" oninput="calcFromFreqDuty()"></div>
+<div class="input-group"><label>Duty Cycle (%)</label><input type="number" class="expr-input" id="duty" value="50" min="0" max="100" oninput="calcFromFreqDuty()"></div>
+<div class="input-group"><label>Period (ms)</label><input type="number" class="expr-input" id="period" oninput="calcFromPeriod()"></div>
+<div class="input-group"><label>Vcc (V)</label><input type="number" class="expr-input" id="vcc" value="5" oninput="calcFromFreqDuty()"></div>
+<div class="input-group"><label>T-on (ms)</label><input type="number" class="expr-input" id="ton" oninput="calcFromTimes()"></div>
+<div class="input-group"><label>T-off (ms)</label><input type="number" class="expr-input" id="toff" oninput="calcFromTimes()"></div>
 </div>
-<div class="input-row">
-<div class="input-group"><label>Time ON (ms)</label><input type="text" id="ton" placeholder="0.5" oninput="calcFromTimes()"></div>
-<div class="input-group"><label>Time OFF (ms)</label><input type="text" id="toff" placeholder="0.5" oninput="calcFromTimes()"></div>
-</div>
-<div class="waveform" id="waveform"></div>
+<div class="waveform-area" id="waveform"></div>
 <div class="result-box">
-<div class="result-grid">
-<div class="result-item"><div class="label">Frequency</div><div class="value" id="resFreq">—</div></div>
-<div class="result-item"><div class="label">Period</div><div class="value" id="resPeriod">—</div></div>
-<div class="result-item"><div class="label">Duty Cycle</div><div class="value" id="resDuty">—</div></div>
-<div class="result-item"><div class="label">Time ON</div><div class="value" id="resTon">—</div></div>
-<div class="result-item"><div class="label">Time OFF</div><div class="value" id="resToff">—</div></div>
-<div class="result-item"><div class="label">Avg Voltage</div><div class="value" id="resVavg">—</div></div>
+<div class="result-row"><span class="result-label">Frequency</span><span class="result-value" id="resFreq"></span></div>
+<div class="result-row"><span class="result-label">Period</span><span class="result-value" id="resPeriod"></span></div>
+<div class="result-row"><span class="result-label">Duty Cycle</span><span class="result-value" id="resDuty"></span></div>
+<div class="result-row"><span class="result-label">T-on</span><span class="result-value" id="resTon"></span></div>
+<div class="result-row"><span class="result-label">T-off</span><span class="result-value" id="resToff"></span></div>
+<div class="result-row"><span class="result-label">V-avg</span><span class="result-value" id="resVavg"></span></div>
 </div>
+<div class="upgrade-banner" id="limitBanner" style="display:none">
+<p>You have reached the free daily limit</p>
+<a href="#" onclick="openProModal();return false">Upgrade to Pro for unlimited access</a>
 </div>
 </div>
 </section>
-<section class="faq">
-<h2>FAQ</h2>
-<div class="faq-item"><h3>What is PWM?</h3><p>Pulse Width Modulation (PWM) is a technique to control the average power delivered to a load by rapidly switching between ON and OFF states. The duty cycle determines the percentage of time the signal is HIGH.</p></div>
-<div class="faq-item"><h3>How is average voltage calculated?</h3><p>Average voltage = Vcc × (Duty Cycle / 100). For a 5V signal at 75% duty cycle, the average voltage is 3.75V.</p></div>
-<div class="faq-item"><h3>What is duty cycle?</h3><p>Duty cycle is the percentage of one period in which the signal is HIGH. A 50% duty cycle means the signal is ON for half the period and OFF for the other half.</p></div>
-</section>
-<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
+<section class="related-section animate-on-scroll"><h2>Related Tools</h2><div class="related-grid">
+<a href="timing.html" class="related-card"><div class="rc-icon">\u{1F4C8}</div><h4>Timing Diagram</h4><p>Generate timing diagrams</p></a>
+<a href="resistor.html" class="related-card"><div class="rc-icon">\u{1F3A8}</div><h4>Resistor Calculator</h4><p>Resistor color codes</p></a>
+<a href="counter.html" class="related-card"><div class="rc-icon">\u{1F504}</div><h4>Counter Design</h4><p>Digital counters</p></a>
+<a href="circuit.html" class="related-card"><div class="rc-icon">\u26A1</div><h4>Circuit Visualizer</h4><p>Logic circuit diagrams</p></a>
+
+</div></section>
+<footer class="site-footer"><div class="footer-grid">
+<div class="footer-col"><h4>Logic Tools</h4><a href="converter.html">Base Converter</a><a href="binary.html">Binary Calculator</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a><a href="nandonly.html">NAND/NOR Logic</a></div>
+<div class="footer-col"><h4>Circuit Tools</h4><a href="circuit.html">Circuit Visualizer</a><a href="timing.html">Timing Diagram</a><a href="states.html">State Machine</a><a href="flipflop.html">Flip-Flop Simulator</a><a href="mux.html">MUX/Demux</a></div>
+<div class="footer-col"><h4>Converters</h4><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754 Float</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD Converter</a><a href="bitwise.html">Bitwise Calc</a></div>
+<div class="footer-col"><h4>Calculators</h4><a href="adder.html">Binary Adder</a><a href="counter.html">Counter Design</a><a href="sevensegment.html">7-Segment Display</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">Checksum Calc</a><a href="pwm.html">PWM Calculator</a><a href="resistor.html">Resistor Calc</a></div>
+</div><div class="footer-bottom">&copy; 2025 Logic1Min. All rights reserved.</div></footer>
+<div class="pro-modal-overlay" id="proModal"><div class="pro-modal"><h2>\u26A1 Upgrade to Pro</h2><p>Unlock unlimited access to all 24 tools</p>
+<div class="pricing-options">
+<a href="https://buy.stripe.com/aFacN4emgfTC2oTepy14401" class="secondary">Pay As You Go &mdash; &euro;5 / 10 credits</a>
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="primary">Monthly &mdash; &euro;4.99/mo</a>
+<a href="https://buy.stripe.com/28EfZg5PK4aUe7Ba9i14402" class="secondary">Yearly &mdash; &euro;49.99/yr</a>
 </div>
+<p style="font-size:.85rem;color:var(--text-secondary)">Already have a key?</p>
+<div class="key-input-group"><input type="text" id="proKeyInput" placeholder="Enter license key..."><button onclick="verifyProKey()">Verify</button></div>
+<button class="close-modal" onclick="closeProModal()">Close</button></div></div>
 <script>
 function calcFromFreqDuty(){const f=parseFloat(document.getElementById('freq').value);const d=parseFloat(document.getElementById('duty').value);
 if(isNaN(f)||isNaN(d)||f<=0||d<0||d>100)return;
@@ -133,148 +184,16 @@ const avgY=hi+(lo-hi)*(1-duty/100);svg+='<line x1="'+pad+'" y1="'+avgY+'" x2="'+
 svg+='<text x="'+(w-pad+5)+'" y="'+(avgY+4)+'" fill="#ff8800" font-size="10" font-family="JetBrains Mono">Vavg</text>';
 svg+='</svg>';document.getElementById('waveform').innerHTML=svg;}
 drawWaveform(50);
-</script>
-<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
-<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
-</body>
-                                                                                                                                                                       </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PWM Calculator — Free Online Tool | LogicMinimizer</title>
-<meta name="description" content="Calculate PWM frequency, duty cycle, period, ON/OFF time. Visualize PWM waveform. Average voltage calculator. Free online PWM calculator.">
-<meta name="keywords" content="PWM calculator, duty cycle calculator, pulse width modulation, PWM frequency, Arduino PWM">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e0e0e0;display:flex;flex-direction:column;height:100%}
-.tool-nav{background:#0d0d14;border-bottom:1px solid #1a1a2e;padding:0;flex-shrink:0;position:relative;z-index:1000}
-.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1rem;height:48px;gap:0;flex-wrap:nowrap;overflow:visible}.tool-nav-inner::-webkit-scrollbar{height:0}
-.nav-brand{color:#00ff88;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.95rem;text-decoration:none;margin-right:1.5rem;white-space:nowrap}
-.nav-cat{position:relative}.nav-cat-btn{background:none;border:none;color:#e0e0e0;font-family:'Inter',sans-serif;font-size:.8rem;padding:.5rem .7rem;cursor:pointer;white-space:nowrap;transition:color .2s}.nav-cat-btn:hover{color:#00ff88}
-.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:#141420;border:1px solid #1a1a2e;border-radius:8px;padding:.4rem 0;min-width:200px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5)}.nav-cat:hover .nav-dropdown{display:block}
-.nav-dropdown a{display:block;padding:.45rem 1rem;color:#b0b0b0;text-decoration:none;font-size:.78rem;transition:all .2s}.nav-dropdown a:hover{color:#00ff88;background:#1a1a2e}.nav-dropdown a.active{color:#00ff88;font-weight:600}
-.nav-api{margin-left:auto;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap}
-#page-content{flex:1;overflow-y:auto}
-.hero{text-align:center;padding:2.5rem 1rem 1.5rem}.hero h1{font-family:'JetBrains Mono',monospace;font-size:2rem;color:#00ff88;margin-bottom:.5rem}.hero p{color:#b0b0b0;font-size:1rem}
-.tool-section{max-width:850px;margin:0 auto;padding:0 1rem 2rem}
-.card{background:linear-gradient(135deg,#141420,#1a1a2e);border:1px solid #2a2a3e;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-.card h3{font-family:'JetBrains Mono',monospace;color:#00ff88;margin-bottom:1rem;font-size:1rem}
-.input-row{display:flex;gap:1rem;flex-wrap:wrap}
-.input-group{flex:1;min-width:180px;margin-bottom:1rem}
-.input-group label{display:block;color:#b0b0b0;font-size:.85rem;margin-bottom:.3rem;font-family:'JetBrains Mono',monospace}
-.input-group input{width:100%;padding:.6rem;background:#0d0d14;border:1px solid #2a2a3e;color:#e0e0e0;font-family:'JetBrains Mono',monospace;font-size:.95rem;border-radius:6px;outline:none}
-.input-group input:focus{border-color:#00ff88}
-.waveform{margin:1.5rem 0;text-align:center}
-.result-box{background:#0d0d14;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-top:1rem}
-.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
-.result-item{text-align:center;padding:.8rem;background:#141420;border:1px solid #2a2a3e;border-radius:8px}
-.result-item .label{color:#b0b0b0;font-size:.78rem;font-family:'JetBrains Mono',monospace}
-.result-item .value{color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;margin-top:.3rem}
-.faq{max-width:850px;margin:2rem auto;padding:0 1rem 3rem}.faq h2{font-family:'JetBrains Mono',monospace;color:#00ff88;font-size:1.3rem;margin-bottom:1rem}
-.faq-item{background:#141420;border:1px solid #2a2a3e;border-radius:8px;padding:1rem;margin-bottom:.8rem}.faq-item h3{color:#e0e0e0;font-size:.95rem;margin-bottom:.5rem}.faq-item p{color:#b0b0b0;font-size:.88rem;line-height:1.5}
-footer{text-align:center;padding:2rem 1rem;color:#555;font-size:.85rem;border-top:1px solid #1a1a2e}footer a{color:#00ff88;text-decoration:none}
-@media(max-width:600px){.hero h1{font-size:1.4rem}}
 
-.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.78rem;white-space:nowrap;margin-left:.5rem}.nav-pro-btn:hover{opacity:.9}.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}.pro-modal-overlay.active{display:flex}.pro-modal{background:#141420;border:1px solid #1a1a2e;border-radius:12px;padding:2rem;max-width:420px;width:90%;text-align:center}.pro-modal h3{color:#00ff88;margin:0 0 1rem}.pro-modal input{width:100%;padding:.6rem;background:#0a0a0f;border:1px solid #1a1a2e;border-radius:6px;color:#e0e0e0;font-size:.9rem;margin:.5rem 0;box-sizing:border-box}.pro-modal button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#0a0a0f;border:none;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer;margin-top:.5rem}.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:#666;font-size:1.2rem;cursor:pointer;border:none}.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}.pro-modal .status.success{color:#00ff88}.pro-modal .status.error{color:#ff4444}
-</style>
-</head>
-<body>
-<nav class="tool-nav"><div class="tool-nav-inner">
-<a href="index.html" class="nav-brand">LogicMinimizer</a>
-<div class="nav-cat"><button class="nav-cat-btn">Logic ▾</button><div class="nav-dropdown">
-<a href="index.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Circuits ▾</button><div class="nav-dropdown">
-<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Converters ▾</button><div class="nav-dropdown">
-<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
-</div></div>
-<div class="nav-cat"><button class="nav-cat-btn">Calculators ▾</button><div class="nav-dropdown">
-<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html" class="active">PWM</a><a href="resistor.html">Resistor</a>
-</div></div>
-<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
-<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
-</div></nav>
-<div id="page-content">
-<section class="hero"><h1>PWM Calculator</h1><p>Frequency, duty cycle, period, ON/OFF time — with waveform visualization</p></section>
-<section class="tool-section">
-<div class="card">
-<h3>// Parameters</h3>
-<div class="input-row">
-<div class="input-group"><label>Frequency (Hz)</label><input type="text" id="freq" placeholder="1000" oninput="calcFromFreqDuty()"></div>
-<div class="input-group"><label>Duty Cycle (%)</label><input type="text" id="duty" placeholder="50" oninput="calcFromFreqDuty()"></div>
-</div>
-<div class="input-row">
-<div class="input-group"><label>Period (ms)</label><input type="text" id="period" placeholder="1" oninput="calcFromPeriod()"></div>
-<div class="input-group"><label>Vcc (V)</label><input type="text" id="vcc" placeholder="5" oninput="calcFromFreqDuty()"></div>
-</div>
-<div class="input-row">
-<div class="input-group"><label>Time ON (ms)</label><input type="text" id="ton" placeholder="0.5" oninput="calcFromTimes()"></div>
-<div class="input-group"><label>Time OFF (ms)</label><input type="text" id="toff" placeholder="0.5" oninput="calcFromTimes()"></div>
-</div>
-<div class="waveform" id="waveform"></div>
-<div class="result-box">
-<div class="result-grid">
-<div class="result-item"><div class="label">Frequency</div><div class="value" id="resFreq">—</div></div>
-<div class="result-item"><div class="label">Period</div><div class="value" id="resPeriod">—</div></div>
-<div class="result-item"><div class="label">Duty Cycle</div><div class="value" id="resDuty">—</div></div>
-<div class="result-item"><div class="label">Time ON</div><div class="value" id="resTon">—</div></div>
-<div class="result-item"><div class="label">Time OFF</div><div class="value" id="resToff">—</div></div>
-<div class="result-item"><div class="label">Avg Voltage</div><div class="value" id="resVavg">—</div></div>
-</div>
-</div>
-</div>
-</section>
-<section class="faq">
-<h2>FAQ</h2>
-<div class="faq-item"><h3>What is PWM?</h3><p>Pulse Width Modulation (PWM) is a technique to control the average power delivered to a load by rapidly switching between ON and OFF states. The duty cycle determines the percentage of time the signal is HIGH.</p></div>
-<div class="faq-item"><h3>How is average voltage calculated?</h3><p>Average voltage = Vcc × (Duty Cycle / 100). For a 5V signal at 75% duty cycle, the average voltage is 3.75V.</p></div>
-<div class="faq-item"><h3>What is duty cycle?</h3><p>Duty cycle is the percentage of one period in which the signal is HIGH. A 50% duty cycle means the signal is ON for half the period and OFF for the other half.</p></div>
-</section>
-<footer>&copy; 2025 LogicMinimizer — <a href="index.html">Home</a></footer>
-</div>
-<script>
-function calcFromFreqDuty(){const f=parseFloat(document.getElementById('freq').value);const d=parseFloat(document.getElementById('duty').value);
-if(isNaN(f)||isNaN(d)||f<=0||d<0||d>100)return;
-const T=1/f*1000;const ton=T*d/100;const toff=T-ton;
-document.getElementById('period').value=T.toFixed(4);document.getElementById('ton').value=ton.toFixed(4);document.getElementById('toff').value=toff.toFixed(4);
-updateResults(f,T,d,ton,toff);}
-function calcFromPeriod(){const T=parseFloat(document.getElementById('period').value);const d=parseFloat(document.getElementById('duty').value)||50;
-if(isNaN(T)||T<=0)return;const f=1/(T/1000);const ton=T*d/100;const toff=T-ton;
-document.getElementById('freq').value=f.toFixed(2);document.getElementById('ton').value=ton.toFixed(4);document.getElementById('toff').value=toff.toFixed(4);
-updateResults(f,T,d,ton,toff);}
-function calcFromTimes(){const ton=parseFloat(document.getElementById('ton').value);const toff=parseFloat(document.getElementById('toff').value);
-if(isNaN(ton)||isNaN(toff)||ton<0||toff<0)return;const T=ton+toff;if(T===0)return;
-const f=1/(T/1000);const d=ton/T*100;
-document.getElementById('freq').value=f.toFixed(2);document.getElementById('period').value=T.toFixed(4);document.getElementById('duty').value=d.toFixed(2);
-updateResults(f,T,d,ton,toff);}
-function updateResults(f,T,d,ton,toff){const vcc=parseFloat(document.getElementById('vcc').value)||5;
-document.getElementById('resFreq').textContent=f>=1000?(f/1000).toFixed(2)+' kHz':f.toFixed(2)+' Hz';
-document.getElementById('resPeriod').textContent=T>=1?T.toFixed(3)+' ms':(T*1000).toFixed(1)+' \u00B5s';
-document.getElementById('resDuty').textContent=d.toFixed(1)+' %';
-document.getElementById('resTon').textContent=ton>=1?ton.toFixed(3)+' ms':(ton*1000).toFixed(1)+' \u00B5s';
-document.getElementById('resToff').textContent=toff>=1?toff.toFixed(3)+' ms':(toff*1000).toFixed(1)+' \u00B5s';
-document.getElementById('resVavg').textContent=(vcc*d/100).toFixed(2)+' V';
-drawWaveform(d);}
-function drawWaveform(duty){const w=600,h=120,pad=20;const dw=w-2*pad;const cycles=3;const cycleW=dw/cycles;
-let svg='<svg viewBox="0 0 '+w+' '+h+'" style="max-width:100%;width:100%">';
-svg+='<line x1="'+pad+'" y1="'+(h-pad)+'" x2="'+(w-pad)+'" y2="'+(h-pad)+'" stroke="#333" stroke-width="1"/>';
-svg+='<line x1="'+pad+'" y1="'+pad+'" x2="'+pad+'" y2="'+(h-pad)+'" stroke="#333" stroke-width="1"/>';
-let path='M '+pad+' '+(h-pad);const hi=pad+10,lo=h-pad;
-for(let c=0;c<cycles;c++){const x0=pad+c*cycleW;const xOn=x0+cycleW*duty/100;const xEnd=x0+cycleW;
-path+=' L '+x0+' '+lo+' L '+x0+' '+hi+' L '+xOn+' '+hi+' L '+xOn+' '+lo+' L '+xEnd+' '+lo;}
-svg+='<path d="'+path+'" fill="none" stroke="#00ff88" stroke-width="2"/>';
-const avgY=hi+(lo-hi)*(1-duty/100);svg+='<line x1="'+pad+'" y1="'+avgY+'" x2="'+(w-pad)+'" y2="'+avgY+'" stroke="#ff8800" stroke-width="1" stroke-dasharray="4,4"/>';
-svg+='<text x="'+(w-pad+5)+'" y="'+(avgY+4)+'" fill="#ff8800" font-size="10" font-family="JetBrains Mono">Vavg</text>';
-svg+='</svg>';document.getElementById('waveform').innerHTML=svg;}
-drawWaveform(50);
+function tryExample(){document.getElementById("freq").value="1000";document.getElementById("duty").value="50";document.getElementById("vcc").value="5";calcFromFreqDuty();}
+
+(function(){var els=document.querySelectorAll(".animate-on-scroll");if("IntersectionObserver" in window){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target)}})},{threshold:0,rootMargin:"0px 0px 200px 0px"});els.forEach(function(el){obs.observe(el)})}else{els.forEach(function(el){el.classList.add("visible")})}setTimeout(function(){els.forEach(function(el){el.classList.add("visible")})},1500)})();
+
+function openProModal(){document.getElementById("proModal").classList.add("show")}
+function closeProModal(){document.getElementById("proModal").classList.remove("show")}
+function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim();if(!k){alert("Please enter a license key.");return}fetch("https://n8n.iaspacdz.live/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("proKey",k);localStorage.setItem("proValid","true");alert("Pro activated! Refreshing...");location.reload()}else{alert(d.message||"Invalid key.")}}).catch(function(){alert("Verification failed.")})}
+function checkPro(){return localStorage.getItem("proValid")==="true"}
+document.querySelectorAll(".nav-links .nav-dropdown-btn").forEach(function(btn){btn.addEventListener("click",function(e){if(window.innerWidth<=768){e.preventDefault();this.parentElement.classList.toggle("open")}})});
 </script>
-<div class="pro-modal-overlay" id="proModal"><div class="pro-modal" style="position:relative"><button class="close-btn" onclick="closeProModal()">&times;</button><h3>Activate Pro</h3><p style="color:#b0b0b0;font-size:.85rem">Enter your PRO license key.</p><input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX"><button onclick="verifyProKey()">Verify</button><div class="status" id="proStatus"></div><p style="color:#666;font-size:.75rem;margin-top:1rem">No key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank" style="color:#00ff88">Get Pro</a></p></div></div>
-<script>function openProModal(){document.getElementById("proModal").classList.add("active")}function closeProModal(){document.getElementById("proModal").classList.remove("active")}function verifyProKey(){var k=document.getElementById("proKeyInput").value.trim(),s=document.getElementById("proStatus");if(!k){s.textContent="Enter a key";s.className="status error";return}s.textContent="Verifying...";s.className="status";fetch("https://dziab.app.n8n.cloud/webhook/verify?key="+encodeURIComponent(k)).then(function(r){return r.json()}).then(function(d){if(d.valid){localStorage.setItem("logic1min_pro",JSON.stringify({key:k,plan:d.plan,expires_at:d.expires_at,activated:new Date().toISOString()}));s.textContent="Activated!";s.className="status success";setTimeout(function(){location.reload()},1500)}else{s.textContent=d.error||"Invalid";s.className="status error"}}).catch(function(){s.textContent="Error";s.className="status error"})}function checkPro(){var d=localStorage.getItem("logic1min_pro");if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem("logic1min_pro");return}window.isPro=true;var b=document.querySelectorAll(".upgrade-banner,.limit-banner");for(var i=0;i<b.length;i++)b[i].style.display="none";var btn=document.querySelector(".nav-pro-btn");if(btn){btn.textContent="PRO";btn.style.background="linear-gradient(135deg,#00ff88,#00cc6a)";btn.style.color="#0a0a0f";btn.onclick=null;btn.removeAttribute("onclick")}}catch(e){}}checkPro();document.getElementById("proModal").addEventListener("click",function(e){if(e.target===this)closeProModal()});</script>
 </body>
-                                                                                                                                                                       </html>
+                                                        </html>

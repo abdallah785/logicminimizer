@@ -31,7 +31,7 @@ a{color:var(--accent);text-decoration:none;transition:color .2s}a:hover{color:va
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,204,.4)}70%{box-shadow:0 0 0 10px rgba(0,229,204,0)}}
 @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;will-change:opacity,transform}
 .animate-on-scroll.visible{opacity:1;transform:translateY(0)}
 .stagger-1{transition-delay:.1s}.stagger-2{transition-delay:.2s}.stagger-3{transition-delay:.3s}.stagger-4{transition-delay:.4s}
 /* Nav */
@@ -428,8 +428,8 @@ function toggleMobileMenu(){document.getElementById('mobileMenu').classList.togg
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var id=this.getAttribute('href').substring(1);var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})})});
 // IntersectionObserver for scroll animations
-var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible')}})},{threshold:0.1});
-document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)});
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0,rootMargin:'0px 0px 200px 0px'});
+document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)});setTimeout(function(){document.querySelectorAll('.animate-on-scroll').forEach(function(el){el.classList.add('visible')})},1500);
 // Social proof counter
 function animateCounter(el,target){var current=0;var step=Math.ceil(target/60);var timer=setInterval(function(){current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=current.toLocaleString()},20)}
 var proofEl=document.getElementById('proofCount');

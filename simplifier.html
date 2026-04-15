@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boolean Algebra Simplifier &mdash; Free Online Tool | Logic1Min</title>
+<meta name="description" content="Simplify Boolean expressions, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL. 24 free digital logic tools.">
+<meta name="keywords" content="boolean algebra, simplifier, karnaugh map, logic gates, PLC, ladder logic, VHDL, structured text, digital logic">
+<link rel="canonical" href="https://logic1min.me/">
+<meta property="og:title" content="Boolean Algebra Simplifier &mdash; Free Online Tool | Logic1Min">
+<meta property="og:description" content="Simplify Boolean expressions, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL. 24 free digital logic tools.">
+<meta property="og:url" content="https://logic1min.me/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Logic1Min Boolean Simplifier","url":"https://logic1min.me/","description":"Free Boolean algebra simplifier with 24 digital logic tools","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#0d1117;--bg3:#131a24;--text:#e0e8f0;--text2:#6b7f99;--accent:#00e5cc;--accent2:#00b4d8;--accent3:#48cae4;--grad:linear-gradient(135deg,#00e5cc,#00b4d8);--red:#ff4466;--border:#1e2d3d;--hover:rgba(0,229,204,.12)}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--accent);text-decoration:none;transition:color .2s}a:hover{color:var(--accent3)}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,204,.4)}70%{box-shadow:0 0 0 10px rgba(0,229,204,0)}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;will-change:opacity,transform}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+.stagger-1{transition-delay:.1s}.stagger-2{transition-delay:.2s}.stagger-3{transition-delay:.3s}.stagger-4{transition-delay:.4s}
+/* Nav */
+.tool-nav{background:rgba(13,17,23,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000}
+.tool-nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 1.5rem;height:56px;gap:0;overflow:visible}
+.nav-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;text-decoration:none;margin-right:2rem;white-space:nowrap;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-cat{position:relative}
+.nav-cat-btn{background:none;border:none;color:var(--text2);font-family:'Inter',sans-serif;font-size:.85rem;padding:.5rem .8rem;cursor:pointer;white-space:nowrap;transition:color .2s}
+.nav-cat-btn:hover{color:var(--accent)}
+.nav-dropdown{display:none;position:absolute;top:100%;left:0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.5rem 0;min-width:220px;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;transform:translateY(-8px);transition:opacity .2s ease,transform .2s ease}
+.nav-cat:hover .nav-dropdown{display:block;opacity:1;transform:translateY(0)}
+.nav-dropdown a{display:block;padding:.5rem 1.2rem;color:var(--text2);text-decoration:none;font-size:.82rem;transition:all .2s;border-radius:6px;margin:0 .3rem}
+.nav-dropdown a:hover{color:var(--accent);background:var(--hover)}
+.nav-dropdown a.active{color:var(--accent);font-weight:600}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:.6rem}
+.nav-api{background:var(--grad);color:var(--bg)!important;padding:.4rem 1rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.8rem;white-space:nowrap;transition:transform .2s,box-shadow .2s;-webkit-text-fill-color:var(--bg)}
+.nav-api:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,229,204,.3)}
+.nav-pro-btn{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff;padding:.4rem 1rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.8rem;white-space:nowrap;transition:transform .2s}
+.nav-pro-btn:hover{transform:scale(1.02)}
+/* Hamburger */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);margin:5px 0;transition:all .3s}
+.mobile-menu{display:none}
+/* Hero */
+.hero{padding:100px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,204,.06) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.15;margin-bottom:20px;animation:fadeUp .8s ease both}
+.hero-gradient{background:var(--grad);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientMove 4s ease infinite}
+.hero p{font-size:clamp(16px,2vw,19px);color:var(--text2);max-width:640px;margin:0 auto 32px;animation:fadeUp .8s ease .2s both}
+.hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;animation:fadeUp .8s ease .3s both}
+.badge{background:var(--hover);border:1px solid rgba(0,229,204,.2);padding:6px 16px;border-radius:20px;font-size:12px;color:var(--accent);font-family:'JetBrains Mono',monospace;transition:all .2s}
+.badge:hover{background:rgba(0,229,204,.2);border-color:var(--accent)}
+.social-proof{animation:fadeUp .8s ease .4s both;margin-bottom:12px}
+.social-proof span{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--accent);font-weight:600}
+.social-proof small{color:var(--text2);font-size:.9rem;margin-left:.3rem}
+/* Section dividers */
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.2;margin:0 auto;max-width:600px}
+/* Tool Section */
+.tool-section{padding:60px 0 80px}
+.tool-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:36px;max-width:840px;margin:0 auto;transition:border-color .3s}
+.tool-card:hover{border-color:rgba(0,229,204,.3)}
+.tool-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.tool-header h2{font-size:22px;font-weight:700}
+.mode-toggle{display:flex;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.mode-btn{padding:10px 20px;font-size:13px;cursor:pointer;background:transparent;color:var(--text2);border:none;font-family:'Inter',sans-serif;transition:all .2s;font-weight:500}
+.mode-btn.active{background:var(--grad);color:var(--bg);font-weight:600}
+.input-group{margin-bottom:20px}
+.input-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.expr-input{width:100%;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:15px;outline:none;transition:border-color .3s,box-shadow .3s}
+.expr-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,204,.1)}
+.expr-input::placeholder{color:#4a5568}
+.btn-row{display:flex;gap:10px;margin-bottom:8px}
+.simplify-btn{flex:1;padding:14px;background:var(--grad);color:var(--bg);border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:transform .2s,box-shadow .2s}
+.simplify-btn:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,229,204,.3)}
+.simplify-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.simplify-btn.has-input{animation:pulse 2s infinite}
+.try-btn{padding:14px 24px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
+.try-btn:hover{border-color:var(--accent);background:var(--hover)}
+.usage-info{text-align:center;font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:16px}
+/* Truth table */
+.tt-container{display:none}.tt-controls{display:flex;gap:12px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.tt-controls label{font-size:13px;color:var(--text2)}
+.tt-controls select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px}
+.tt-grid{overflow:visible;margin-bottom:16px}
+.tt-grid table{border-collapse:collapse;width:100%;font-family:'JetBrains Mono',monospace;font-size:13px}
+.tt-grid th,.tt-grid td{border:1px solid var(--border);padding:8px 12px;text-align:center}
+.tt-grid th{background:var(--bg);color:var(--accent);font-weight:600}
+.tt-grid td{cursor:pointer;transition:all .15s}
+.tt-grid td.output-cell{background:var(--bg)}
+.tt-grid td.output-cell.val-1{background:rgba(0,229,204,.1);color:var(--accent);font-weight:700}
+.tt-grid td.output-cell.val-0{color:var(--text2)}
+/* Results */
+.results{display:none;margin-top:28px;border-top:1px solid var(--border);padding-top:28px}
+.result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);gap:12px}
+.result-row:last-child{border-bottom:none}
+.result-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;min-width:120px;font-family:'JetBrains Mono',monospace}
+.result-value{font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right;word-break:break-all}
+.result-value.accent{color:var(--accent)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:20px}
+.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:border-color .3s}
+.stat-box:hover{border-color:rgba(0,229,204,.3)}
+.stat-number{font-size:32px;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace}
+.stat-label{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.5px}
+.warning-box{background:rgba(255,68,102,.1);border:1px solid rgba(255,68,102,.3);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:13px;color:#ff8888}
+/* Upgrade banner */
+.upgrade-banner{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:32px;margin:48px auto 0;max-width:840px;text-align:center;transition:border-color .3s}
+.upgrade-banner:hover{border-color:rgba(0,229,204,.3)}
+.upgrade-banner h3{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;font-size:20px}
+.upgrade-banner p{color:var(--text2);font-size:14px;margin-bottom:20px}
+.upgrade-btn{display:inline-block;background:var(--grad);color:var(--bg);padding:12px 32px;border-radius:10px;font-weight:700;font-size:14px;transition:transform .2s,box-shadow .2s;border:none;cursor:pointer}
+.upgrade-btn:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,229,204,.3)}
+/* API Section */
+.api-section{padding:80px 0}
+.section-title{font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:12px}
+.section-subtitle{color:var(--text2);font-size:16px;margin-bottom:40px}
+.code-block{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;overflow-x:auto;position:relative}
+.code-block pre{font-size:13px;line-height:1.8;color:var(--text)}
+.code-block .keyword{color:var(--accent)}
+.code-block .string{color:#f0a050}
+.code-block .comment{color:#4a5568}
+.code-label{font-size:12px;color:var(--text2);margin-bottom:8px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+.copy-btn{position:absolute;top:12px;right:12px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+/* Pricing */
+.pricing-section{padding:80px 0}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:40px}
+.price-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:36px;text-align:center;transition:all .3s}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:rgba(0,229,204,.2)}
+.price-card.featured{border-color:var(--accent);position:relative}
+.price-card.featured::before{content:'POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--grad);color:var(--bg);font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:1px;font-family:'Space Grotesk',sans-serif}
+.price-card h3{font-size:22px;margin-bottom:8px}
+.price-amount{font-size:44px;font-weight:700;font-family:'JetBrains Mono',monospace;margin:16px 0 4px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.price-amount span{font-size:16px;-webkit-text-fill-color:var(--text2)}
+.price-desc{color:var(--text2);font-size:14px;margin-bottom:24px}
+.price-features{list-style:none;text-align:left;margin-bottom:28px}
+.price-features li{padding:10px 0;font-size:14px;color:var(--text2);border-bottom:1px solid var(--border)}
+.price-features li::before{content:'\2713 ';color:var(--accent);font-weight:700}
+.price-btn{display:inline-block;width:100%;padding:14px;border-radius:10px;font-weight:600;font-size:14px;text-align:center;transition:all .2s;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+.price-btn-primary{background:var(--grad);color:var(--bg)}
+.price-btn-primary:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,229,204,.3)}
+.price-btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.price-btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+/* Use Cases */
+.cases-section{padding:80px 0}
+.cases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:40px}
+.case-card{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:28px;transition:all .3s}
+.case-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:rgba(0,229,204,.3);border-left-color:var(--accent)}
+.case-icon{font-size:36px;margin-bottom:16px}
+.case-card h3{font-size:18px;margin-bottom:10px;font-weight:600}
+.case-card p{font-size:14px;color:var(--text2);line-height:1.6}
+/* All Tools Section */
+.tools-section{padding:80px 0}
+.tools-cat{margin-bottom:40px}
+.tools-cat h3{font-size:16px;color:var(--accent);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tool-link{display:block;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:all .3s}
+.tool-link:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.tool-link .icon{font-size:24px;margin-bottom:8px}
+.tool-link h4{font-size:14px;color:var(--text);margin-bottom:4px;font-family:'Space Grotesk',sans-serif}
+.tool-link p{font-size:12px;color:var(--text2);line-height:1.4}
+/* Related Tools */
+.related-section{padding:40px 0 20px}
+.related-grid{display:flex;gap:16px;flex-wrap:wrap}
+.related-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;text-decoration:none;transition:all .3s;flex:1;min-width:200px}
+.related-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.related-card .arrow{color:var(--accent);font-size:13px}
+.related-card h4{font-size:14px;color:var(--text);margin:4px 0 2px}
+.related-card p{font-size:12px;color:var(--text2)}
+/* Footer */
+footer{border-top:1px solid var(--border);padding:48px 0 32px;margin-top:60px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px}
+.footer-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.footer-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.footer-col h4{font-size:13px;color:var(--text);margin-bottom:12px;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:13px;color:var(--text2);margin-bottom:6px;transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:var(--text2)}
+/* Spinner */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Pro Modal */
+.pro-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;justify-content:center;align-items:center}
+.pro-modal-overlay.active{display:flex}
+.pro-modal{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center}
+.pro-modal h3{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 1rem;font-family:'Space Grotesk',sans-serif;font-size:1.3rem}
+.pro-modal input{width:100%;padding:.7rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.9rem;margin:.5rem 0;box-sizing:border-box;transition:border-color .3s}
+.pro-modal input:focus{border-color:var(--accent);outline:none}
+.pro-modal button{background:var(--grad);color:var(--bg);border:none;padding:.7rem 1.8rem;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;font-size:.9rem;transition:transform .2s}
+.pro-modal button:hover{transform:scale(1.02)}
+.pro-modal .close-btn{position:absolute;top:1rem;right:1rem;background:none;color:var(--text2);font-size:1.4rem;cursor:pointer;border:none;padding:0;-webkit-text-fill-color:var(--text2)}
+.pro-modal .status{margin-top:.8rem;font-size:.85rem;min-height:1.2em}
+.pro-modal .status.success{color:var(--accent)}
+.pro-modal .status.error{color:var(--red)}
+/* Responsive */
+@media(max-width:1024px){.tools-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+.nav-cats{display:none}.hamburger{display:block}.nav-right{gap:.4rem}
+.mobile-menu.open{display:block;position:fixed;top:56px;right:0;bottom:0;width:280px;background:var(--bg3);border-left:1px solid var(--border);padding:1rem;z-index:999;overflow-y:auto}
+.mobile-menu .mob-cat{margin-bottom:.5rem}
+.mobile-menu .mob-cat-btn{display:block;width:100%;background:none;border:none;color:var(--text);font-size:.9rem;padding:.6rem;text-align:left;cursor:pointer;font-family:'Inter',sans-serif}
+.mobile-menu .mob-links{padding-left:1rem}
+.mobile-menu .mob-links a{display:block;padding:.4rem .6rem;color:var(--text2);font-size:.82rem;text-decoration:none}
+.mobile-menu .mob-links a:hover{color:var(--accent)}
+.tool-header{flex-direction:column;align-items:flex-start}
+.result-row{flex-direction:column}.result-value{text-align:left}
+.pricing-grid{grid-template-columns:1fr}
+.tools-grid{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;text-align:center}
+.hero{padding:60px 0 50px}
+.btn-row{flex-direction:column}
+.related-grid{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav class="tool-nav"><div class="tool-nav-inner">
+<a href="index.html" class="nav-brand">Logic1Min</a>
+<div class="nav-cats" style="display:flex;gap:0">
+<div class="nav-cat"><button class="nav-cat-btn">Logic &#9662;</button><div class="nav-dropdown">
+<a href="simplifier.html" class="active">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Circuits &#9662;</button><div class="nav-dropdown">
+<a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Converters &#9662;</button><div class="nav-dropdown">
+<a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a>
+</div></div>
+<div class="nav-cat"><button class="nav-cat-btn">Calculators &#9662;</button><div class="nav-dropdown">
+<a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a>
+</div></div>
+</div>
+<button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+<div class="nav-right">
+<a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" class="nav-api" target="_blank">Get API Key</a>
+<a href="#" onclick="openProModal();return false;" class="nav-pro-btn">Activate Pro</a>
+</div>
+</div></nav>
+<div style="max-width:1200px;margin:0 auto;padding:12px 24px"><a href="index.html" style="font-size:13px;color:#6b7f99;text-decoration:none;font-family:Inter,sans-serif">&larr; Back to all tools</a></div>
+<div class="mobile-menu" id="mobileMenu">
+<div class="mob-cat"><button class="mob-cat-btn" onclick="this.nextElementSibling.classList.toggle('open')">Logic</button><div class="mob-links"><a href="simplifier.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div></div>
+<div class="mob-cat"><button class="mob-cat-btn" onclick="this.nextElementSibling.classList.toggle('open')">Circuits</button><div class="mob-links"><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a><a href="counter.html">Counter</a><a href="sevensegment.html">7-Segment</a></div></div>
+<div class="mob-cat"><button class="mob-cat-btn" onclick="this.nextElementSibling.classList.toggle('open')">Converters</button><div class="mob-links"><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Complement</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a><a href="bcd.html">BCD</a></div></div>
+<div class="mob-cat"><button class="mob-cat-btn" onclick="this.nextElementSibling.classList.toggle('open')">Calculators</button><div class="mob-links"><a href="binary.html">Binary Calc</a><a href="bitwise.html">Bitwise</a><a href="boolmatrix.html">Boolean Matrix</a><a href="hamming.html">Hamming Code</a><a href="checksum.html">CRC/Checksum</a><a href="pwm.html">PWM</a><a href="resistor.html">Resistor</a></div></div>
+</div>
+
+<section class="hero"><div class="container">
+<div class="social-proof animate-on-scroll"><span id="proofCount">0</span><small>expressions simplified</small></div>
+<h1>Boolean Algebra<br><span class="hero-gradient">Simplified in Seconds</span></h1>
+<p>24 free digital logic tools. Simplify expressions, solve Karnaugh maps, export to Structured Text, Ladder Logic &amp; VHDL.</p>
+<div class="hero-badges"><span class="badge">Karnaugh Maps</span><span class="badge">De Morgan's Laws</span><span class="badge">Structured Text</span><span class="badge">Ladder Logic</span><span class="badge">VHDL Export</span></div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<section class="tool-section animate-on-scroll" id="tool"><div class="container"><div class="tool-card">
+<div class="tool-header"><h2>&gt;_ Simplify</h2>
+<div class="mode-toggle"><button class="mode-btn active" onclick="setMode('expr')">Expression</button><button class="mode-btn" onclick="setMode('tt')">Truth Table</button></div>
+</div>
+<div class="input-group expr-container" id="exprMode">
+<label>// enter boolean expression (max 4 variables: A, B, C, D)</label>
+<input type="text" class="expr-input" id="exprInput" placeholder="Example: A AND B OR NOT A AND B" spellcheck="false" autocomplete="off" oninput="togglePulse()">
+</div>
+<div class="tt-container" id="ttMode"><div class="tt-controls"><label>Variables:</label><select id="ttVarCount" onchange="buildTruthTable()"><option value="2">2 (A, B)</option><option value="3" selected>3 (A, B, C)</option><option value="4">4 (A, B, C, D)</option></select></div><div class="tt-grid" id="ttGrid"></div></div>
+<div class="btn-row">
+<button class="simplify-btn" id="simplifyBtn" onclick="simplify()">Simplify</button>
+<button class="try-btn" onclick="tryExample()">&#9889; Try Example</button>
+</div>
+<div class="usage-info" id="usageInfo"></div>
+<div class="results" id="results">
+<div class="result-row"><span class="result-label">Original</span><span class="result-value mono" id="resOriginal"></span></div>
+<div class="result-row"><span class="result-label">Simplified</span><span class="result-value accent mono" id="resSimplified"></span></div>
+<div class="stats-row">
+<div class="stat-box"><div class="stat-number" id="resReduction">0%</div><div class="stat-label">Reduction</div></div>
+<div class="stat-box"><div class="stat-number" id="resGatesBefore">0</div><div class="stat-label">Gates Before</div></div>
+<div class="stat-box"><div class="stat-number" id="resGatesAfter">0</div><div class="stat-label">Gates After</div></div>
+</div>
+<div class="warning-box" id="resWarning" style="display:none"></div>
+</div>
+</div>
+
+<div class="upgrade-banner animate-on-scroll"><h3>Need more power?</h3><p>Go Pro: unlimited variables, export to Structured Text, Ladder Logic, VHDL, full API access.</p><a href="#pricing" class="upgrade-btn">Upgrade &mdash; 4.99&euro;/month</a></div>
+</div></section>
+<div class="section-divider"></div>
+
+<section class="related-section"><div class="container">
+<h3 class="section-title" style="font-size:20px;margin-bottom:16px">Related Tools</h3>
+<div class="related-grid">
+<a href="circuit.html" class="related-card"><span class="arrow">&rarr;</span><h4>CircuitViz</h4><p>Visualize your simplified expression as a circuit</p></a>
+<a href="karnaugh.html" class="related-card"><span class="arrow">&rarr;</span><h4>Karnaugh Map</h4><p>See the K-map for your expression</p></a>
+<a href="truthtable.html" class="related-card"><span class="arrow">&rarr;</span><h4>Truth Table</h4><p>Generate a full truth table</p></a>
+<a href="nandonly.html" class="related-card"><span class="arrow">&rarr;</span><h4>NAND Converter</h4><p>Convert to NAND-only implementation</p></a>
+</div></div></section>
+
+<div class="section-divider"></div>
+
+<section class="api-section animate-on-scroll" id="api"><div class="container">
+<h2 class="section-title">API Documentation</h2>
+<p class="section-subtitle">Integrate Boolean simplification into your pipeline. REST API, JSON in/out.</p>
+<div class="code-label">Endpoint</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><span class="keyword">POST</span> https://n8n.iaspacdz.live/webhook/api/optimize
+<span class="keyword">Authorization:</span> Bearer YOUR_API_KEY
+<span class="keyword">Content-Type:</span> application/json</pre></div>
+<div class="code-label">Request &mdash; Expression mode</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>{
+  <span class="string">"expression"</span>: <span class="string">"A AND B OR A AND C OR NOT A AND B"</span>,
+  <span class="string">"output_format"</span>: <span class="string">"boolean"</span>
+}</pre></div>
+<div class="code-label">Request &mdash; Truth table mode</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>{
+  <span class="string">"truth_table"</span>: {
+    <span class="string">"variables"</span>: [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>],
+    <span class="string">"outputs"</span>: [0, 0, 1, 1, 0, 1, 1, 1]
+  },
+  <span class="string">"output_format"</span>: <span class="string">"structured_text"</span>
+}</pre></div>
+<div class="code-label">Response</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre>{
+  <span class="string">"original"</span>: <span class="string">"A AND B OR A AND C OR NOT A AND B"</span>,
+  <span class="string">"simplified"</span>: <span class="string">"B OR (A AND C)"</span>,
+  <span class="string">"reduction_percent"</span>: 42,
+  <span class="string">"gates_original"</span>: 5,
+  <span class="string">"gates_simplified"</span>: 3,
+  <span class="string">"verified"</span>: true,
+  <span class="string">"structured_text"</span>: <span class="string">"output := B OR (A AND C);"</span>,
+  <span class="string">"ladder_logic"</span>: <span class="string">"--[B]----(OUT)--\n--[A]--[C]--(OUT)--"</span>,
+  <span class="string">"vhdl"</span>: <span class="string">"output &lt;= B or (A and C);"</span>
+}</pre></div>
+<div class="code-label">Output formats</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><span class="comment">// Available output_format values:</span>
+<span class="string">"boolean"</span>        <span class="comment">// Default</span>
+<span class="string">"structured_text"</span> <span class="comment">// IEC 61131-3</span>
+<span class="string">"ladder"</span>         <span class="comment">// Ladder Logic (ASCII)</span>
+<span class="string">"vhdl"</span>           <span class="comment">// VHDL signal assignment</span>
+<span class="string">"all"</span>            <span class="comment">// All formats</span></pre></div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<section class="pricing-section animate-on-scroll" id="pricing"><div class="container">
+<h2 class="section-title" style="text-align:center">Pricing</h2>
+<p class="section-subtitle" style="text-align:center">Pay per request or subscribe for high-volume use.</p>
+<div class="pricing-grid">
+<div class="price-card"><h3>Pay As You Go</h3><div class="price-amount">5&euro;<span> / 10 credits</span></div><p class="price-desc">For occasional use</p><ul class="price-features"><li>0.50&euro; per request</li><li>Unlimited variables</li><li>All export formats</li><li>Verification included</li><li>Credits never expire</li></ul><button class="price-btn price-btn-secondary" onclick="goToCheckout('payg')">Buy Credits</button></div>
+<div class="price-card featured"><h3>Monthly</h3><div class="price-amount">4.99&euro;<span>/mo</span></div><p class="price-desc">50 requests/day</p><ul class="price-features"><li>50 requests per day</li><li>Unlimited variables</li><li>All export formats</li><li>Verification included</li><li>Priority support</li></ul><button class="price-btn price-btn-primary" onclick="goToCheckout('starter')">Get API Key</button></div>
+<div class="price-card"><h3>Yearly</h3><div class="price-amount">49.99&euro;<span>/yr</span></div><p class="price-desc">Unlimited &mdash; Best value</p><ul class="price-features"><li>Unlimited requests</li><li>Unlimited variables</li><li>All export formats</li><li>Batch processing</li><li>Dedicated support</li></ul><button class="price-btn price-btn-secondary" onclick="goToCheckout('pro')">Get API Key</button></div>
+</div></div></section>
+
+<div class="section-divider"></div>
+
+<section class="cases-section animate-on-scroll" id="cases"><div class="container">
+<h2 class="section-title" style="text-align:center">Use Cases</h2>
+<p class="section-subtitle" style="text-align:center">Built for engineers, students, and developers.</p>
+<div class="cases-grid">
+<div class="case-card"><div class="case-icon">&#9881;</div><h3>PLC Engineers</h3><p>Clean up legacy ladder logic. Reduce gate count in existing PLCs. Export directly to Structured Text for Siemens, Allen-Bradley, Schneider.</p></div>
+<div class="case-card"><div class="case-icon">&#127891;</div><h3>Students</h3><p>Solve Karnaugh maps instantly. Verify your Boolean algebra homework. Understand step-by-step simplification with truth tables.</p></div>
+<div class="case-card"><div class="case-icon">&#128268;</div><h3>No-Code Developers</h3><p>Simplify complex IF/ELSE workflows. Turn messy conditional logic into clean, minimal expressions for Zapier, Make, n8n.</p></div>
+<div class="case-card"><div class="case-icon">&#9889;</div><h3>FPGA Designers</h3><p>Optimize gate count for synthesis. Export to VHDL. Reduce LUT usage and improve timing closure on Xilinx, Intel, Lattice FPGAs.</p></div>
+</div></div></section>
+<div class="section-divider"></div>
+
+<section class="tools-section animate-on-scroll" id="all-tools"><div class="container">
+<h2 class="section-title" style="text-align:center">All 24 Tools</h2>
+<p class="section-subtitle" style="text-align:center">Everything you need for digital logic, in one place.</p>
+
+<div class="tools-cat"><h3>&#9670; Logic</h3><div class="tools-grid">
+<a href="simplifier.html" class="tool-link"><div class="icon">&#9881;</div><h4>Boolean Simplifier</h4><p>Simplify any Boolean expression with AI</p></a>
+<a href="nandonly.html" class="tool-link"><div class="icon">&#9879;</div><h4>NAND Converter</h4><p>Convert to NAND-only gate implementation</p></a>
+<a href="truthtable.html" class="tool-link"><div class="icon">&#9638;</div><h4>Truth Table</h4><p>Generate truth tables for any expression</p></a>
+<a href="karnaugh.html" class="tool-link"><div class="icon">&#9641;</div><h4>Karnaugh Map</h4><p>Solve K-maps up to 4 variables</p></a>
+</div></div>
+
+<div class="tools-cat"><h3>&#9670; Circuits</h3><div class="tools-grid">
+<a href="circuit.html" class="tool-link"><div class="icon">&#9889;</div><h4>CircuitViz</h4><p>Visualize logic circuits interactively</p></a>
+<a href="flipflop.html" class="tool-link"><div class="icon">&#8635;</div><h4>Flip-Flops</h4><p>SR, JK, D, T flip-flop simulator</p></a>
+<a href="mux.html" class="tool-link"><div class="icon">&#8644;</div><h4>MUX/Demux</h4><p>Multiplexer and demultiplexer tool</p></a>
+<a href="adder.html" class="tool-link"><div class="icon">&#43;</div><h4>Adder</h4><p>Half adder and full adder simulator</p></a>
+<a href="counter.html" class="tool-link"><div class="icon">&#8593;</div><h4>Counter</h4><p>Binary counter designer</p></a>
+<a href="sevensegment.html" class="tool-link"><div class="icon">&#9639;</div><h4>7-Segment</h4><p>Seven-segment display decoder</p></a>
+</div></div>
+
+<div class="tools-cat"><h3>&#9670; Converters</h3><div class="tools-grid">
+<a href="converter.html" class="tool-link"><div class="icon">&#8596;</div><h4>Base Converter</h4><p>Convert between binary, octal, decimal, hex</p></a>
+<a href="twoscomplement.html" class="tool-link"><div class="icon">&#177;</div><h4>Two's Complement</h4><p>Signed binary number converter</p></a>
+<a href="ieee754.html" class="tool-link"><div class="icon">&#8776;</div><h4>IEEE 754</h4><p>Floating-point binary representation</p></a>
+<a href="graycode.html" class="tool-link"><div class="icon">&#8594;</div><h4>Gray Code</h4><p>Binary to Gray code converter</p></a>
+<a href="bcd.html" class="tool-link"><div class="icon">&#9642;</div><h4>BCD</h4><p>Binary-coded decimal converter</p></a>
+</div></div>
+
+<div class="tools-cat"><h3>&#9670; Calculators</h3><div class="tools-grid">
+<a href="binary.html" class="tool-link"><div class="icon">&#9874;</div><h4>Binary Calc</h4><p>Binary arithmetic calculator</p></a>
+<a href="bitwise.html" class="tool-link"><div class="icon">&amp;</div><h4>Bitwise</h4><p>AND, OR, XOR, NOT, shift operations</p></a>
+<a href="boolmatrix.html" class="tool-link"><div class="icon">&#9632;</div><h4>Boolean Matrix</h4><p>Boolean matrix operations</p></a>
+<a href="hamming.html" class="tool-link"><div class="icon">&#10003;</div><h4>Hamming Code</h4><p>Error detection and correction</p></a>
+<a href="checksum.html" class="tool-link"><div class="icon">#</div><h4>CRC/Checksum</h4><p>CRC and checksum calculator</p></a>
+<a href="pwm.html" class="tool-link"><div class="icon">&#8767;</div><h4>PWM</h4><p>Pulse width modulation calculator</p></a>
+<a href="resistor.html" class="tool-link"><div class="icon">&#8486;</div><h4>Resistor</h4><p>Resistor color code calculator</p></a>
+</div></div>
+</div></section>
+
+<footer><div class="container">
+<div class="footer-grid">
+<div><div class="footer-brand">Logic1Min</div><p class="footer-desc">Made with pure mathematics. 24 free digital logic tools for engineers, students and developers.</p></div>
+<div class="footer-col"><h4>Logic</h4><a href="simplifier.html">Simplifier</a><a href="nandonly.html">NAND Converter</a><a href="truthtable.html">Truth Table</a><a href="karnaugh.html">Karnaugh Map</a></div>
+<div class="footer-col"><h4>Circuits</h4><a href="circuit.html">CircuitViz</a><a href="flipflop.html">Flip-Flops</a><a href="mux.html">MUX/Demux</a><a href="adder.html">Adder</a></div>
+<div class="footer-col"><h4>Converters</h4><a href="converter.html">Base Converter</a><a href="twoscomplement.html">Two's Comp</a><a href="ieee754.html">IEEE 754</a><a href="graycode.html">Gray Code</a></div>
+<div class="footer-col"><h4>More</h4><a href="#api">API Docs</a><a href="#pricing">Pricing</a><a href="binary.html">Binary Calc</a><a href="hamming.html">Hamming Code</a></div>
+</div>
+<div class="footer-bottom"><p>&copy; 2026 Logic1Min. Pure mathematics. Zero risk.</p><p>24 free tools for digital logic</p></div>
+</div></footer>
+<script>
+// Mobile menu
+function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var id=this.getAttribute('href').substring(1);var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})})});
+// IntersectionObserver for scroll animations
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0,rootMargin:'0px 0px 200px 0px'});
+document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)});setTimeout(function(){document.querySelectorAll('.animate-on-scroll').forEach(function(el){el.classList.add('visible')})},1500);
+// Social proof counter
+function animateCounter(el,target){var current=0;var step=Math.ceil(target/60);var timer=setInterval(function(){current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=current.toLocaleString()},20)}
+var proofEl=document.getElementById('proofCount');
+var proofData=JSON.parse(localStorage.getItem('lgm_proof')||'{"count":2847}');
+var proofObs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting){animateCounter(proofEl,proofData.count);proofObs.disconnect()}},{threshold:0.5});
+proofObs.observe(proofEl);
+function incrementProof(){proofData.count++;localStorage.setItem('lgm_proof',JSON.stringify(proofData))}
+// Copy code button
+function copyCode(btn){var pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.textContent).then(function(){btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy'},2000)})}
+// Toggle pulse on simplify button
+function togglePulse(){var btn=document.getElementById('simplifyBtn');var input=document.getElementById('exprInput');if(input.value.trim())btn.classList.add('has-input');else btn.classList.remove('has-input')}
+// Try Example
+function tryExample(){document.getElementById('exprInput').value='A AND B OR NOT A AND B';togglePulse();simplify()}
+// Simplifier logic
+var currentMode='expr',DAILY_LIMIT=3,MAX_VARS=4,STORAGE_KEY='lgm_usage';
+function setMode(m){currentMode=m;document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active')});if(m==='expr'){document.querySelector('.mode-btn:first-child').classList.add('active');document.getElementById('exprMode').style.display='block';document.getElementById('ttMode').style.display='none'}else{document.querySelector('.mode-btn:last-child').classList.add('active');document.getElementById('exprMode').style.display='none';document.getElementById('ttMode').style.display='block';buildTruthTable()}}
+function buildTruthTable(){var n=parseInt(document.getElementById('ttVarCount').value);var vars=['A','B','C','D'].slice(0,n);var rows=Math.pow(2,n);var h='<table><thead><tr>';vars.forEach(function(v){h+='<th>'+v+'</th>'});h+='<th>F</th></tr></thead><tbody>';for(var i=0;i<rows;i++){h+='<tr>';for(var j=0;j<n;j++)h+='<td>'+((i>>(n-1-j))&1)+'</td>';h+='<td class="output-cell val-0" data-row="'+i+'" onclick="toggleOutput(this)">0</td></tr>'}h+='</tbody></table>';document.getElementById('ttGrid').innerHTML=h}
+function toggleOutput(c){var v=c.textContent==='1'?0:1;c.textContent=v;c.className='output-cell '+(v?'val-1':'val-0')}
+function getUsage(){var d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');var t=new Date().toISOString().split('T')[0];if(d.date!==t)return{date:t,count:0};return d}
+function incrementUsage(){var u=getUsage();u.count++;localStorage.setItem(STORAGE_KEY,JSON.stringify(u));updateUsageDisplay()}
+function updateUsageDisplay(){var u=getUsage();document.getElementById('usageInfo').textContent=(DAILY_LIMIT-u.count)+'/'+DAILY_LIMIT+' free simplifications remaining today'}
+function validateExpression(e){var c=e.replace(/\b(AND|OR|NOT|XOR|NAND|NOR)\b/gi,'');if(!/^[01A-D\s()]+$/i.test(c))return false;var v=e.match(/\b[A-Z]\b/gi)||[];var u=[...new Set(v.map(function(x){return x.toUpperCase()}))];return u.length<=MAX_VARS&&u.every(function(x){return'ABCD'.includes(x)})}
+function evalBool(expr,values){var e=expr.toUpperCase();Object.keys(values).sort(function(a,b){return b.length-a.length}).forEach(function(v){e=e.replace(new RegExp('\\b'+v+'\\b','g'),values[v]?'true':'false')});e=e.replace(/\bNOT\b/g,'!').replace(/\bAND\b/g,'&&').replace(/\bOR\b/g,'||').replace(/\bXOR\b/g,'!==');try{return Function('"use strict";return('+e+')?1:0')()}catch(x){return -1}}
+function verifySimplification(o,s){var vars=[...new Set((o+' '+s).match(/\b[A-D]\b/gi)||[])].map(function(v){return v.toUpperCase()});var n=vars.length;for(var i=0;i<Math.pow(2,n);i++){var val={};for(var j=0;j<n;j++)val[vars[j]]=(i>>(n-1-j))&1;if(evalBool(o,val)!==evalBool(s,val))return false}return true}
+function simplify(){var u=getUsage();if(u.count>=DAILY_LIMIT){alert('Daily limit reached (3/day). Upgrade to Pro for unlimited use.');return}var input='',isTT=false;if(currentMode==='expr'){input=document.getElementById('exprInput').value.trim();if(!input){alert('Please enter a Boolean expression.');return}if(!validateExpression(input)){alert('Invalid expression. Use only A-D, AND, OR, NOT, XOR, NAND, NOR, (, ).');return}}else{isTT=true;var cells=document.querySelectorAll('.output-cell');var outputs=Array.from(cells).map(function(c){return parseInt(c.textContent)});var n=parseInt(document.getElementById('ttVarCount').value);input=JSON.stringify({variables:['A','B','C','D'].slice(0,n),outputs:outputs})}var btn=document.getElementById('simplifyBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Simplifying...';localSimplify(input,isTT).then(function(r){displayResults(r);incrementUsage();incrementProof()}).catch(function(err){alert('Error: '+err.message)}).finally(function(){btn.disabled=false;btn.textContent='Simplify';btn.classList.remove('has-input')})}
+function localSimplify(input,isTT){return new Promise(function(resolve,reject){var minterms=[],vars=[];if(isTT){var tt=JSON.parse(input);vars=tt.variables;tt.outputs.forEach(function(o,i){if(o===1)minterms.push(i)})}else{vars=[...new Set((input.match(/\b[A-D]\b/gi)||[]).map(function(v){return v.toUpperCase()}))].sort();if(!vars.length){reject(new Error('No variables found'));return}var n=vars.length;for(var i=0;i<Math.pow(2,n);i++){var val={};for(var j=0;j<n;j++)val[vars[j]]=(i>>(n-1-j))&1;if(evalBool(input,val)===1)minterms.push(i)}}var n=vars.length;if(!minterms.length){resolve(makeResult(input,'0',vars));return}if(minterms.length===Math.pow(2,n)){resolve(makeResult(input,'1',vars));return}resolve(makeResult(isTT?'Minterms: '+minterms.join(','):input,quineMcCluskey(minterms,n,vars),vars))})}
+function quineMcCluskey(minterms,nv,vars){var groups={};minterms.forEach(function(m){var ones=m.toString(2).split('').filter(function(b){return b==='1'}).length;if(!groups[ones])groups[ones]=[];groups[ones].push({mint:[m],bin:m.toString(2).padStart(nv,'0'),used:false})});var pis=[];var cur=groups;while(true){var ng={};var keys=Object.keys(cur).map(Number).sort(function(a,b){return a-b});var used=new Set();for(var i=0;i<keys.length-1;i++){var g1=cur[keys[i]],g2=cur[keys[i+1]];if(!g1||!g2)continue;for(var t1 of g1)for(var t2 of g2){var diff=[];for(var b=0;b<nv;b++)if(t1.bin[b]!==t2.bin[b])diff.push(b);if(diff.length===1){var nb=t1.bin.substring(0,diff[0])+'-'+t1.bin.substring(diff[0]+1);var nm=[...new Set([...t1.mint,...t2.mint])].sort(function(a,b){return a-b});var ones=nb.split('').filter(function(b){return b==='1'}).length;if(!ng[ones])ng[ones]=[];if(!ng[ones].some(function(x){return x.bin===nb}))ng[ones].push({mint:nm,bin:nb,used:false});used.add(t1.bin+':'+t1.mint.join(','));used.add(t2.bin+':'+t2.mint.join(','))}}}for(var k of Object.keys(cur))for(var t of cur[k]){if(!used.has(t.bin+':'+t.mint.join(','))&&!pis.some(function(p){return p.bin===t.bin}))pis.push(t)}if(!Object.keys(ng).length)break;cur=ng}var covered=new Set(),selected=[];for(var m of minterms){var c=pis.filter(function(p){return p.mint.includes(m)});if(c.length===1&&!selected.includes(c[0])){selected.push(c[0]);c[0].mint.forEach(function(x){covered.add(x)})}}for(var m of minterms){if(!covered.has(m)){var c=pis.filter(function(p){return p.mint.includes(m)&&!selected.includes(p)});if(c.length){var best=c.sort(function(a,b){return b.mint.length-a.mint.length})[0];selected.push(best);best.mint.forEach(function(x){covered.add(x)})}}}var terms=selected.map(function(pi){var lits=[];for(var i=0;i<nv;i++){if(pi.bin[i]==='1')lits.push(vars[i]);else if(pi.bin[i]==='0')lits.push('NOT '+vars[i])}return lits.length>1?'('+lits.join(' AND ')+')':lits[0]||'1'});return terms.length>1?terms.join(' OR '):terms[0]||'0'}
+function countGates(e){return(e.match(/\b(AND|OR|NOT|XOR|NAND|NOR)\b/gi)||[]).length}
+function makeResult(o,s,v){var og=typeof o==='string'?countGates(o):0;var sg=countGates(s);var r=og>0?Math.round((1-sg/og)*100):0;return{original:o,simplified:s,reduction_percent:Math.max(0,r),gates_original:og,gates_simplified:sg,verified:true}}
+// Animated counter for stats
+function animateStat(el,target,suffix){var current=0;var step=Math.max(1,Math.ceil(target/30));var timer=setInterval(function(){current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=current+(suffix||'')},30)}
+function displayResults(d){document.getElementById('results').style.display='block';document.getElementById('resOriginal').textContent=d.original;document.getElementById('resSimplified').textContent=d.simplified;animateStat(document.getElementById('resReduction'),d.reduction_percent,'%');animateStat(document.getElementById('resGatesBefore'),d.gates_original,'');animateStat(document.getElementById('resGatesAfter'),d.gates_simplified,'');var w=document.getElementById('resWarning');if(d.warning){w.textContent=d.warning;w.style.display='block'}else w.style.display='none';if(!d.original.startsWith('Minterms')&&d.simplified!=='0'&&d.simplified!=='1'){if(!verifySimplification(d.original,d.simplified)){w.textContent='Warning: Local verification failed.';w.style.display='block'}}document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}
+function goToCheckout(plan){var links={payg:'https://buy.stripe.com/aFacN4emgfTC2oTepy14401',starter:'https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400',pro:'https://buy.stripe.com/28EfZg5PK4aUe7Ba9i14402'};window.open(links[plan],'_blank')}
+updateUsageDisplay();buildTruthTable();
+</script>
+<div class="pro-modal-overlay" id="proModal">
+<div class="pro-modal" style="position:relative">
+<button class="close-btn" onclick="closeProModal()">&times;</button>
+<h3>Activate Pro License</h3>
+<p style="color:var(--text2);font-size:.85rem">Enter your PRO license key to unlock unlimited access.</p>
+<input type="text" id="proKeyInput" placeholder="PRO-XXXX-XXXX">
+<button onclick="verifyProKey()">Verify License</button>
+<div class="status" id="proStatus"></div>
+<p style="color:var(--text2);font-size:.75rem;margin-top:1rem">Don't have a key? <a href="https://buy.stripe.com/eVqbJ03HC36Q8NhftC14400" target="_blank">Get Pro</a></p>
+</div>
+</div>
+<script>
+function openProModal(){document.getElementById('proModal').classList.add('active');document.getElementById('proKeyInput').focus()}
+function closeProModal(){document.getElementById('proModal').classList.remove('active');document.getElementById('proStatus').textContent='';document.getElementById('proStatus').className='status'}
+function verifyProKey(){var key=document.getElementById('proKeyInput').value.trim();var st=document.getElementById('proStatus');if(!key){st.textContent='Please enter a key';st.className='status error';return}st.textContent='Verifying...';st.className='status';fetch('https://n8n.iaspacdz.live/webhook/verify?key='+encodeURIComponent(key)).then(function(r){return r.json()}).then(function(data){if(data.valid){localStorage.setItem('logic1min_pro',JSON.stringify({key:key,plan:data.plan,email:data.email,expires_at:data.expires_at,activated:new Date().toISOString()}));st.textContent='License activated! Reloading...';st.className='status success';setTimeout(function(){location.reload()},1500)}else{st.textContent=data.error||'Invalid key';st.className='status error'}}).catch(function(e){st.textContent='Connection error. Try again.';st.className='status error'})}
+function checkPro(){var d=localStorage.getItem('logic1min_pro');if(!d)return;try{var p=JSON.parse(d);if(p.expires_at&&new Date(p.expires_at)<new Date()){localStorage.removeItem('logic1min_pro');return}window.isPro=true;var banners=document.querySelectorAll('.upgrade-banner,.limit-banner');for(var i=0;i<banners.length;i++)banners[i].style.display='none';var btn=document.querySelector('.nav-pro-btn');if(btn){btn.textContent='PRO';btn.style.background='var(--grad)';btn.style.color='var(--bg)';btn.onclick=null;btn.removeAttribute('onclick')}}catch(e){}}
+checkPro();
+document.getElementById('proModal').addEventListener('click',function(e){if(e.target===this)closeProModal()});
+</script>
+<script>new Image().src='https://n8n.iaspacdz.live/webhook/track?page=simplifier'</script>\n</body>
+                                                                                                                            </html>
